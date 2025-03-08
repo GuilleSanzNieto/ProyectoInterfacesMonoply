@@ -7,7 +7,7 @@ Miembres y roles del equipo:
 
 CEO: Minerva Atienza González -> minervatigon@uma.es
 
-CTO: Álvaro Jiménez Martínez -> 
+CTO: Álvaro Jiménez Martínez -> allitojim193@uma.es
 
 CIO: Pablo Gámez Guerrero -> 0611148976@uma.es
 
