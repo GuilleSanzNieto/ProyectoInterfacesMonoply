@@ -23,6 +23,6 @@ Este juego consiste en un tablero con diferentes casillas, por las que los jugad
 En  vez de comprar propiedades tradicionales como ciudades, los jugadores podrán adquirir facultades universitarias de la UMA. 
 Nuestra principal idea es dividir las zonas universitarias de Málaga (Teatinos, la ampliación, El Ejido...) cómo en el monopoly original dividen a los países. 
 Las propiedades también podrán ser mejoradas, pero en lugar de construir casas, los jugadores invertirán en despachos o aulas dentro de su facultad.
-Las casillas del tablero ofrecerán varias sorpresas, como caer en la biblioteca o el campus de deportes, que desencadenarán minijuegos interactivos para los jugadores, brindando una experiencia más dinamica y educativa. En estos, los jugadores podrán ganar o perder recursos.
+Las casillas del tablero ofrecerán varias sorpresas, como caer en la biblioteca o el campus de deportes, que desencadenarán posibles minijuegos interactivos para los jugadores, brindando una experiencia más dinamica. En estos, los jugadores podrán ganar o perder dinero.
 El proyecto contará con un diseño intuitivo y atractivo para garantizar una experiencia divertida y accesible.
 
