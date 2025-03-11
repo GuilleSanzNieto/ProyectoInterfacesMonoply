@@ -1,0 +1,44 @@
+.tablero {
+  display: grid;
+  grid-template-columns: repeat(11, 80px);
+  grid-template-rows: repeat(11, 80px);
+  width: 880px;
+  height: 880px;
+  border: 2px solid black;
+}
+
+.casilla {
+  border: 1px solid gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+.fila-superior {
+  grid-area: 1 / 1 / 1 / 11;
+  display: grid;
+  grid-template-columns: repeat(11, 80px);
+}
+
+.columna-derecha {
+  grid-area: 2 / 11 / 10 / 11;
+  display: grid;
+  grid-template-rows: repeat(10, 80px);
+  direction: rtl; /* Invierte el orden de las casillas */
+}
+
+.fila-inferior {
+  grid-area: 12 / 1 / 11 / 11;
+  display: grid;
+  grid-template-columns: repeat(11, 80px);
+  direction: rtl; /* Invierte el orden de las casillas */
+}
+
+.columna-izquierda {
+  grid-area: 2 / 1 / 10 / 2;
+  display: grid;
+  grid-template-rows: repeat(9, 80px);
+}
+
+
