@@ -1,9 +1,19 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .tablero {
   display: grid;
-  grid-template-columns: repeat(11, 80px);
-  grid-template-rows: repeat(11, 80px);
-  width: 880px;
-  height: 880px;
+  width: min(100vw, 100vh);
+  height: min(100vw, 100vh);
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: repeat(11, 1fr);
   border: 2px solid black;
 }
 
@@ -12,33 +22,39 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: calc(min(100vw, 100vh) / 25);
 }
 
+/* Fila superior */
 .fila-superior {
-  grid-area: 1 / 1 / 1 / 11;
+  grid-column: 1 / 12;
+  grid-row: 1 / 2;
   display: grid;
-  grid-template-columns: repeat(11, 80px);
+  grid-template-columns: repeat(11, 1fr);
 }
 
+/* Columna derecha (corregido el solapamiento) */
 .columna-derecha {
-  grid-area: 2 / 11 / 10 / 11;
+  grid-column: 11 / 12;
+  grid-row: 2 / 12; /* Antes terminaba en 11, ahora correctamente en 12 */
   display: grid;
-  grid-template-rows: repeat(10, 80px);
-  direction: rtl; /* Invierte el orden de las casillas */
+  grid-template-rows: repeat(10, 1fr);
+  direction: rtl;
 }
 
+/* Fila inferior (corregido el solapamiento) */
 .fila-inferior {
-  grid-area: 12 / 1 / 11 / 11;
+  grid-column: 1 / 11;
+  grid-row: 11 / 12;
   display: grid;
-  grid-template-columns: repeat(11, 80px);
-  direction: rtl; /* Invierte el orden de las casillas */
+  grid-template-columns: repeat(10, 1fr);
+  direction: rtl;
 }
 
+/* Columna izquierda */
 .columna-izquierda {
-  grid-area: 2 / 1 / 10 / 2;
+  grid-column: 1 / 2;
+  grid-row: 2 / 12;
   display: grid;
-  grid-template-rows: repeat(9, 80px);
+  grid-template-rows: repeat(10, 1fr);
 }
-
-
