@@ -74,35 +74,38 @@ function CubeSpinner() {
   return (
     <div className="content" onClick={spin}>
       <div className="cube" id="cube" ref={cubeRef}>
-        <div className="face one">
-          <div className="num" id="num1" ref={numRefs[1]}>
-            1
-          </div>
+        <div className="face one" ref={numRefs[1]}>
+          <div class="dot"></div>
         </div>
-        <div className="face two">
-          <div className="num" id="num2" ref={numRefs[2]}>
-            2
-          </div>
+        <div className="face two" ref={numRefs[2]}>
+          <div class="dot"></div>
+          <div class="dot"></div>
         </div>
-        <div className="face three">
-          <div className="num" id="num3" ref={numRefs[3]}>
-            3
-          </div>
+        <div className="face three" ref={numRefs[3]}>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
         </div>
-        <div className="face four">
-          <div className="num" id="num4" ref={numRefs[4]}>
-            4
-          </div>
+        <div className="face four" ref={numRefs[4]}>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
         </div>
-        <div className="face five">
-          <div className="num" id="num5" ref={numRefs[5]}>
-            5
-          </div>
+        <div className="face five" ref={numRefs[5]}>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
         </div>
-        <div className="face six">
-          <div className="num" id="num6" ref={numRefs[6]}>
-            6
-          </div>
+        <div className="face six" ref={numRefs[6]}>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@
 }
 .cube {
     position: relative;
-    transform-style:preserve-3d;
+    transform-style: preserve-3d;
     width: var(--size);
     height: var(--size);
     transform: rotateX(-20deg) rotateY(20deg);
@@ -38,40 +38,28 @@
     height: var(--size);
     width: var(--size);
     color: aliceblue;
+    background-color: black;
+
 
     font-family: 'Teko', sans-serif;     
 }
 .one{
-    background-color: rgba(255, 0, 0, 0.356);
     transform: translateZ(var(--half-size)); /*front*/
 }
 .two {
-    background-color: rgba(0, 128, 0, 0.349);
     transform: translateY(var(--minus-half-size)) rotateX(-270deg) ; /*top*/
 }
 .three {
-    background-color: rgba(0, 0, 255, 0.315);
     transform: translateX(var(--half-size)) rotateY(90deg); /*right*/
 }
 .four {
-    background-color: rgba(255, 255, 0, 0.384);
     transform: translateX(var(--minus-half-size)) rotateY(-90deg); /*left*/
 }
 .five {    
-    background-color: rgba(128, 0, 128, 0.342);
     transform: translateY(var(--half-size)) rotateX(270deg); /*bottom*/
 }
 .six {    
-    background-color: rgba(255, 140, 0, 0.37);
     transform: translateZ(var(--minus-half-size)) rotateY(180deg); /*back*/
-}
-
-/*NUMBER*/
-
-.num {
-    position:absolute;
-    display: block;
-    opacity: 0%;
 }
 
 /*ANIMATION OF ROTATION*/ 
@@ -100,7 +88,119 @@
     0% {transform: rotateX(-20deg) rotateY(20deg);}
     100% {transform: rotateX(700deg) rotateY(200deg) rotateZ(360deg);}
 }
-@keyframes fadeIn {
-    0%{opacity: 0%;}
-    100%{opacity: 100%;}
+
+.cube {
+    animation: one 2s ease-out forwards; /* Agrega forwards */
+}
+
+/* Agregar estilos para los puntos del dado */
+.dot {
+    position: absolute;
+    width: 15%;
+    height: 15%;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5), /* Luz en la esquina superior izquierda */
+                inset -2px -2px 5px rgba(255, 255, 255, 0.7);
+}
+
+/* Colocar el punto en el centro para el número 1 */
+.one .dot {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Dos puntos en las esquinas opuestas para el número 2 */
+.two .dot:nth-child(1) {
+    top: 20%;
+    left: 20%;
+}
+.two .dot:nth-child(2) {
+    bottom: 20%;
+    right: 20%;
+}
+
+/* Tres puntos en diagonal para el número 3 */
+.three .dot:nth-child(1) {
+    top: 20%;
+    left: 20%;
+}
+.three .dot:nth-child(2) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.three .dot:nth-child(3) {
+    bottom: 20%;
+    right: 20%;
+}
+
+/* Cuatro puntos en las esquinas para el número 4 */
+.four .dot:nth-child(1) {
+    top: 20%;
+    left: 20%;
+}
+.four .dot:nth-child(2) {
+    top: 20%;
+    right: 20%;
+}
+.four .dot:nth-child(3) {
+    bottom: 20%;
+    left: 20%;
+}
+.four .dot:nth-child(4) {
+    bottom: 20%;
+    right: 20%;
+}
+
+/* Cinco puntos en forma de X con uno en el centro */
+.five .dot:nth-child(1) {
+    top: 20%;
+    left: 20%;
+}
+.five .dot:nth-child(2) {
+    top: 20%;
+    right: 20%;
+}
+.five .dot:nth-child(3) {
+    bottom: 20%;
+    left: 20%;
+}
+.five .dot:nth-child(4) {
+    bottom: 20%;
+    right: 20%;
+}
+.five .dot:nth-child(5) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Seis puntos en dos filas de tres */
+.six .dot:nth-child(1) {
+    top: 20%;
+    left: 20%;
+}
+.six .dot:nth-child(2) {
+    top: 20%;
+    right: 20%;
+}
+.six .dot:nth-child(3) {
+    bottom: 20%;
+    left: 20%;
+}
+.six .dot:nth-child(4) {
+    bottom: 20%;
+    right: 20%;
+}
+.six .dot:nth-child(5) {
+    top: 50%;
+    left: 20%;
+    transform: translateY(-50%);
+}
+.six .dot:nth-child(6) {
+    top: 50%;
+    right: 20%;
+    transform: translateY(-50%);
 }
