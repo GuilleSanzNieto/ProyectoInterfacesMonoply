@@ -7,6 +7,6 @@ import Tablero from './components/Tablero.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Tablero />
+    <App />
   </StrictMode>,
 )
