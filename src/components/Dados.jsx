@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import './styles/Dados.css';
 
-const Dados = ({ spinning }) => {
+const Dados = ({ spinning, setValor, index }) => {
   const [a, setA] = useState(1);
   const cubeRef = useRef(null);
   const numRefs = {
@@ -28,8 +28,7 @@ const Dados = ({ spinning }) => {
 
   const spin = () => {
     const randomNum = Math.floor(Math.random() * 6) + 1;
-    console.log(randomNum);
-
+    
     let newKindaSpin = ''; 
     let newA = ''; 
 
@@ -75,7 +74,13 @@ const Dados = ({ spinning }) => {
       if (numRefs[newA].current) {
         resetAnimation(numRefs[newA].current);
         numRefs[newA].current.style.animation = 'fadeIn 2s linear forwards';
-        console.log("dado girado \n");
+        setValor(previouState => {
+          return {
+            ...previouState,
+            [index]: randomNum
+          }
+        });
+        
       }
     }, 2000);
   };
