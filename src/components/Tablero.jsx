@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './styles/Tablero.css';
 import Dados from './Dados';
 
 const Tablero = () => {
   const [activeIndexes, setActiveIndexes] = useState([]);
+  const [spinning, setSpinning] = useState(false);
 
   const handleClick = (index) => {
     const newActiveIndexes = [index, index + 1, index + 2];
@@ -22,6 +23,13 @@ const Tablero = () => {
         }, i * 500); 
       });
     }, 2000); 
+  };
+
+  const handleCenterClick = () => {
+    if(!spinning){
+      setSpinning(true);
+      setTimeout(() => setSpinning(false), 1000); // Stop spin
+    }
   };
 
   const casillas = [];
@@ -53,8 +61,9 @@ const Tablero = () => {
       <div className="columna-izquierda">
         {casillas.slice(30, 41).reverse()}
       </div>
-      <div className="casilla-centro">
-        <Dados />
+      <div className="casilla-centro" onClick={handleCenterClick}>
+        <Dados spinning={spinning} />
+        <Dados spinning={spinning}/>
       </div>
     </div>
   );

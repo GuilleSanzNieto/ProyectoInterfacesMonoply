@@ -10,7 +10,7 @@ html, body {
 
 
 :root {
-  --size_esquina: min(15vw, 130px);
+  --size_esquina: min(15vw, 100px);
 }
 
 .tablero {
@@ -82,6 +82,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 15%;
 }
 
 

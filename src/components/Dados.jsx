@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
-import './styles/Dados.css'; // Asegúrate de que el CSS esté en un archivo llamado CubeSpinner.css
+import React, { useRef, useState, useEffect } from 'react';
+import './styles/Dados.css';
 
-function CubeSpinner() {
+const Dados = ({ spinning }) => {
   const [a, setA] = useState(1);
   const cubeRef = useRef(null);
   const numRefs = {
@@ -14,18 +14,24 @@ function CubeSpinner() {
   };
   const [kindaSpin, setKindaSpin] = useState('');
 
+  useEffect(() => {
+    if (spinning) {
+      spin();
+    }
+  }, [spinning]);
+
+  const resetAnimation = (element) => {
+    element.style.animation = 'none';
+    element.offsetHeight; // Forzar un reflujo del DOM
+    element.style.animation = '';
+  };
+
   const spin = () => {
     const randomNum = Math.floor(Math.random() * 6) + 1;
-    const randomNumStr = randomNum.toString();
+    console.log(randomNum);
 
-    Object.values(numRefs).forEach((ref) => {
-      if (ref.current) {
-        ref.current.style.animation = '';
-      }
-    });
-
-    let newKindaSpin = '';
-    let newA = '';
+    let newKindaSpin = ''; 
+    let newA = ''; 
 
     switch (randomNum) {
       case 1:
@@ -60,56 +66,59 @@ function CubeSpinner() {
     setA(newA);
 
     if (cubeRef.current) {
+      resetAnimation(cubeRef.current);
       cubeRef.current.style.animationDirection = 'normal';
-      cubeRef.current.style.animation = `${newKindaSpin} 2500ms ease-in-out forwards`;
+      cubeRef.current.style.animation = `${newKindaSpin} 1000ms ease-in-out forwards`;
     }
 
     setTimeout(() => {
       if (numRefs[newA].current) {
+        resetAnimation(numRefs[newA].current);
         numRefs[newA].current.style.animation = 'fadeIn 2s linear forwards';
+        console.log("dado girado \n");
       }
     }, 2000);
   };
 
   return (
-    <div className="content" onClick={spin}>
+    <div className="content">
       <div className="cube" id="cube" ref={cubeRef}>
         <div className="face one" ref={numRefs[1]}>
-          <div class="dot"></div>
+          <div className="dot"></div>
         </div>
         <div className="face two" ref={numRefs[2]}>
-          <div class="dot"></div>
-          <div class="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
         </div>
         <div className="face three" ref={numRefs[3]}>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
         </div>
         <div className="face four" ref={numRefs[4]}>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
         </div>
         <div className="face five" ref={numRefs[5]}>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
         </div>
         <div className="face six" ref={numRefs[6]}>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default CubeSpinner;
+export default Dados;

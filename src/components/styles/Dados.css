@@ -3,10 +3,12 @@
 
 
 :root {
-    --size: min(10vw, 100px);
+    --size: min(10vw, 80px);
     --half-size: calc(var(--size) / 2);
     --minus-half-size: calc(var(--size) / -2);
-}
+} 
+
+
 * {
     box-sizing: border-box;
 }
@@ -21,7 +23,7 @@
     transform-style: preserve-3d;
     width: var(--size);
     height: var(--size);
-    transform: rotateX(-20deg) rotateY(20deg);
+    transform: rotateX(-10deg) rotateY(10deg);
 }
 
 /*CUBE SIDES*/
@@ -43,55 +45,53 @@
 
     font-family: 'Teko', sans-serif;     
 }
+
 .one{
-    transform: translateZ(var(--half-size)); /*front*/
+    transform: translateZ(var(--half-size));
 }
 .two {
-    transform: translateY(var(--minus-half-size)) rotateX(-270deg) ; /*top*/
+    transform: translateY(var(--minus-half-size)) rotateX(-270deg) ; 
 }
 .three {
-    transform: translateX(var(--half-size)) rotateY(90deg); /*right*/
+    transform: translateX(var(--half-size)) rotateY(90deg); 
 }
 .four {
-    transform: translateX(var(--minus-half-size)) rotateY(-90deg); /*left*/
+    transform: translateX(var(--minus-half-size)) rotateY(-90deg); 
 }
 .five {    
-    transform: translateY(var(--half-size)) rotateX(270deg); /*bottom*/
+    transform: translateY(var(--half-size)) rotateX(270deg); 
 }
 .six {    
-    transform: translateZ(var(--minus-half-size)) rotateY(180deg); /*back*/
-}
+    transform: translateZ(var(--minus-half-size)) rotateY(180deg); 
+} 
 
 /*ANIMATION OF ROTATION*/ 
 
 @keyframes one {
-    0% {transform: rotateX(-20deg) rotateY(20deg);}
+    0% {transform: rotateX(-10deg) rotateY(10deg);}
     100% {transform: rotateX(700deg) rotateY(380deg) rotateZ(360deg);}
 }
 @keyframes two {
-    0% {transform: rotateX(-20deg) rotateY(20deg);}
+    0% {transform: rotateX(-10deg) rotateY(10deg);}
     100% {transform: rotateX(610deg) rotateY(720deg) rotateZ(20deg);}
 }
 @keyframes three {
-    0% {transform: rotateX(-20deg) rotateY(20deg);}
+    0% {transform: rotateX(-10deg) rotateY(10deg);}
     100% {transform: rotateX(700deg) rotateY(290deg) rotateZ(360deg);}
 }
 @keyframes four {
-    0% {transform: rotateX(-20deg) rotateY(20deg);}
+    0% {transform: rotateX(-10deg) rotateY(10deg);}
     100% {transform: rotateX(700deg) rotateY(820deg);}
 }
 @keyframes five {
-    0% {transform: rotateX(-20deg) rotateY(20deg);}
+    0% {transform: rotateX(-10deg) rotateY(10deg);}
     100% {transform: rotateX(790deg) rotateY(360deg) rotateZ(340deg);}
 }
 @keyframes six {
-    0% {transform: rotateX(-20deg) rotateY(20deg);}
+    0% {transform: rotateX(-10deg) rotateY(10deg);}
     100% {transform: rotateX(700deg) rotateY(200deg) rotateZ(360deg);}
-}
+} 
 
-.cube {
-    animation: one 2s ease-out forwards; /* Agrega forwards */
-}
 
 /* Agregar estilos para los puntos del dado */
 .dot {
@@ -103,6 +103,12 @@
     box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5), /* Luz en la esquina superior izquierda */
                 inset -2px -2px 5px rgba(255, 255, 255, 0.7);
 }
+
+
+
+
+
+/* Posicionar los puntos en el dado */
 
 /* Colocar el punto en el centro para el número 1 */
 .one .dot {
