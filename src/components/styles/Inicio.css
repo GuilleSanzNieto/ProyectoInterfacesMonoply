@@ -1,0 +1,28 @@
+.inicio-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  button {
+    font-size: 18px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+
+  
+  .selected {
+    background-color: darkgray;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .start-button {
+    margin-top: 30px; /* Espacio con el borde superior */
+    margin-bottom: 30px; /* Espacio con el borde inferior */
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: rgb(78, 162, 219);
+    border: none;
+    cursor: pointer;
+  }

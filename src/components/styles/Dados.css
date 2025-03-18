@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@800&family=Indie+Flower&family=Teko:wght@500;600;700&display=swap');
+
+
+
+:root {
+    --size: min(10vw, 80px);
+    --half-size: calc(var(--size) / 2);
+    --minus-half-size: calc(var(--size) / -2);
+} 
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+}
+.content {
+    width: var(--size);
+    height: var(--size);
+    perspective: 1000px;
+}
+.cube {
+    position: relative;
+    transform-style: preserve-3d;
+    width: var(--size);
+    height: var(--size);
+    transform: rotateX(-10deg) rotateY(10deg);
+}
+
+/*CUBE SIDES*/
+
+.face {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    height: var(--size);
+    width: var(--size);
+    color: aliceblue;
+    background-color: black;
+
+
+    font-family: 'Teko', sans-serif;     
+}
+
+.one{
+    transform: translateZ(var(--half-size));
+}
+.two {
+    transform: translateY(var(--minus-half-size)) rotateX(-270deg) ; 
+}
+.three {
+    transform: translateX(var(--half-size)) rotateY(90deg); 
+}
+.four {
+    transform: translateX(var(--minus-half-size)) rotateY(-90deg); 
+}
+.five {    
+    transform: translateY(var(--half-size)) rotateX(270deg); 
+}
+.six {    
+    transform: translateZ(var(--minus-half-size)) rotateY(180deg); 
+} 
+
+/*ANIMATION OF ROTATION*/ 
+
+@keyframes one {
+    0% {transform: rotateX(-10deg) rotateY(10deg);}
+    100% {transform: rotateX(700deg) rotateY(380deg) rotateZ(360deg);}
+}
+@keyframes two {
+    0% {transform: rotateX(-10deg) rotateY(10deg);}
+    100% {transform: rotateX(610deg) rotateY(720deg) rotateZ(20deg);}
+}
+@keyframes three {
+    0% {transform: rotateX(-10deg) rotateY(10deg);}
+    100% {transform: rotateX(700deg) rotateY(290deg) rotateZ(360deg);}
+}
+@keyframes four {
+    0% {transform: rotateX(-10deg) rotateY(10deg);}
+    100% {transform: rotateX(700deg) rotateY(820deg);}
+}
+@keyframes five {
+    0% {transform: rotateX(-10deg) rotateY(10deg);}
+    100% {transform: rotateX(790deg) rotateY(360deg) rotateZ(340deg);}
+}
+@keyframes six {
+    0% {transform: rotateX(-10deg) rotateY(10deg);}
+    100% {transform: rotateX(700deg) rotateY(200deg) rotateZ(360deg);}
+} 
+
+
+/* Agregar estilos para los puntos del dado */
+.dot {
+    position: absolute;
+    width: 15%;
+    height: 15%;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5), /* Luz en la esquina superior izquierda */
+                inset -2px -2px 5px rgba(255, 255, 255, 0.7);
+}
+
+
+
+
+
+/* Posicionar los puntos en el dado */
+
+/* Colocar el punto en el centro para el número 1 */
+.one .dot {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Dos puntos en las esquinas opuestas para el número 2 */
+.two .dot:nth-child(1) {
+    top: 20%;
+    left: 20%;
+}
+.two .dot:nth-child(2) {
+    bottom: 20%;
+    right: 20%;
+}
+
+/* Tres puntos en diagonal para el número 3 */
+.three .dot:nth-child(1) {
+    top: 20%;
+    left: 20%;
+}
+.three .dot:nth-child(2) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.three .dot:nth-child(3) {
+    bottom: 20%;
+    right: 20%;
+}
+
+/* Cuatro puntos en las esquinas para el número 4 */
+.four .dot:nth-child(1) {
+    top: 20%;
+    left: 20%;
+}
+.four .dot:nth-child(2) {
+    top: 20%;
+    right: 20%;
+}
+.four .dot:nth-child(3) {
+    bottom: 20%;
+    left: 20%;
+}
+.four .dot:nth-child(4) {
+    bottom: 20%;
+    right: 20%;
+}
+
+/* Cinco puntos en forma de X con uno en el centro */
+.five .dot:nth-child(1) {
+    top: 20%;
+    left: 20%;
+}
+.five .dot:nth-child(2) {
+    top: 20%;
+    right: 20%;
+}
+.five .dot:nth-child(3) {
+    bottom: 20%;
+    left: 20%;
+}
+.five .dot:nth-child(4) {
+    bottom: 20%;
+    right: 20%;
+}
+.five .dot:nth-child(5) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Seis puntos en dos filas de tres */
+.six .dot:nth-child(1) {
+    top: 20%;
+    left: 20%;
+}
+.six .dot:nth-child(2) {
+    top: 20%;
+    right: 20%;
+}
+.six .dot:nth-child(3) {
+    bottom: 20%;
+    left: 20%;
+}
+.six .dot:nth-child(4) {
+    bottom: 20%;
+    right: 20%;
+}
+.six .dot:nth-child(5) {
+    top: 50%;
+    left: 20%;
+    transform: translateY(-50%);
+}
+.six .dot:nth-child(6) {
+    top: 50%;
+    right: 20%;
+    transform: translateY(-50%);
+}
