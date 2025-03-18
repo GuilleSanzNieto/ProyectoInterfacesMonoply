@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './styles/Inicio.css';
+import { PlayersContext } from '../Contexts/PlayersContext.jsx';
 
 function Inicio({ onStart }) {
+  const { setPlayers: setContextPlayers } = useContext(PlayersContext);
   const [numPlayers, setNumPlayers] = useState(2);
   const [players, setPlayers] = useState([
     { name: '', color: '#ff0000' },
-    { name: '', color: '#0000ff' },
+    { name: '', color: '#0000ff' }
   ]);
 
   const handleNumPlayersChange = (num) => {
@@ -21,14 +23,19 @@ function Inicio({ onStart }) {
     setPlayers(updatedPlayers);
   };
 
+  const handleStart = () => {
+    setContextPlayers(players);
+    onStart(players);
+  };
+
   return (
     <div className="inicio-container">
       <div className="logo">LOGO</div>
       <div className="player-selection">
-        { [2, 3, 4].map(num => (
-          <button 
-            key={num} 
-            className={num === numPlayers ? 'selected player-button' : 'player-button'}    
+        {[2, 3, 4].map(num => (
+          <button
+            key={num}
+            className={num === numPlayers ? 'selected player-button' : 'player-button'}
             onClick={() => handleNumPlayersChange(num)}
           >
             {num}
@@ -50,10 +57,9 @@ function Inicio({ onStart }) {
           />
         </div>
       ))}
-      <button className="start-button" onClick={() => onStart(players)}>JUGAR</button>
+      <button className="start-button" onClick={handleStart}>JUGAR</button>
     </div>
   );
 }
 
 export default Inicio;
-

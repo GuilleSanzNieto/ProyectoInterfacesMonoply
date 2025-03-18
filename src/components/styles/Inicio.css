@@ -1,6 +1,15 @@
 .inicio-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
     text-align: center;
     margin-top: 50px;
+  }
+
+  .player-selection{
+    margin-bottom: 10px;
   }
   
   button {
@@ -9,6 +18,13 @@
     cursor: pointer;
   }
   
+
+  input[type="text"] {
+    padding: 8px;
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+  }
 
   
   .selected {
@@ -25,4 +41,11 @@
     background-color: rgb(78, 162, 219);
     border: none;
     cursor: pointer;
+  }
+
+  .player-input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
   }
