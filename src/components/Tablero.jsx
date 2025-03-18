@@ -1,39 +1,46 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './styles/Tablero.css';
 import Dados from './Dados';
+import { PlayersContext } from '../Contexts/PlayersContext.jsx';
 
 const Tablero = () => {
+  const { players, currentTurn, nextTurn } = useContext(PlayersContext);
   const [activeIndexes, setActiveIndexes] = useState([]);
   const [valorDados, setValorDados] = useState([]);
   const [spinning, setSpinning] = useState(false);
-  const [casillaActual, setCasillaActual] = useState(0);
+  const [positions, setPositions] = useState([]);
 
-  const animation = (index, size) => {
-    const newActiveIndexes = [];
-    for (let i = 0; i <= size; i++) {
-      newActiveIndexes.push((index + i) % 40);
+  // Inicializa posiciones para cada jugador en 0
+  useEffect(() => {
+    if (players.length > 0 && positions.length !== players.length) {
+      setPositions(players.map(() => 0));
     }
+  }, [players, positions.length]);
 
+  // Animación para mover el token del jugador actual
+  const animation = (start, steps) => {
+    const newActiveIndexes = [];
+    for (let i = 0; i <= steps; i++) {
+      newActiveIndexes.push((start + i) % 40);
+    }
     setActiveIndexes([]);
-
+    // Recorre cada paso de la animación
     newActiveIndexes.forEach((activeIndex, i) => {
       setTimeout(() => {
-        setActiveIndexes((prev) => [...prev, activeIndex]);
+        // Para dar efecto visual en el tablero
+        setActiveIndexes(prev => [...prev, activeIndex]);
+        // Actualiza la posición del token del jugador actual
+        setPositions(prev => {
+          const newPositions = [...prev];
+          newPositions[currentTurn] = activeIndex;
+          return newPositions;
+        });
       }, i * 500);
     });
-
+    // Al finalizar la animación, cambia automáticamente de turno
     setTimeout(() => {
-      newActiveIndexes.forEach((activeIndex, i) => {
-        setTimeout(() => {
-          setActiveIndexes((prev) => prev.filter((idx) => idx !== activeIndex));
-        }, i * 500);
-      });
-    }, 2000);
-
-    // Actualiza la casilla actual después de que la animación haya terminado
-    setTimeout(() => {
-      setCasillaActual(newActiveIndexes[newActiveIndexes.length - 1]);
-    }, (size + 1) * 500);
+      nextTurn();
+    }, (steps + 1) * 500);
   };
 
   const handleCenterClick = () => {
@@ -44,19 +51,12 @@ const Tablero = () => {
   };
 
   useEffect(() => {
-    if (valorDados[0] && valorDados[1]) {
+    if (valorDados[0] && valorDados[1] && positions.length === players.length) {
       const sumaDados = valorDados[0] + valorDados[1];
-      let nuevaCasilla = casillaActual + sumaDados;
-
-      console.log('casillaActual', casillaActual);
-      console.log('nuevaCasilla', nuevaCasilla);
-
-      if (nuevaCasilla > 40) {
-        nuevaCasilla = 0;
-      }
-
-      setCasillaActual(null);
-      animation(casillaActual, sumaDados);
+      const currentPos = positions[currentTurn] || 0;
+      // Ajusta la posición si se excede el número de casillas
+      // (asumimos 40 casillas y usamos módulo 40)
+      animation(currentPos, sumaDados);
     }
   }, [valorDados]);
 
@@ -64,14 +64,31 @@ const Tablero = () => {
   for (let i = 0; i < 41; i++) {
     const isCorner = [10, 20, 30, 40].includes(i);
     const isActive = activeIndexes.includes(i);
-    const isActual = casillaActual === i;
     casillas.push(
       <div
         key={i}
-        className={`casilla ${isCorner ? 'casilla-esquina' : ''} ${isActive ? 'recorrer' : ''} ${isActual ? 'actual' : ''}`}
+        className={`casilla ${isCorner ? 'casilla-esquina' : ''} ${isActive ? 'recorrer' : ''}`}
       >
         <div className="content">
           <span>Casilla {i}</span>
+          {
+            // Muestra los tokens que se encuentren en esta casilla
+            positions.map((pos, pIndex) =>
+              pos === i ? (
+                <div
+                  key={pIndex}
+                  className="token"
+                  style={{
+                    backgroundColor: players[pIndex].color,
+                    width: '15px',
+                    height: '15px',
+                    borderRadius: '50%',
+                    margin: '2px'
+                  }}
+                ></div>
+              ) : null
+            )
+          }
         </div>
         <div className="color"></div>
       </div>
@@ -99,6 +116,11 @@ const Tablero = () => {
         </div>
         {valorDados[0] && valorDados[1] && (
           <p>{valorDados[0]} + {valorDados[1]} = {valorDados[0] + valorDados[1]}</p>
+        )}
+        {players.length > 0 && (
+          <p style={{ color: players[currentTurn].color, fontWeight: 'bold' }}>
+            Turno de: {players[currentTurn].name}
+          </p>
         )}
       </div>
     </div>
