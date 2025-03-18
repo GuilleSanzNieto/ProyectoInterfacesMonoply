@@ -1,0 +1,78 @@
+.conecta4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  .conecta4 h1 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .board {
+    display: flex;
+    flex-direction: column;
+    border: 3px solid #333;
+    background-color: #0a3871;
+  }
+  
+  .row {
+    display: flex;
+  }
+  
+  .cell {
+    width: 60px;
+    height: 60px;
+    background-color: #fff;
+    border: 2px solid #333;
+    border-radius: 50%;
+    margin: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .cell.red {
+    background-color: red;
+  }
+  
+  .cell.yellow {
+    background-color: yellow;
+  }
+  
+  .winner {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+
+  /* Overlay de victoria */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .win-message {
+    position: relative;
+    color: #11542d;
+    text-align: center;
+    padding: 20px;
+    background: #d0d1b1;
+    border-radius: 10px;
+    font-size: 3rem;
+  }

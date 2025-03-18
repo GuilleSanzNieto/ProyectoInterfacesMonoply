@@ -10,8 +10,11 @@ const createBoard = () => {
 
 const Conecta4 = () => {
   const [board, setBoard] = useState(createBoard());
-  const [currentPlayer, setCurrentPlayer] = useState('Red'); // Jugador: Red, Máquina: Yellow
+  const [currentPlayer, setCurrentPlayer] = useState('Red'); // Human: 'Red', Máquina: 'Yellow'
   const [winner, setWinner] = useState(null);
+
+  // Definimos un array de colores para el confetti
+  const colors = ["#f94144", "#f3722c", "#f8961e", "#f9c74f", "#90be6d", "#43aa8b", "#577590"];
 
   const checkWinner = (board) => {
     // Comprueba horizontalmente
@@ -58,7 +61,7 @@ const Conecta4 = () => {
 
     // Crea una copia del tablero
     const newBoard = board.map(row => [...row]);
-    // Encuentra la posición más baja libre en la columna seleccionada
+    // Encuentra la posición más baja disponible en la columna seleccionada
     let placed = false;
     for (let r = ROWS - 1; r >= 0; r--) {
       if (!newBoard[r][colIndex]) {
@@ -67,7 +70,7 @@ const Conecta4 = () => {
         break;
       }
     }
-    if (!placed) return; // La columna está llena
+    if (!placed) return; // Columna llena
 
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
@@ -75,31 +78,60 @@ const Conecta4 = () => {
     }
 
     setBoard(newBoard);
-    // Cambia de turno solo si no hay ganador
     if (!newWinner) {
       setCurrentPlayer(currentPlayer === 'Red' ? 'Yellow' : 'Red');
     }
   };
 
-  // Función para que la máquina haga su jugada (selecciona una columna aleatoria disponible)
+  // Función para que la máquina (Yellow) haga su jugada
   const machineMove = () => {
     const availableColumns = [];
     for (let c = 0; c < COLS; c++) {
-      if (board[0][c] === null) { // Si la celda superior de la columna está vacía, es jugable
+      if (board[0][c] === null) {
         availableColumns.push(c);
       }
     }
     if (availableColumns.length === 0) return;
-    const randomCol = availableColumns[Math.floor(Math.random() * availableColumns.length)];
-    handleColumnClick(randomCol);
+
+    const simulateMove = (col, player) => {
+      const tempBoard = board.map(row => [...row]);
+      for (let r = ROWS - 1; r >= 0; r--) {
+        if (!tempBoard[r][col]) {
+          tempBoard[r][col] = player;
+          break;
+        }
+      }
+      return checkWinner(tempBoard);
+    };
+
+    // 1. Si la máquina puede ganar en esta jugada
+    for (let col of availableColumns) {
+      if (simulateMove(col, 'Yellow') === 'Yellow') {
+        handleColumnClick(col);
+        return;
+      }
+    }
+
+    // 2. Si el jugador podría ganar en la siguiente jugada, bloquea esa columna
+    for (let col of availableColumns) {
+      if (simulateMove(col, 'Red') === 'Red') {
+        handleColumnClick(col);
+        return;
+      }
+    }
+
+    // 3. Si no hay jugadas inmediatas, elige la columna más cercana al centro
+    const center = Math.floor(COLS / 2);
+    const bestCol = availableColumns.sort((a, b) => Math.abs(a - center) - Math.abs(b - center))[0];
+    handleColumnClick(bestCol);
   };
 
-  // Uso de useEffect para que la máquina juegue cuando sea su turno
+  // Cuando cambia el turno a "Yellow", la máquina juega automáticamente
   useEffect(() => {
     if (currentPlayer === 'Yellow' && !winner) {
       const timer = setTimeout(() => {
         machineMove();
-      }, 500); // Retardo de 500ms para simular pensamiento
+      }, 500);
       return () => clearTimeout(timer);
     }
   }, [currentPlayer, board, winner]);
@@ -109,9 +141,6 @@ const Conecta4 = () => {
     setCurrentPlayer('Red');
     setWinner(null);
   };
-
-  // Array de colores para el confetti (opcional)
-  const colors = ["#f94144", "#f3722c", "#f8961e", "#f9c74f", "#90be6d", "#43aa8b", "#577590"];
 
   return (
     <div className="conecta4">
@@ -124,7 +153,6 @@ const Conecta4 = () => {
                 key={colIndex}
                 className={`cell ${cell ? cell.toLowerCase() : ''}`}
                 onClick={() => {
-                  // Permitir el clic solo si es el turno del jugador
                   if (currentPlayer === 'Red') {
                     handleColumnClick(colIndex);
                   }
@@ -134,13 +162,29 @@ const Conecta4 = () => {
           </div>
         ))}
       </div>
-      {winner ? (
-        <div className="winner">
-          <h2>{winner} gana!</h2>
-          <button onClick={resetGame}>Reiniciar</button>
-        </div>
-      ) : (
+    
         <h2>Turno: {currentPlayer === 'Red' ? 'Jugador' : 'Máquina'}</h2>
+
+      {winner && (
+        <div className="overlay">
+          <div className="win-message">
+            <h2>WINNER</h2>
+            <div className="confetti-container">
+              {[...Array(20)].map((_, i) => (
+                <div
+                  key={i}
+                  className="confetti-piece"
+                  style={{
+                    '--delay': `${Math.random() * 3}s`,
+                    '--left': `${Math.random() * 100}%`,
+                    '--duration': `${Math.random() * 3 + 2}s`,
+                    backgroundColor: colors[Math.floor(Math.random() * colors.length)]
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
