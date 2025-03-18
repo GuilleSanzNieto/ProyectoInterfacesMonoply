@@ -142,7 +142,8 @@ const MemoriCard = () => {
                     '--duration': `${Math.random() * 3 + 2}s`,
                     backgroundColor: colors[Math.floor(Math.random() * colors.length)]
                   }}
-                ></div>
+                >
+                </div>
               ))}
             </div>
           </div>

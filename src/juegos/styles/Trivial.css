@@ -1,0 +1,70 @@
+/* Contenedor principal para el juego de Trivial */
+.trivial-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ffecba 0%, #ffdfba 100%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Título con colores y tamaño más impactante */
+.trivial-wrapper h1 {
+    font-size: 2.5rem;
+    color: #fff;
+    background-color: #8f7a66;
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Estilo de la pregunta */
+.question p {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Opciones de respuesta en un contenedor flexible */
+.options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Cada opción con mayor tamaño y efecto interactivo */
+.option {
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    border: 2px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #fff;
+}
+
+.option:hover {
+    background-color: #eee;
+    transform: scale(1.05);
+}
+
+/* Mensaje de respuesta */
+.response-message {
+    margin-top: 20px;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+/* Estado correcto e incorrecto */
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}

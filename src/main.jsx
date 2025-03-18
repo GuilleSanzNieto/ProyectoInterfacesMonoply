@@ -6,9 +6,10 @@ import Dados from './components/Dados.jsx'
 import Tablero from './components/Tablero.jsx'
 import TicTacToe from './juegos/TicTacToe.jsx'
 import MemoriCard from './juegos/MemoriCard.jsx'
+import Trivial from './juegos/Trivial.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <MemoriCard />
+    <Trivial />
   </StrictMode>,
 )
