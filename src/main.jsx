@@ -6,9 +6,10 @@ import Dados from './components/Dados.jsx'
 import Tablero from './components/Tablero.jsx'
 import TicTacToe from './juegos/TicTacToe.jsx'
 import WordSearch from './juegos/WordSearch.jsx'
+import MemoriCard from './juegos/MemoriCard.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <TicTacToe />
+    <App />
   </StrictMode>
 )
