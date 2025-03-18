@@ -4,10 +4,11 @@ import './index.css'
 import App from './App.jsx'
 import Dados from './components/Dados.jsx'
 import Tablero from './components/Tablero.jsx'
-import TicTacToe from './components/TicTacToe.jsx'
+import TicTacToe from './juegos/TicTacToe.jsx'
+import MemoriCard from './juegos/MemoriCard.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <TicTacToe />
+    <MemoriCard />
   </StrictMode>,
 )
