@@ -1,0 +1,52 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .game-container {
+    text-align: center;
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  /* Área donde se muestra el emoticono del ordenador, sin fondo */
+  .computer-display {
+    font-size: 4em;
+    margin-bottom: 20px;
+    background: none;
+  }
+  
+  /* Marcador */
+  .scoreboard {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .score {
+    font-size: 1.5em;
+  }
+  
+  /* Botones del usuario sin fondo */
+  .botones button {
+    background: none;
+    border: none;
+    font-size: 2em;
+    margin: 0 10px;
+    cursor: pointer;
+  }
+  
+  /* Información adicional */
+  .info {
+    margin-top: 20px;
+    font-size: 1.2em;
+  }
+  
+  .final {
+    margin-top: 30px;
+  }
