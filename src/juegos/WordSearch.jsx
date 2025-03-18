@@ -2,27 +2,24 @@ import React, { useState } from 'react';
 import './styles/WordSearch.css';
 
 const WordSearch = () => {
-  // Batería de 10 palabras relacionadas con la Universidad de Málaga
-  const battery = ['UMA', 'CAMPUS', 'ESTUDIANTE', 'ESCUELA', 'UNIVERSIDAD', 'MALAGA', 'FACULTAD', 'INGENIERIA', 'DEPORTES', 'ASIGNATURA', 'MATRICULA'];
-  // Selecciona 4 palabras aleatorias para la ronda al inicializar
+  const battery = ['UMA', 'CAMPUS', 'ESTUDIANTE', 'ESCUELA', 'UNIVERSIDAD', 'MALAGA', 'FACULTAD', 'DEPORTES', 'ASIGNATURA', 'MATRICULA'];
+  
   const [roundWords] = useState(() =>
     [...battery].sort(() => 0.5 - Math.random()).slice(0, 4)
   );
   
   const [board, setBoard] = useState(generateBoard());
+  const [firstCell, setFirstCell] = useState(null);
   const [selectedCells, setSelectedCells] = useState([]);
   const [foundWords, setFoundWords] = useState([]);
   const [foundPositions, setFoundPositions] = useState([]);
   const [hasWon, setHasWon] = useState(false);
 
-  // Array de colores para el confetti
   const colors = ["#f94144", "#f3722c", "#f8961e", "#f9c74f", "#90be6d", "#43aa8b", "#577590"];
 
   function generateBoard() {
     const size = 10;
-    const board = Array(size)
-      .fill(null)
-      .map(() => Array(size).fill(null));
+    const board = Array(size).fill(null).map(() => Array(size).fill(null));
 
     const placeWord = (word) => {
       for (let attempt = 0; attempt < 200; attempt++) {
@@ -60,7 +57,7 @@ const WordSearch = () => {
           }
           return true;
         } else if (orientation === 2 && word.length <= size) {
-          // Diagonal hacia abajo-derecha
+          // Diagonal
           const row = Math.floor(Math.random() * (size - word.length + 1));
           const col = Math.floor(Math.random() * (size - word.length + 1));
           let fits = true;
@@ -80,12 +77,10 @@ const WordSearch = () => {
       return false;
     };
 
-    // Coloca cada palabra de la ronda en el tablero
     roundWords.forEach(word => {
       placeWord(word);
     });
 
-    // Rellena las celdas vacías con letras aleatorias
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for (let i = 0; i < size; i++) {
       for (let j = 0; j < size; j++) {
@@ -97,31 +92,83 @@ const WordSearch = () => {
     return board;
   }
 
-  // Activa o desactiva la selección de una celda
-  const handleCellClick = (row, col) => {
-    if (selectedCells.some(cell => cell.row === row && cell.col === col)) {
-      setSelectedCells(selectedCells.filter(cell => !(cell.row === row && cell.col === col)));
-    } else {
-      setSelectedCells([...selectedCells, { row, col }]);
+  const getWordBetweenPoints = (start, end) => {
+    let word = '';
+    const rowDiff = end.row - start.row;
+    const colDiff = end.col - start.col;
+    
+    // Solo permite horizontal, vertical o diagonal
+    if (Math.abs(rowDiff) === Math.abs(colDiff) || rowDiff === 0 || colDiff === 0) {
+      const steps = Math.max(Math.abs(rowDiff), Math.abs(colDiff));
+      const rowStep = rowDiff === 0 ? 0 : rowDiff / Math.abs(rowDiff);
+      const colStep = colDiff === 0 ? 0 : colDiff / Math.abs(colDiff);
+      
+      for (let i = 0; i <= steps; i++) {
+        const currentRow = start.row + (rowStep * i);
+        const currentCol = start.col + (colStep * i);
+        word += board[currentRow][currentCol];
+      }
+
+      // También comprueba la palabra en sentido inverso
+      const reverseWord = word.split('').reverse().join('');
+      if (roundWords.includes(reverseWord)) {
+        return reverseWord;
+      }
     }
+    
+    return word;
   };
 
-  // Verifica si la selección actual forma una palabra correcta
-  const checkWord = () => {
-    const word = selectedCells.map(cell => board[cell.row][cell.col]).join('');
-    if (roundWords.includes(word)) {
-      // Actualiza foundWords y foundPositions
-      setFoundWords(prev => {
-        const newFound = [...prev, word];
-        if (newFound.length === 4) {
-          setHasWon(true);
+  const handleCellClick = (row, col) => {
+    if (!firstCell) {
+      // Primera selección
+      setFirstCell({ row, col });
+      setSelectedCells([{ row, col }]);
+    } else {
+      // Segunda selección
+      const secondCell = { row, col };
+      const word = getWordBetweenPoints(firstCell, secondCell);
+      const reverseWord = getWordBetweenPoints(secondCell, firstCell);
+      
+      let cells = [];
+      const rowDiff = secondCell.row - firstCell.row;
+      const colDiff = secondCell.col - firstCell.col;
+      
+      if (Math.abs(rowDiff) === Math.abs(colDiff) || rowDiff === 0 || colDiff === 0) {
+        const steps = Math.max(Math.abs(rowDiff), Math.abs(colDiff));
+        const rowStep = rowDiff === 0 ? 0 : rowDiff / Math.abs(rowDiff);
+        const colStep = colDiff === 0 ? 0 : colDiff / Math.abs(colDiff);
+        
+        for (let i = 0; i <= steps; i++) {
+          const currentRow = firstCell.row + (rowStep * i);
+          const currentCol = firstCell.col + (colStep * i);
+          cells.push({ row: currentRow, col: currentCol });
         }
-        return newFound;
-      });
-      setFoundPositions([...foundPositions, ...selectedCells]);
+      }
+
+      setSelectedCells(cells);
+      
+      // Comprueba si la palabra es válida en ambas direcciones
+      if (roundWords.includes(word) || roundWords.includes(reverseWord)) {
+        const validWord = roundWords.includes(word) ? word : reverseWord;
+        if (!foundWords.includes(validWord)) {
+          setFoundWords(prev => {
+            const newFound = [...prev, validWord];
+            if (newFound.length === 4) {
+              setHasWon(true);
+            }
+            return newFound;
+          });
+          setFoundPositions(prev => [...prev, ...cells]);
+        }
+      }
+      
+      // Reinicia la selección
+      setFirstCell(null);
+      setTimeout(() => {
+        setSelectedCells([]);
+      }, 500);
     }
-    // Reinicia la selección para una nueva palabra
-    setSelectedCells([]);
   };
 
   const renderCell = (row, col) => {
@@ -157,10 +204,7 @@ const WordSearch = () => {
         <h2>Palabras a encontrar:</h2>
         <ul>
           {roundWords.map((word, index) => (
-            <li 
-              key={index} 
-              className={foundWords.includes(word) ? "found-word" : ""}
-            >
+            <li key={index} className={foundWords.includes(word) ? "found-word" : ""}>
               {word}
             </li>
           ))}
@@ -168,7 +212,6 @@ const WordSearch = () => {
       </div>
       
       {renderBoard()}
-      <button className="check-word" onClick={checkWord}>Comprobar Palabra</button>
       
       <div className="found-words">
         <h2>Found Words:</h2>
@@ -195,7 +238,7 @@ const WordSearch = () => {
                     '--duration': `${Math.random() * 3 + 2}s`,
                     backgroundColor: colors[Math.floor(Math.random() * colors.length)]
                   }}
-                ></div>
+                />
               ))}
             </div>
           </div>
