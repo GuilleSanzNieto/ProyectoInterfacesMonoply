@@ -1,0 +1,78 @@
+.sudoku {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.sudoku h1 {
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #333;
+}
+
+/* Configura el tablero como grid de 4 columnas y 4 filas */
+.board {
+    display: grid;
+    grid-template-columns: repeat(4, 50px);
+    grid-template-rows: repeat(4, 50px);
+    gap: 2px;
+    border: 2px solid #333;
+}
+
+/* Usamos .sudoku-row para organizar por filas; podés dejarlo con display: contents 
+   o usar flex si lo prefieres */
+.sudoku-row {
+    display: contents;
+}
+
+/* Estilos básicos de cada celda */
+.sudoku-cell {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 1.5em;
+    border: 1px solid #999;
+}
+
+/* Bordes más gruesos para separar subcuadrículas 2x2 */
+/* Si la celda es la última de la subcuadrícula en la columna (colIndex 1 en 0-indexed) */
+.sudoku-cell.vertical-border {
+    border-right: 2px solid #333;
+}
+
+/* Si la celda está en la fila 1 (0-indexed) para separar horizontalmente */
+.sudoku-cell.horizontal-border {
+    border-bottom: 2px solid #333;
+}
+
+/* Opcional: Al enfocar la celda */
+.sudoku-cell:focus {
+    outline: none;
+    background-color: #eef;
+}
+
+/* Overlay de victoria */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .win-message {
+    position: relative;
+    color: #11542d;
+    text-align: center;
+    padding: 20px;
+    background: #d0d1b1;
+    border-radius: 10px;
+    font-size: 3rem;
+  }
