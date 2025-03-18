@@ -1,0 +1,202 @@
+.word-search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+
+    padding: 10px;
+    background-color: #fafafa;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .word-search h1 {
+    margin-bottom: 5px;
+    font-size: 32px;
+    color: #333;
+  }
+  
+  .board {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
+    gap: 5px;
+    margin: 1px 0; /* Antes era 20px 0, ahora se reduce */
+    background-color: #fff;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .row {
+    display: contents;
+  }
+  
+  .cell {
+    width: 40px;
+    height: 40px;
+    background-color: #e9e9e9;
+    border: 1px solid #bbb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    text-transform: uppercase;
+  }
+  
+  .cell:hover {
+    background-color: #d0e8f2;
+    border-color: #888;
+  }
+  
+  .cell.selected {
+    background-color: #ffd966;
+    border-color: #e6b800;
+  }
+  
+  .cell.found {
+    background-color: #8ebf42;
+    color: white;
+  }
+  
+  /* Estilos para las palabras a encontrar (a modo horizontal) */
+  .to-find-words ul {
+    display: flex;
+    flex-direction: row; /* Organiza en línea horizontal */
+    gap: 10px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow-x: auto;
+  }
+  
+  .to-find-words li {
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .to-find-words li.found-word {
+    background-color: #8ebf42; 
+    color: white;
+  }
+  
+  .found-words {
+    /* se reduce el margen superior */
+    width: 100%;
+    max-width: 400px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .found-words h2 {
+    
+    text-align: center;
+    color: #444;
+  }
+  
+  .found-words ul {
+    display: flex;
+    flex-direction: row; /* Organiza en línea horizontal */
+    gap: 10px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow-x: auto;
+  }
+  
+  .found-words li {
+    background-color: #d4f1f4;
+    
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .check-word {
+    
+    padding: 8px 16px;
+    background-color: #6cace4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .check-word:hover {
+    background-color: #549dd1;
+  }
+
+  /* Confeti (igual que tu CSS actual) */
+  .confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  
+  .confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    left: var(--left);
+    animation: confettiFall var(--duration) linear var(--delay) infinite;
+    opacity: 0;
+  }
+  
+  @keyframes confettiFall {
+    0% {
+      opacity: 1;
+      transform: translateY(0) rotate(0deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(500px) rotate(360deg);
+    }
+  }
+
+  /* Overlay de victoria */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .win-message {
+    position: relative;
+    color: #11542d;
+    text-align: center;
+    padding: 20px;
+    background: #d0d1b1;
+    border-radius: 10px;
+    font-size: 3rem;
+  }
+  
+  .winner-message {
+    margin-top: 30px;
+    padding: 10px 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #4caf50;
+    border-radius: 5px;
+    text-align: center;
+  }
