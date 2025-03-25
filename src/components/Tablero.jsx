@@ -132,7 +132,7 @@ const Tablero = () => {
   return (
     <div className="tablero-container">
       {
-        showMiniGame ? <TicTacToe endGame={setShowMiniGame}  /> : tableroComponent
+        showMiniGame ? <TicTacToe visible={setShowMiniGame}  /> : tableroComponent
       }
     </div>
    

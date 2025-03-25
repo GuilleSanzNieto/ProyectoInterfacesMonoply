@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './styles/TicTacToe.css';
 
-const TicTacToe = ({ endGame }) => {
+const TicTacToe = ({ visible }) => {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [winner, setWinner] = useState(null);
@@ -69,13 +69,13 @@ const TicTacToe = ({ endGame }) => {
     const gameWinner = checkWinner(newBoard);
     if (gameWinner) {
       setWinner(gameWinner);
-      endGame(false);
+      visible(false);
       return;
     }
     
     // Si no hay ganador y no quedan casillas vacías, es empate
     if (newBoard.every(cell => cell !== null)) {
-      endGame(false);
+      visible(false);
       return;
     }
 
@@ -97,13 +97,13 @@ const TicTacToe = ({ endGame }) => {
     const gameWinner = checkWinner(newBoard);
     if (gameWinner) {
       setWinner(gameWinner);
-      endGame(false);
+      visible(false);
       return;
     }
     
     // Si no hay ganador y no quedan casillas vacías, es empate
     if (newBoard.every(cell => cell !== null)) {
-      endGame(false);
+      visible(false);
       return;
     }
 
