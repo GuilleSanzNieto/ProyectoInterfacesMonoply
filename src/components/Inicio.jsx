@@ -3,17 +3,14 @@ import './styles/Inicio.css';
 import { PlayersContext } from '../Contexts/PlayersContext.jsx';
 
 function Inicio({ onStart }) {
-  const { setPlayers: setContextPlayers } = useContext(PlayersContext);
+  const {players, setPlayers} = useContext(PlayersContext);
   const [numPlayers, setNumPlayers] = useState(2);
-  const [players, setPlayers] = useState([
-    { name: '', color: '#ff0000' },
-    { name: '', color: '#0000ff' }
-  ]);
+  
 
   const handleNumPlayersChange = (num) => {
     setNumPlayers(num);
     setPlayers(
-      Array.from({ length: num }, (_, i) => players[i] || { name: '', color: '#000000' })
+      Array.from({ length: num }, (_, i) => players[i] || { name: '', color: '#000000', position: 0 })
     );
   };
 
@@ -24,8 +21,7 @@ function Inicio({ onStart }) {
   };
 
   const handleStart = () => {
-    setContextPlayers(players);
-    onStart(players);
+    onStart();
   };
 
   return (

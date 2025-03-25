@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './styles/WordSearch.css';
 
-const WordSearch = () => {
+const WordSearch = ({ endGame }) => {
   const battery = ['UMA', 'CAMPUS', 'ESTUDIANTE', 'ESCUELA', 'UNIVERSIDAD', 'MALAGA', 'FACULTAD', 'DEPORTES', 'ASIGNATURA', 'MATRICULA'];
   
   const [roundWords] = useState(() =>
@@ -156,6 +156,9 @@ const WordSearch = () => {
             const newFound = [...prev, validWord];
             if (newFound.length === 4) {
               setHasWon(true);
+              setTimeout(() => {
+                endGame(!hasWon);
+              }, 3000);
             }
             return newFound;
           });

@@ -2,20 +2,28 @@ import React, { useState, useEffect, useContext } from 'react';
 import './styles/Tablero.css';
 import Dados from './Dados';
 import { PlayersContext } from '../Contexts/PlayersContext.jsx';
+import TicTacToe from '../juegos/TicTacToe.jsx';
 
 const Tablero = () => {
-  const { players, currentTurn, nextTurn } = useContext(PlayersContext);
+  const { players, currentTurn, nextTurn, updatePlayerPosition, spinning, setSpinning } = useContext(PlayersContext);
   const [activeIndexes, setActiveIndexes] = useState([]);
   const [valorDados, setValorDados] = useState([]);
-  const [spinning, setSpinning] = useState(false);
-  const [positions, setPositions] = useState([]);
+  const [showMiniGame, setShowMiniGame] = useState(false);
 
-  // Inicializa posiciones para cada jugador en 0
-  useEffect(() => {
-    if (players.length > 0 && positions.length !== players.length) {
-      setPositions(players.map(() => 0));
-    }
-  }, [players, positions.length]);
+  const executeWhenAnimationEnds = () => {
+    setValorDados([]);
+    setActiveIndexes([]);
+
+    nextTurn();
+    setSpinning(false);
+    
+    executeMiniGame();
+  };
+
+  const executeMiniGame = () => {
+    setShowMiniGame(true);
+  };
+
 
   // Animación para mover el token del jugador actual
   const animation = (start, steps) => {
@@ -24,41 +32,51 @@ const Tablero = () => {
       newActiveIndexes.push((start + i) % 40);
     }
     setActiveIndexes([]);
-    // Recorre cada paso de la animación
     newActiveIndexes.forEach((activeIndex, i) => {
       setTimeout(() => {
-        // Para dar efecto visual en el tablero
+        // Efecto visual en el tablero
         setActiveIndexes(prev => [...prev, activeIndex]);
-        // Actualiza la posición del token del jugador actual
-        setPositions(prev => {
-          const newPositions = [...prev];
-          newPositions[currentTurn] = activeIndex;
-          return newPositions;
-        });
+        // Actualiza la posición del jugador actual en el contexto
+        updatePlayerPosition(currentTurn, activeIndex);
       }, i * 500);
     });
-    // Al finalizar la animación, cambia automáticamente de turno
+    // Al finalizar la animación, cambia de turno
     setTimeout(() => {
-      nextTurn();
-    }, (steps + 1) * 500);
+      executeWhenAnimationEnds();
+    }, (steps + 2) * 500);
   };
 
   const handleCenterClick = () => {
     if (!spinning) {
       setSpinning(true);
-      setTimeout(() => setSpinning(false), 1000); // Stop spin
     }
   };
 
   useEffect(() => {
-    if (valorDados[0] && valorDados[1] && positions.length === players.length) {
+    if (!showMiniGame && valorDados[0] && valorDados[1]) {
       const sumaDados = valorDados[0] + valorDados[1];
-      const currentPos = positions[currentTurn] || 0;
-      // Ajusta la posición si se excede el número de casillas
-      // (asumimos 40 casillas y usamos módulo 40)
+      const currentPos = players[currentTurn]?.position || 0;
       animation(currentPos, sumaDados);
     }
-  }, [valorDados]);
+  }, [valorDados, showMiniGame]);
+
+  const mostarTokens = (casillaIndex) => {
+    return players.map((player, index) =>
+      player.position === casillaIndex ? (
+        <div
+          key={index}
+          className="token"
+          style={{
+            backgroundColor: player.color,
+            width: '15px',
+            height: '15px',
+            borderRadius: '50%',
+            margin: '2px'
+          }}
+        ></div>
+      ) : null
+    );
+  };
 
   const casillas = [];
   for (let i = 0; i < 41; i++) {
@@ -72,22 +90,7 @@ const Tablero = () => {
         <div className="content">
           <span>Casilla {i}</span>
           {
-            // Muestra los tokens que se encuentren en esta casilla
-            positions.map((pos, pIndex) =>
-              pos === i ? (
-                <div
-                  key={pIndex}
-                  className="token"
-                  style={{
-                    backgroundColor: players[pIndex].color,
-                    width: '15px',
-                    height: '15px',
-                    borderRadius: '50%',
-                    margin: '2px'
-                  }}
-                ></div>
-              ) : null
-            )
+            mostarTokens(i)
           }
         </div>
         <div className="color"></div>
@@ -95,7 +98,7 @@ const Tablero = () => {
     );
   }
 
-  return (
+  const tableroComponent = (
     <div className="tablero">
       <div className="fila-superior">
         {casillas.slice(1, 10)}
@@ -124,6 +127,15 @@ const Tablero = () => {
         )}
       </div>
     </div>
+  )
+
+  return (
+    <div className="tablero-container">
+      {
+        showMiniGame ? <TicTacToe endGame={setShowMiniGame}  /> : tableroComponent
+      }
+    </div>
+   
   );
 };
 

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './styles/TicTacToe.css';
 
-const TicTacToe = () => {
+const TicTacToe = ({ endGame }) => {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [winner, setWinner] = useState(null);
+
 
   const checkWinner = (board) => {
     const lines = [
@@ -68,10 +69,19 @@ const TicTacToe = () => {
     const gameWinner = checkWinner(newBoard);
     if (gameWinner) {
       setWinner(gameWinner);
-    } else {
-      setIsPlayerTurn(false);
+      endGame(false);
+      return;
     }
+    
+    // Si no hay ganador y no quedan casillas vacías, es empate
+    if (newBoard.every(cell => cell !== null)) {
+      endGame(false);
+      return;
+    }
+
+    setIsPlayerTurn(false);
   };
+
 
   const makeComputerMove = () => {
     const availableMoves = board
@@ -87,10 +97,17 @@ const TicTacToe = () => {
     const gameWinner = checkWinner(newBoard);
     if (gameWinner) {
       setWinner(gameWinner);
-      
-    } else {
-      setIsPlayerTurn(true);
+      endGame(false);
+      return;
     }
+    
+    // Si no hay ganador y no quedan casillas vacías, es empate
+    if (newBoard.every(cell => cell !== null)) {
+      endGame(false);
+      return;
+    }
+
+    setIsPlayerTurn(true);
   };
 
   // Efecto para que la máquina juegue automáticamente
