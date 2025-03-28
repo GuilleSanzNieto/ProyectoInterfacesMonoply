@@ -38,12 +38,12 @@ const Tablero = () => {
         setActiveIndexes(prev => [...prev, activeIndex]);
         // Actualiza la posición del jugador actual en el contexto
         updatePlayerPosition(currentTurn, activeIndex);
-      }, i * 500);
+      }, i * 250);
     });
     // Al finalizar la animación, cambia de turno
     setTimeout(() => {
       executeWhenAnimationEnds();
-    }, (steps + 2) * 500);
+    }, (steps + 2) * 250);
   };
 
   const handleCenterClick = () => {
@@ -88,7 +88,6 @@ const Tablero = () => {
         className={`casilla ${isCorner ? 'casilla-esquina' : ''} ${isActive ? 'recorrer' : ''}`}
       >
         <div className="content">
-          <span>Casilla {i}</span>
           {
             mostarTokens(i)
           }
