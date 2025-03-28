@@ -157,7 +157,7 @@ const WordSearch = ({ visible }) => {
             if (newFound.length === 4) {
               setHasWon(true);
               setTimeout(() => {
-                visible(!hasWon);
+                visible(false);
               }, 3000);
             }
             return newFound;

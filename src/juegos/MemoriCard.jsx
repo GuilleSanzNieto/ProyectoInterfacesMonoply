@@ -21,7 +21,7 @@ const shuffleCards = (cards) => {
   return cards.sort(() => Math.random() - 0.5);
 };
 
-const MemoriCard = () => {
+const MemoriCard = ({ visible }) => {
   const [cards, setCards] = useState(shuffleCards(initialCards));
   const [firstCard, setFirstCard] = useState(null);
   const [secondCard, setSecondCard] = useState(null);
@@ -81,6 +81,9 @@ const MemoriCard = () => {
     useEffect(() => {
         if (cards.length > 0 && cards.every(card => card.matched)) {
             setHasWon(true);
+            setTimeout(() => {
+              visible(false);
+            }, 3000);
         }
     }, [cards]);
     //Para que el mensaje de ganador se muestre por 3 segundos
@@ -88,6 +91,9 @@ const MemoriCard = () => {
         if (hasWon) {
           const timer = setTimeout(() => {
             setHasWon(false);
+            setTimeout(() => {
+              visible(false);
+            }, 3000);
           }, 3000);
           return () => clearTimeout(timer); // Limpiar el timer si el componente se desmonta o si se vuelve a ejecutar el efecto.
         }

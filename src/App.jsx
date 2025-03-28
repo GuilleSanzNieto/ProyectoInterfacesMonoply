@@ -14,6 +14,7 @@ function App() {
       ) : (
         <Inicio onStart={() => setJuegoIniciado(true)} />
       )}
+      {/* <Tablero/> */}
     </PlayersProvider>
   );
 }

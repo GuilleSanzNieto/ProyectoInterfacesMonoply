@@ -22,6 +22,7 @@ export const PlayersProvider = ({ children }) => {
                 index === playerIndex ? { ...player, position: newPosition } : player
             );
         });
+        
     };
 
     return (

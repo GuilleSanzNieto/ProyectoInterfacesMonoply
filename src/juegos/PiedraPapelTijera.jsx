@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './styles/PiedraPapelTijera.css';
 
-const PiedraPapelTijera = () => {
+const PiedraPapelTijera = ({ visible }) => {
   const opciones = ['Piedra', 'Papel', 'Tijera'];
   const [eleccionUsuario, setEleccionUsuario] = useState('');
   const [eleccionOrdenador, setEleccionOrdenador] = useState('');
@@ -45,6 +45,9 @@ const PiedraPapelTijera = () => {
       (usuario === 'Tijera' && ordenador === 'Papel')
     ) {
       setResultado('Ganaste');
+      setTimeout(() => {
+        visible(false);
+      }, 3000);
       setPuntuacionUsuario(puntuacionUsuario + 1);
     } else {
       setResultado('Perdiste');

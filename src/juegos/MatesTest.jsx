@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './styles/MatesTest.css';
 
-const MathGame = () => {
+const MathGame = ({ visible }) => {
   const [num1, setNum1] = useState(0);
   const [num2, setNum2] = useState(0);
   const [operator, setOperator] = useState('+');
@@ -49,6 +49,9 @@ const MathGame = () => {
           setShowAnimation(false); // Desactiva la animación después de 2 segundos
           setStreak(0); // Reinicia el contador
         }, 2000);
+        setTimeout(() => {
+          visible(false);
+        }, 3000);
       }
     } else {
       setResultMessage('Incorrecto. Intenta de nuevo.');

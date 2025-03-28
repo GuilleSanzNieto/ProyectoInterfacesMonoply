@@ -8,7 +8,7 @@ const createBoard = () => {
   return Array.from({ length: ROWS }, () => Array(COLS).fill(null));
 };
 
-const Conecta4 = () => {
+const Conecta4 = ({ visible }) => {
   const [board, setBoard] = useState(createBoard());
   const [currentPlayer, setCurrentPlayer] = useState('Red'); // Human: 'Red', Máquina: 'Yellow'
   const [winner, setWinner] = useState(null);
@@ -75,6 +75,9 @@ const Conecta4 = () => {
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
       setWinner(newWinner);
+      setTimeout(() => {
+        visible(false);
+      }, 3000);
     }
 
     setBoard(newBoard);

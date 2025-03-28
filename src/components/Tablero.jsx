@@ -3,26 +3,60 @@ import './styles/Tablero.css';
 import Dados from './Dados';
 import { PlayersContext } from '../Contexts/PlayersContext.jsx';
 import TicTacToe from '../juegos/TicTacToe.jsx';
+import WordSearch from '../juegos/WordSearch.jsx';
+import MemoriCard from '../juegos/MemoriCard.jsx';
+import Conecta4 from '../juegos/Conecta4.jsx';
+import MatesTest from '../juegos/MatesTest.jsx';
+import PiedraPapelTijera from '../juegos/PiedraPapelTijera.jsx';
+import Trivial from '../juegos/Trivial.jsx';
+
 
 const Tablero = () => {
   const { players, currentTurn, nextTurn, updatePlayerPosition, spinning, setSpinning } = useContext(PlayersContext);
   const [activeIndexes, setActiveIndexes] = useState([]);
   const [valorDados, setValorDados] = useState([]);
   const [showMiniGame, setShowMiniGame] = useState(false);
+  const [miniGameComponent, setMiniGameComponent] = useState(null);
+  const miniGameCells = [2, 7, 17, 22, 33, 38];
+  // const miniGameCells = [];
+  // for(let i = 0; i < 41; i++){
+  //   if(i % 2 === 0){
+  //     miniGameCells.push(i);
+  //   }
+  // }
 
-  const executeWhenAnimationEnds = () => {
+
+
+  const executeWhenAnimationEnds = (finalPosition) => {
     setValorDados([]);
     setActiveIndexes([]);
 
-    nextTurn();
-    setSpinning(false);
-    
-    executeMiniGame();
+
+    if (miniGameCells.includes(finalPosition)) {
+      executeMiniGameRandom();
+    } else{
+      setEndMinigame(false);
+    }
   };
 
-  const executeMiniGame = () => {
+  const executeMiniGameRandom = () => {
+    // Lista de mini juegos disponibles
+    const miniGamesArray = [TicTacToe, WordSearch, MemoriCard, Conecta4, MatesTest, PiedraPapelTijera, Trivial];
+    const randomIndex = Math.floor(Math.random() * miniGamesArray.length);
+    console.log('Ejecutando minijuego:', miniGamesArray[randomIndex].name);
+    setMiniGameComponent(() => miniGamesArray[randomIndex]);
     setShowMiniGame(true);
   };
+
+  const setEndMinigame = (value) => {
+    if(value === false){
+      setShowMiniGame(false);
+      setMiniGameComponent(null);
+      nextTurn();
+      setSpinning(false);
+    }
+
+  }
 
 
   // Animación para mover el token del jugador actual
@@ -31,18 +65,21 @@ const Tablero = () => {
     for (let i = 0; i <= steps; i++) {
       newActiveIndexes.push((start + i) % 40);
     }
+
     setActiveIndexes([]);
     newActiveIndexes.forEach((activeIndex, i) => {
       setTimeout(() => {
-        // Efecto visual en el tablero
+
         setActiveIndexes(prev => [...prev, activeIndex]);
-        // Actualiza la posición del jugador actual en el contexto
         updatePlayerPosition(currentTurn, activeIndex);
       }, i * 250);
+
     });
-    // Al finalizar la animación, cambia de turno
+
     setTimeout(() => {
-      executeWhenAnimationEnds();
+
+      executeWhenAnimationEnds(newActiveIndexes[newActiveIndexes.length - 1]);
+
     }, (steps + 2) * 250);
   };
 
@@ -89,6 +126,14 @@ const Tablero = () => {
       >
         <div className="content">
           {
+            miniGameCells.includes(i) ? (
+              <div className="mini-game-cell" onClick={executeMiniGameRandom}>
+                <span>minijuego</span>
+              </div>
+            )
+              : ''
+          }
+          {
             mostarTokens(i)
           }
         </div>
@@ -130,11 +175,11 @@ const Tablero = () => {
 
   return (
     <div className="tablero-container">
-      {
-        showMiniGame ? <TicTacToe visible={setShowMiniGame}  /> : tableroComponent
-      }
+      {showMiniGame && miniGameComponent
+        ? // Renderiza dinámicamente el mini juego seleccionado
+          React.createElement(miniGameComponent, { visible: setEndMinigame })
+        : tableroComponent}
     </div>
-   
   );
 };
 

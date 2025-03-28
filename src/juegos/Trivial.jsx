@@ -36,7 +36,7 @@ const questions = [
   },
 ];
 
-const Trivial = () => {
+const Trivial = ({ visible }) => {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [responseMessage, setResponseMessage] = useState('');
   const [responseColor, setResponseColor] = useState('');
