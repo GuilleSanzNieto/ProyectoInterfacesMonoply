@@ -25,6 +25,11 @@ const Tablero = () => {
   //   }
   // }
 
+  const casillaNames = ["", "Centro de Enfermería (Ronda)", "Juego por dinero", "Centro de Magisterio (Antequera)", 
+    "suerte", "metro1", "biblioteca", "juego por dinero", "pabellón de deportes", "jardin botanico", "prision", "comunicacion", "suerte", "filosofia", "derecho",
+    "metro2", "educacion", "juego por dinero", "ciencias", "medicina", "google", "turismo", "juego por dinero", "estudios sociales", "comunicacion", "metro3", "ciencias de la salud", 
+    "psicologia", "suerte", "industriales", "go to prision", "bellas artes", "economicas", "juego por dinero", "arquitectura", "metro4", "suerte", "telecomunicaciones", "juego por dinero", "ETSII", ""]
+
 
 
   const executeWhenAnimationEnds = (finalPosition) => {
@@ -133,9 +138,10 @@ const Tablero = () => {
             )
               : ''
           }
-          {
-            mostarTokens(i)
-          }
+          <span className= "nombre-casilla">
+            {casillaNames[i]}
+          </span>
+          {mostarTokens(i)}
         </div>
         <div className="color"></div>
       </div>
