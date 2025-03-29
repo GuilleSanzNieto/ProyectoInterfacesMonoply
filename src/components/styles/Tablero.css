@@ -37,6 +37,8 @@ html, body {
   color: black;
 }
 
+
+
 .casilla.actual {
   background-color: blue;
 }
@@ -74,9 +76,20 @@ html, body {
 .fila-superior .casilla .color{
   width: 100%;
   height: 20px;
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0.5);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.token{
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-left: 2px;
+  margin-right: 2px;
+}
 
 
 

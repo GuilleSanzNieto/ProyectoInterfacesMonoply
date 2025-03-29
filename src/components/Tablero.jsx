@@ -109,11 +109,7 @@ const Tablero = () => {
           key={index}
           className="token"
           style={{
-            backgroundColor: player.color,
-            width: '15px',
-            height: '15px',
-            borderRadius: '50%',
-            margin: '2px'
+            backgroundColor: player.color
           }}
         ></div>
       ) : null
@@ -130,20 +126,14 @@ const Tablero = () => {
         className={`casilla ${isCorner ? 'casilla-esquina' : ''} ${isActive ? 'recorrer' : ''}`}
       >
         <div className="content">
-          {
-            miniGameCells.includes(i) ? (
-              <div className="mini-game-cell" onClick={executeMiniGameRandom}>
-                <span>minijuego</span>
-              </div>
-            )
-              : ''
-          }
           <span className= "nombre-casilla">
             {casillaNames[i]}
           </span>
+         
+        </div>
+        <div className="color">
           {mostarTokens(i)}
         </div>
-        <div className="color"></div>
       </div>
     );
   }
