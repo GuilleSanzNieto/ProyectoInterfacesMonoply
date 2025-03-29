@@ -6,46 +6,67 @@
     gap: 10px;
     text-align: center;
     margin-top: 50px;
-  }
+}
 
-  .player-selection{
+.player-selection {
     margin-bottom: 10px;
-  }
-  
-  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+}
+
+.player-selection button {
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    background-color: rgb(88, 136, 183);
     font-size: 18px;
     padding: 10px 20px;
     cursor: pointer;
-  }
-  
+    color: white;
+}
 
-  input[type="text"] {
+.player-selection button.selected {
+    background-color: rgb(210, 220, 226);
+    font-weight: bold;
+}
+
+.player-selection button:first-child {
+    border-top-left-radius: 8px; 
+    border-bottom-left-radius: 8px; 
+}
+
+.player-selection button:last-child {
+    border-top-right-radius: 8px; 
+    border-bottom-right-radius: 8px;
+}
+
+.selected button{
+    background-color: darkgray;
+    font-weight: bold;
+}
+
+input[type="text"] {
     padding: 8px;
     width: 100%;
     text-align: center;
     font-weight: 600;
-  }
+}
 
-  
-  .selected {
-    background-color: darkgray;
-    color: white;
-    font-weight: bold;
-  }
-  
-  .start-button {
-    margin-top: 30px; /* Espacio con el borde superior */
-    margin-bottom: 30px; /* Espacio con el borde inferior */
+.player-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.start-button {
+    margin-top: 30px;
+    margin-bottom: 30px;
     padding: 15px 30px;
     font-size: 18px;
     background-color: rgb(78, 162, 219);
     border: none;
     cursor: pointer;
-  }
-
-  .player-input{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-  }
+}
