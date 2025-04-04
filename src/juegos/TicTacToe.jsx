@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './styles/TicTacToe.css';
+import './styles/commonStyles.css'; // Importa estilos comunes (overlay, win-message, losser-message)
 
 const TicTacToe = ({ visible }) => {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [winner, setWinner] = useState(null);
-
 
   const checkWinner = (board) => {
     const lines = [
@@ -28,14 +28,12 @@ const TicTacToe = ({ visible }) => {
     return null;
   };
 
-  // Función auxiliar para simular una jugada y comprobar si gana
   const simulateMove = (board, index, player) => {
     const newBoard = board.slice();
     newBoard[index] = player;
     return checkWinner(newBoard) === player;
   };
 
-  // Busca una jugada ganadora o bloquea al oponente
   const findBestMove = () => {
     let availableMoves = board
       .map((val, idx) => (val === null ? idx : null))
@@ -55,7 +53,7 @@ const TicTacToe = ({ visible }) => {
       }
     }
 
-    // Si no se cumple ningún caso, escoge un movimiento aleatorio
+    // Movimiento aleatorio
     return availableMoves[Math.floor(Math.random() * availableMoves.length)];
   };
 
@@ -69,19 +67,16 @@ const TicTacToe = ({ visible }) => {
     const gameWinner = checkWinner(newBoard);
     if (gameWinner) {
       setWinner(gameWinner);
-      visible(false);
       return;
     }
     
-    // Si no hay ganador y no quedan casillas vacías, es empate
+    // Empate: se puede decidir mostrar un mensaje o no
     if (newBoard.every(cell => cell !== null)) {
-      visible(false);
       return;
     }
 
     setIsPlayerTurn(false);
   };
-
 
   const makeComputerMove = () => {
     const availableMoves = board
@@ -97,20 +92,16 @@ const TicTacToe = ({ visible }) => {
     const gameWinner = checkWinner(newBoard);
     if (gameWinner) {
       setWinner(gameWinner);
-      visible(false);
       return;
     }
     
-    // Si no hay ganador y no quedan casillas vacías, es empate
     if (newBoard.every(cell => cell !== null)) {
-      visible(false);
       return;
     }
 
     setIsPlayerTurn(true);
   };
 
-  // Efecto para que la máquina juegue automáticamente
   useEffect(() => {
     if (!isPlayerTurn && !winner) {
       const timer = setTimeout(() => {
@@ -120,27 +111,28 @@ const TicTacToe = ({ visible }) => {
     }
   }, [isPlayerTurn, winner, board]);
 
-  const renderSquare = (index) => {
-    return (
-      <button className="square" onClick={() => handleClick(index)}>
-        {board[index]}
-      </button>
-    );
-  };
+  const renderSquare = (index) => (
+    <button className="square" onClick={() => handleClick(index)}>
+      {board[index]}
+    </button>
+  );
 
-  const renderBoard = () => {
-    return (
-      <div className="board">
-        {board.map((_, index) => renderSquare(index))}
-      </div>
-    );
-  };
+  const renderBoard = () => (
+    <div className="board">
+      {board.map((_, index) => renderSquare(index))}
+    </div>
+  );
 
   return (
     <div className="tic-tac-toe">
       <h1>Tic Tac Toe</h1>
       {renderBoard()}
-      {winner && <p>Winner: {winner}</p>}
+      {/* En lugar de mostrar <p>Winner: {winner}</p>, se renderiza el overlay si hay ganador */}
+      {winner && (
+        <div className="overlay">
+          <div className={winner === 'X' ? "win-message" : "losser-message"}></div>
+        </div>
+      )}
     </div>
   );
 };

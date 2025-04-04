@@ -1,96 +1,38 @@
-.math-game {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 40px;
-  }
-  
-  h1 {
-    font-size: 2rem;
-    color: #333;
-    background-color: #d0d1b1;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .operation {
-    font-size: 1.5rem;
-    margin: 20px 0;
-  }
-  
-  input {
-    padding: 10px;
-    font-size: 1rem;
-    width: 100px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    color: black;
-    background-color: #fff;
-    border: 1px solid #333;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #b5b5b5;
-  }
-  
-  .result {
-    font-size: 1.2rem;
-  }
-  
-  .correct {
-    color: green;
-  }
-  
-  .incorrect {
-    color: red;
-  }
+/* Estilos específicos para MatesTest */
 
-  /* Animación de confeti */
-.animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    z-index: 1000;
-  }
-  
-  .confetti-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .confetti-piece {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    top: -10px;
-    left: var(--left);
-    animation: confettiFall var(--duration) linear var(--delay) infinite;
-    opacity: 0;
-  }
-  
-  @keyframes confettiFall {
-    0% {
-      opacity: 1;
-      transform: translateY(0) rotate(0deg);
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(500px) rotate(360deg);
-    }
-  }
+/* Contenedor del juego */
+.math-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px; /* Aumenta el margen superior */
+}
+
+/* Estilo del enunciado de la operación matemática */
+.operation {
+  font-size: 2rem; /* Fuente más grande */
+  margin: 30px 0;  /* Mayor espacio vertical */
+}
+
+/* Estilos para el resultado */
+.result {
+  font-size: 1.5rem;  /* Fuente más grande para el mensaje */
+}
+
+.correct {
+  color: green;
+}
+
+.incorrect {
+  color: red;
+}
+
+.math-game input[type="number"] {
+  font-size: 2rem;        /* Letra más grande */
+  padding: 10px;          /* Más espacio interior */
+  width: 300px;           /* Ancho aumentado */
+  height: 40px;           /* Alto aumentado */
+  border: 2px solid #ccc; /* Borde */
+  border-radius: 5px;     /* Bordes redondeados */
+  text-align: center;    /* Centrar texto */
+}

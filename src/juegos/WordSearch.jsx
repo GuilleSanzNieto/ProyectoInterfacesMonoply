@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './styles/WordSearch.css';
+import './styles/commonStyles.css'; // Importa estilos comunes (overlay, win-message, losser-message)
 
 const WordSearch = ({ visible }) => {
   const battery = ['UMA', 'CAMPUS', 'ESTUDIANTE', 'ESCUELA', 'UNIVERSIDAD', 'MALAGA', 'FACULTAD', 'DEPORTES', 'ASIGNATURA', 'MATRICULA'];
@@ -14,6 +15,7 @@ const WordSearch = ({ visible }) => {
   const [foundWords, setFoundWords] = useState([]);
   const [foundPositions, setFoundPositions] = useState([]);
   const [hasWon, setHasWon] = useState(false);
+  const [hasLost, setHasLost] = useState(false);
 
   const colors = ["#f94144", "#f3722c", "#f8961e", "#f9c74f", "#90be6d", "#43aa8b", "#577590"];
 
@@ -226,24 +228,30 @@ const WordSearch = ({ visible }) => {
         </ul>
       </div>
       
-      {hasWon && (
+      {(hasWon || hasLost) && (
         <div className="overlay">
-          <div className="win-message">
-            <h2>WINNER</h2>
-            <div className="confetti-container">
-              {[...Array(20)].map((_, i) => (
-                <div
-                  key={i}
-                  className="confetti-piece"
-                  style={{
-                    '--delay': `${Math.random() * 3}s`,
-                    '--left': `${Math.random() * 100}%`,
-                    '--duration': `${Math.random() * 3 + 2}s`,
-                    backgroundColor: colors[Math.floor(Math.random() * colors.length)]
-                  }}
-                />
-              ))}
-            </div>
+          <div className={hasWon ? "win-message" : "loser-alt"}>
+            {hasWon ? (
+              <>
+                <div className="confetti-container">
+                  {[...Array(20)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="confetti-piece"
+                      style={{
+                        '--delay': `${Math.random() * 3}s`,
+                        '--left': `${Math.random() * 100}%`,
+                        '--duration': `${Math.random() * 3 + 2}s`,
+                        backgroundColor: colors[Math.floor(Math.random() * colors.length)]
+                      }}
+                    />
+                  ))}
+                </div>
+              </>
+            ) : (
+              // Mensaje que se mostrará cuando pierda
+              <h2>GAME OVER</h2>
+            )}
           </div>
         </div>
       )}

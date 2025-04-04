@@ -1,11 +1,9 @@
-/* Reset básico */
+/* Reset y estilos globales */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
-/* Estilo global para el body */
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f5f5f5;
@@ -19,6 +17,11 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+}
+
+/* Estilo común para todos los juegos */
+.game-container {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Encabezados */
@@ -38,7 +41,6 @@ button {
   color: #fff;
   transition: background-color 0.3s ease;
 }
-
 button:hover {
   background-color: #074473;
 }
@@ -74,26 +76,59 @@ button:hover {
     }
   }
 
-/* Overlay de victoria */
+/* Estilos de mensajes para el resultado de un juego */
+.win-message::after {
+  content: "WINNER";
+  display: block;
+  font-size: 5rem;
+  color: rgb(5, 71, 5);
+  margin-top: 10px;
+  font-weight: bold; /* Agregado para negrita */
+}
+
+.losser-message {
+  background: rgb(226, 141, 154); /* Light red/pink */
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.losser-message::after {
+  content: "LOSER";
+  display: block;
+  font-size: 5rem;
+  color: rgb(165, 9, 9);
+  margin-top: 10px;
+  font-weight: bold; /* Agregado para negrita */
+}
+
+/* Opción alternativa para mensaje de pérdida */
+.loser-alt {
+  background: rgb(255, 202, 203); /* Fondo rosa claro */
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.loser-alt::after {
+  content: "GAME OVER";
+  display: block;
+  font-size: 5rem;
+  color: #D32F2F; /* Rojo intenso */
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Overlay de victoria/derrota */
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .win-message {
-    position: relative;
-    color: #11542d;
-    text-align: center;
-    padding: 20px;
-    background: #d0d1b1;
-    border-radius: 10px;
-    font-size: 3rem;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}

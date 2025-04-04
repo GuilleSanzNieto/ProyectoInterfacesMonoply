@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './styles/PiedraPapelTijera.css';
+import './styles/commonStyles.css'; // Importa los estilos comunes para el overlay
 
 const PiedraPapelTijera = ({ visible }) => {
   const opciones = ['Piedra', 'Papel', 'Tijera'];
@@ -10,6 +11,8 @@ const PiedraPapelTijera = ({ visible }) => {
   const [puntuacionOrdenador, setPuntuacionOrdenador] = useState(0);
   const [rondas, setRondas] = useState(0);
   const [cycleIndex, setCycleIndex] = useState(0);
+
+  const colors = ['#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33F3']; // Colores para los confetti
 
   // Mientras el ordenador no tenga una selección y aún no se hayan completado las 3 rondas, cicla los emoticonos
   useEffect(() => {
@@ -103,20 +106,25 @@ const PiedraPapelTijera = ({ visible }) => {
         <p>Resultado: {resultado}</p>
       </div>
       {rondas >= 3 && (
-        <div className="final">
-          <h2>
-            {puntuacionUsuario > puntuacionOrdenador
-              ? '¡Ganaste el juego!'
-              : puntuacionUsuario < puntuacionOrdenador
-              ? 'Perdiste el juego'
-              : 'Empate, juega una ronda más para desempatar'}
-          </h2>
-          {puntuacionUsuario === puntuacionOrdenador && (
-            <button onClick={() => jugar(opciones[Math.floor(Math.random() * opciones.length)])}>
-              Jugar Ronda de Desempate
-            </button>
-          )}
-          <button onClick={reiniciarJuego}>Reiniciar Juego</button>
+        <div className="overlay">
+          <div className={puntuacionUsuario > puntuacionOrdenador ? "win-message" : "losser-message"}>
+            {puntuacionUsuario > puntuacionOrdenador && (
+              <div className="confetti-container">
+                {[...Array(20)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="confetti-piece"
+                    style={{
+                      '--delay': `${Math.random() * 3}s`,
+                      '--left': `${Math.random() * 100}%`,
+                      '--duration': `${Math.random() * 3 + 2}s`,
+                      backgroundColor: colors[Math.floor(Math.random() * colors.length)]
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

@@ -1,33 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import './styles/MatesTest.css';
+import './styles/commonStyles.css'; // Para overlay, win-message y loser-alt
 
 const MathGame = ({ visible }) => {
+  // Usamos números entre 1 y 20.
   const [num1, setNum1] = useState(0);
   const [num2, setNum2] = useState(0);
   const [operator, setOperator] = useState('+');
   const [userAnswer, setUserAnswer] = useState('');
   const [resultMessage, setResultMessage] = useState('');
-  const [streak, setStreak] = useState(0); // Contador de aciertos consecutivos
-  const [showAnimation, setShowAnimation] = useState(false); // Para activar la animación
+  // showAnimation controla la visualización del overlay (sólo al finalizar el juego)
+  const [showAnimation, setShowAnimation] = useState(false);
+  // Contador de respuestas correctas
+  const [winCount, setWinCount] = useState(0);
+  // Indica si la última respuesta fue correcta (true) o incorrecta (false)
+  const [lastAnswerCorrect, setLastAnswerCorrect] = useState(null);
 
   const generateOperation = () => {
+    const n1 = Math.floor(Math.random() * 20) + 1;
+    const n2 = Math.floor(Math.random() * 20) + 1;
+    // Selecciona aleatoriamente el operador entre +, - y *
     const operators = ['+', '-', '*'];
-    const operator = operators[Math.floor(Math.random() * operators.length)];
-    let num1, num2;
+    const op = operators[Math.floor(Math.random() * operators.length)];
 
-    if (operator === '*') {
-      num1 = Math.floor(Math.random() * 90) + 10; // 10 a 99
-      num2 = Math.floor(Math.random() * 9) + 1;   // 1 a 9
-    } else {
-      num1 = Math.floor(Math.random() * 90) + 10; // 10 a 99
-      num2 = Math.floor(Math.random() * 90) + 10; // 10 a 99
-    }
-
-    setNum1(num1);
-    setNum2(num2);
-    setOperator(operator);
+    setNum1(n1);
+    setNum2(n2);
+    setOperator(op);
     setUserAnswer('');
     setResultMessage('');
+    setLastAnswerCorrect(null);
   };
 
   const checkAnswer = () => {
@@ -41,21 +42,34 @@ const MathGame = ({ visible }) => {
     }
 
     if (parseInt(userAnswer) === correctAnswer) {
-      setResultMessage('¡Correcto!');
-      setStreak(streak + 1); // Incrementa el contador
-      if (streak + 1 === 2) { // Si llega a 2 aciertos
-        setShowAnimation(true); // Activa la animación
-        setTimeout(() => {
-          setShowAnimation(false); // Desactiva la animación después de 2 segundos
-          setStreak(0); // Reinicia el contador
-        }, 2000);
+      // Respuesta correcta
+      setLastAnswerCorrect(true);
+      const newWinCount = winCount + 1;
+      setWinCount(newWinCount);
+      setResultMessage(`¡Correcto! (${newWinCount} de 3)`);
+      setTimeout(() => {
+        if (newWinCount === 3) {
+          // Si acertó 3 operaciones, finalizar mostrando overlay ganador
+          setResultMessage('¡Ganaste!');
+          setShowAnimation(true);
+          setTimeout(() => {
+            visible(false);
+          }, 3000);
+        } else {
+          generateOperation();
+        }
+      }, 1000);
+    } else {
+      // Respuesta incorrecta: fin del juego mostrando overlay de derrota
+      setLastAnswerCorrect(false);
+      setResultMessage('Incorrecto');
+      setShowAnimation(true);
+      setTimeout(() => {
+        setResultMessage('Perdiste');
         setTimeout(() => {
           visible(false);
         }, 3000);
-      }
-    } else {
-      setResultMessage('Incorrecto. Intenta de nuevo.');
-      setStreak(0); // Reinicia el contador si falla
+      }, 2000);
     }
   };
 
@@ -69,7 +83,7 @@ const MathGame = ({ visible }) => {
 
   return (
     <div className="math-game">
-      <h1>Juego de Matemáticas</h1>
+      <h1>Mates Test</h1>
       <div className="operation">
         {num1} {operator} {num2} =
       </div>
@@ -80,29 +94,31 @@ const MathGame = ({ visible }) => {
         placeholder="Tu respuesta"
       />
       <button onClick={checkAnswer}>Verificar</button>
-      <div className={`result ${resultMessage === '¡Correcto!' ? 'correct' : 'incorrect'}`}>
+      <div className={`result ${lastAnswerCorrect ? 'correct' : 'incorrect'}`}>
         {resultMessage}
       </div>
-      <div className="streak">Aciertos consecutivos: {streak}</div> {/* Muestra el contador */}
       {showAnimation && (
-        <div className="animation">
-          <div className="confetti-container">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="confetti-piece"
-                style={{
-                  '--delay': `${Math.random() * 3}s`,
-                  '--left': `${Math.random() * 100}%`,
-                  '--duration': `${Math.random() * 3 + 2}s`,
-                  backgroundColor: ['#f94144', '#f3722c', '#f8961e', '#f9c74f', '#90be6d', '#43aa8b', '#577590'][Math.floor(Math.random() * 7)]
-                }}
-              ></div>
-            ))}
+        <div className="overlay">
+          <div className={lastAnswerCorrect ? "win-message" : "loser-alt"}>
+            {lastAnswerCorrect && (
+              <div className="confetti-container">
+                {[...Array(20)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="confetti-piece"
+                    style={{
+                      '--delay': `${Math.random() * 3}s`,
+                      '--left': `${Math.random() * 100}%`,
+                      '--duration': `${Math.random() * 3 + 2}s`,
+                      backgroundColor: ['#FFC700', '#FF0000', '#00FF00', '#0000FF', '#FF00FF'][Math.floor(Math.random() * 5)]
+                    }}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
-      <button onClick={generateOperation}>Nueva Operación</button>
     </div>
   );
 };

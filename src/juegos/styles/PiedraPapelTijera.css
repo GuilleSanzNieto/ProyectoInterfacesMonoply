@@ -1,52 +1,50 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
-  
-  .game-container {
-    text-align: center;
-    padding: 20px;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  h1 {
-    margin-bottom: 20px;
-  }
-  
-  /* Área donde se muestra el emoticono del ordenador, sin fondo */
-  .computer-display {
-    font-size: 4em;
-    margin-bottom: 20px;
-    background: none;
-  }
-  
-  /* Marcador */
-  .scoreboard {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .score {
-    font-size: 1.5em;
-  }
-  
-  /* Botones del usuario sin fondo */
-  .botones button {
-    background: none;
-    border: none;
-    font-size: 2em;
-    margin: 0 10px;
-    cursor: pointer;
-  }
-  
-  /* Información adicional */
-  .info {
-    margin-top: 20px;
-    font-size: 1.2em;
-  }
-  
-  .final {
-    margin-top: 30px;
-  }
+/* Elimina la regla de body, ya definida en commonStyles.css */
+
+/* Opcional: si necesitas algún ajuste específico, puedes dejar una clase propia */
+.game-container {
+  text-align: center;
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Si ya tienes estilos globales para h1 en commonStyles.css, puedes eliminar esta regla
+h1 {
+  margin-bottom: 20px;
+}
+*/
+
+/* Área específica para este juego */
+.computer-display {
+  font-size: 4em;
+  margin-bottom: 20px;
+  background: none;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.score {
+  font-size: 1.5em;
+}
+
+/* Si los botones globales ya están definidos, en este archivo define solo ajustes puntuales */
+.botones button {
+  background: none;
+  border: none;
+  font-size: 2em;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.info {
+  margin-top: 20px;
+  font-size: 1.2em;
+}
+
+.final {
+  margin-top: 30px;
+}
