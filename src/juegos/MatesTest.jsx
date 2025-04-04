@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './styles/MatesTest.css';
+import './styles/commonStyles.css'; // Importa los estilos comunes para el overlay
 
 const MathGame = ({ visible }) => {
   const [num1, setNum1] = useState(0);
@@ -8,24 +9,25 @@ const MathGame = ({ visible }) => {
   const [userAnswer, setUserAnswer] = useState('');
   const [resultMessage, setResultMessage] = useState('');
   const [streak, setStreak] = useState(0); // Contador de aciertos consecutivos
-  const [showAnimation, setShowAnimation] = useState(false); // Para activar la animación
+  const [failCount, setFailCount] = useState(0); // Contador de fallos
+  const [showAnimation, setShowAnimation] = useState(false); // Para activar overlay de WINNER/LOSER
 
   const generateOperation = () => {
     const operators = ['+', '-', '*'];
-    const operator = operators[Math.floor(Math.random() * operators.length)];
-    let num1, num2;
+    const operatorSelected = operators[Math.floor(Math.random() * operators.length)];
+    let n1, n2;
 
-    if (operator === '*') {
-      num1 = Math.floor(Math.random() * 90) + 10; // 10 a 99
-      num2 = Math.floor(Math.random() * 9) + 1;   // 1 a 9
+    if (operatorSelected === '*') {
+      n1 = Math.floor(Math.random() * 90) + 10; // 10 a 99
+      n2 = Math.floor(Math.random() * 9) + 1;   // 1 a 9
     } else {
-      num1 = Math.floor(Math.random() * 90) + 10; // 10 a 99
-      num2 = Math.floor(Math.random() * 90) + 10; // 10 a 99
+      n1 = Math.floor(Math.random() * 90) + 10; // 10 a 99
+      n2 = Math.floor(Math.random() * 90) + 10; // 10 a 99
     }
 
-    setNum1(num1);
-    setNum2(num2);
-    setOperator(operator);
+    setNum1(n1);
+    setNum2(n2);
+    setOperator(operatorSelected);
     setUserAnswer('');
     setResultMessage('');
   };
@@ -42,12 +44,15 @@ const MathGame = ({ visible }) => {
 
     if (parseInt(userAnswer) === correctAnswer) {
       setResultMessage('¡Correcto!');
-      setStreak(streak + 1); // Incrementa el contador
-      if (streak + 1 === 2) { // Si llega a 2 aciertos
-        setShowAnimation(true); // Activa la animación
+      // Incrementa la racha de aciertos y resetea fallos
+      const newStreak = streak + 1;
+      setStreak(newStreak);
+      setFailCount(0);
+      if (newStreak === 2) { // Condición para ganar
+        setShowAnimation(true); // Activa overlay de WINNER (estilos en commonStyles.css muestran "WINNER")
         setTimeout(() => {
-          setShowAnimation(false); // Desactiva la animación después de 2 segundos
-          setStreak(0); // Reinicia el contador
+          setShowAnimation(false);
+          setStreak(0);
         }, 2000);
         setTimeout(() => {
           visible(false);
@@ -55,7 +60,19 @@ const MathGame = ({ visible }) => {
       }
     } else {
       setResultMessage('Incorrecto. Intenta de nuevo.');
-      setStreak(0); // Reinicia el contador si falla
+      setStreak(0);
+      const newFailCount = failCount + 1;
+      setFailCount(newFailCount);
+      if (newFailCount === 2) { // Condición para perder
+        setShowAnimation(true); // Activa overlay de LOSER (estilos en commonStyles.css muestran "LOSER")
+        setTimeout(() => {
+          setShowAnimation(false);
+          setFailCount(0);
+        }, 2000);
+        setTimeout(() => {
+          visible(false);
+        }, 3000);
+      }
     }
   };
 
@@ -83,23 +100,10 @@ const MathGame = ({ visible }) => {
       <div className={`result ${resultMessage === '¡Correcto!' ? 'correct' : 'incorrect'}`}>
         {resultMessage}
       </div>
-      <div className="streak">Aciertos consecutivos: {streak}</div> {/* Muestra el contador */}
+      <div className="streak">Aciertos consecutivos: {streak}</div>
       {showAnimation && (
-        <div className="animation">
-          <div className="confetti-container">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="confetti-piece"
-                style={{
-                  '--delay': `${Math.random() * 3}s`,
-                  '--left': `${Math.random() * 100}%`,
-                  '--duration': `${Math.random() * 3 + 2}s`,
-                  backgroundColor: ['#f94144', '#f3722c', '#f8961e', '#f9c74f', '#90be6d', '#43aa8b', '#577590'][Math.floor(Math.random() * 7)]
-                }}
-              ></div>
-            ))}
-          </div>
+        <div className="overlay">
+          <div className={failCount === 2 ? "losser-message" : "win-message"}></div>
         </div>
       )}
       <button onClick={generateOperation}>Nueva Operación</button>

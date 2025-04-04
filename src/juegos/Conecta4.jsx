@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './styles/Conecta4.css';
+import './styles/commonStyles.css'; // Importa los estilos comunes para el overlay
 
 const ROWS = 6;
 const COLS = 7;
@@ -171,7 +172,6 @@ const Conecta4 = ({ visible }) => {
       {winner && (
         <div className="overlay">
           <div className="win-message">
-            <h2>WINNER</h2>
             <div className="confetti-container">
               {[...Array(20)].map((_, i) => (
                 <div

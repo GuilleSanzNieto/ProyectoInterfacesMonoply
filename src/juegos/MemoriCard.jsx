@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './styles/MemoriCard.css';
+import './styles/commonStyles.css'; // Importa los estilos comunes para el overlay
 
 // Datos iniciales de las cartas (4 pares, 8 cartas en total)
 // A cada carta se le asigna un id único y un valor (o imagen) que identifica el par.
@@ -81,23 +82,8 @@ const MemoriCard = ({ visible }) => {
     useEffect(() => {
         if (cards.length > 0 && cards.every(card => card.matched)) {
             setHasWon(true);
-            setTimeout(() => {
-              visible(false);
-            }, 3000);
         }
     }, [cards]);
-    //Para que el mensaje de ganador se muestre por 3 segundos
-    useEffect(() => {
-        if (hasWon) {
-          const timer = setTimeout(() => {
-            setHasWon(false);
-            setTimeout(() => {
-              visible(false);
-            }, 3000);
-          }, 3000);
-          return () => clearTimeout(timer); // Limpiar el timer si el componente se desmonta o si se vuelve a ejecutar el efecto.
-        }
-      }, [hasWon]);
 
   const resetTurn = () => {
     setFirstCard(null);
@@ -136,7 +122,6 @@ const MemoriCard = ({ visible }) => {
     {hasWon && (
         <div className="overlay">
           <div className="win-message">
-            <h2>WINNER</h2>
             <div className="confetti-container">
               {[...Array(20)].map((_, i) => (
                 <div

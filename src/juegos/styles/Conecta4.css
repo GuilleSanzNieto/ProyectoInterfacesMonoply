@@ -52,27 +52,3 @@
     font-size: 1em;
     cursor: pointer;
   }
-
-  /* Overlay de victoria */
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .win-message {
-    position: relative;
-    color: #11542d;
-    text-align: center;
-    padding: 20px;
-    background: #d0d1b1;
-    border-radius: 10px;
-    font-size: 3rem;
-  }
