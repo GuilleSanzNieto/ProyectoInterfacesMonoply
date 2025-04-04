@@ -1,0 +1,58 @@
+.color-picker-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .color-picker-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .color-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .color-circle {
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+  }
+  
+  .color-circle.available {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+  }
+  
+  .color-circle.available:hover {
+    transform: scale(1.1);
+  }
+  
+  .color-circle.used {
+    width: 30px;
+    height: 30px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  
+  .close-button {
+    background: #4e97d1;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  

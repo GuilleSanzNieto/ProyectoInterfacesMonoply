@@ -16,6 +16,18 @@
     gap: 0;
 }
 
+.input-error {
+    border: 2px solid red;
+}
+
+.input-errorCirculo{
+    width: 48px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid #ff0000;
+}
+
+
 .player-selection button {
     border: none;
     border-radius: 0;
@@ -54,6 +66,7 @@ input[type="text"] {
     font-weight: 600;
 }
 
+
 .player-input {
     display: flex;
     justify-content: center;
@@ -69,4 +82,87 @@ input[type="text"] {
     background-color: rgb(78, 162, 219);
     border: none;
     cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/*el boton de color bonito y redondo */
+input[type="color"] {
+    appearance: none;
+    -webkit-appearance: none; 
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: none;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    /* Un borde sutil tipo "anillo" */
+    box-shadow: 0 0 0 2px #ccc;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  input[type="color"]:hover {
+    box-shadow: 0 0 0 2px #999; /* Sutil cambio al pasar el ratón */
+  }
+  
+  input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border-radius: 50%;
+  }
+  
+  input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+  }
+
+  .color-preview {
+    width: 48px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid #95b3e3;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .color-preview:hover {
+    transform: scale(1.1);
+  }
+  
+  
+  
+  /* Clases de colores */
+  .color-rojo      { background-color: #f44336; }
+  .color-rosa      { background-color: #e91e63; }
+  .color-morado    { background-color: #9c27b0; }
+  .color-azul      { background-color: #3f51b5; }
+  .color-celeste   { background-color: #03a9f4; }
+  .color-verdeagua { background-color: #009688; }
+  .color-verde     { background-color: #4caf50; }
+  .color-naranja   { background-color: #ff9800; }
+  .color-marron    { background-color: #795548; }
+  
+
+/* 
+en caso de movil  */
+@media (max-width: 600px) {
+    .inicio-container {
+      margin-top: 20px;
+    }
+  
+    .player-selection button {
+      font-size: 16px;
+      padding: 8px 15px;
+    }
+  
+    input[type="text"] {
+      font-size: 16px;
+    }
+  
+    .start-button {
+      font-size: 16px;
+      padding: 12px 25px;
+    }
+  }
+  
