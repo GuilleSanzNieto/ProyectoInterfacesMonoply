@@ -5,41 +5,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 60px; /* Aumenta el margen superior */
 }
 
-/* Si quieres conservar un estilo particular en el título, podrías usar una clase,
-   por ejemplo: */
-.math-game-title {
-  /* Solo las propiedades diferenciadoras; si deseas que tenga un fondo distinto */
-  background-color: #d0d1b1;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-/* Estilo de la operación (enunciado de la operación matemática) */
+/* Estilo del enunciado de la operación matemática */
 .operation {
-  font-size: 1.5rem;
-  margin: 20px 0;
+  font-size: 2rem; /* Fuente más grande */
+  margin: 30px 0;  /* Mayor espacio vertical */
 }
 
-/* Estilos para el input, que en este caso no duplican nada de global */
-.math-game input {
-  padding: 10px;
-  font-size: 1rem;
-  width: 100px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Las reglas para botones, si no son específicas de MatesTest, se pueden eliminar.
-   En caso de necesitar ajustes puntuales, puedes definir una clase adicional:
-*/
-
-/* Otros estilos propios del minijuego */
+/* Estilos para el resultado */
 .result {
-  font-size: 1.2rem;
+  font-size: 1.5rem;  /* Fuente más grande para el mensaje */
 }
 
 .correct {
@@ -48,4 +25,14 @@
 
 .incorrect {
   color: red;
+}
+
+.math-game input[type="number"] {
+  font-size: 2rem;        /* Letra más grande */
+  padding: 10px;          /* Más espacio interior */
+  width: 300px;           /* Ancho aumentado */
+  height: 40px;           /* Alto aumentado */
+  border: 2px solid #ccc; /* Borde */
+  border-radius: 5px;     /* Bordes redondeados */
+  text-align: center;    /* Centrar texto */
 }
