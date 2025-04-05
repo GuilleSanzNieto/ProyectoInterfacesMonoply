@@ -155,9 +155,13 @@ input[type="color"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* Para posicionarlo en la esquina, si deseas */
-  top: 20px;          /* Ajusta según necesites */
-  right: 20px;        /* Ajusta según necesites */
+  position: absolute;
+  top: 0;           /* Pegado arriba */
+  right: 0;         /* Pegado a la derecha */
+  margin: 10px;     /* Separación para que no quede en el borde total */
+  background: none;
+  border: none;
+  cursor: pointer;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
@@ -173,24 +177,25 @@ input[type="color"] {
   height: auto;
 }
 
-.settings-button {
-  position: absolute;
-  top: 0;           /* Pegado arriba */
-  right: 0;         /* Pegado a la derecha */
-  margin: 10px;     /* Separación para que no quede en el borde total */
-  background: none;
-  border: none;
-  cursor: pointer;
-}
 
 .settings-icon {
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   object-fit: cover;
 }
 
 .instrucciones-button{
+  background-color: #eee;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;           /* Pegado arriba */
   left: 0;         /* Pegado a la derecha */
@@ -198,11 +203,12 @@ input[type="color"] {
   background: none;
   border: none;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 .instrucciones-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  border-radius: 30%;
   object-fit: cover;
 }
 
