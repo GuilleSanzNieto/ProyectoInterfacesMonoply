@@ -118,7 +118,7 @@ const TicTacToe = ({ visible }) => {
   );
 
   const renderBoard = () => (
-    <div className="board">
+    <div className="tictactoe_board">
       {board.map((_, index) => renderSquare(index))}
     </div>
   );

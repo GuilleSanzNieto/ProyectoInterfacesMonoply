@@ -1,8 +1,8 @@
-.tic-tac-toe {
+  .tic-tac-toe {
     text-align: center;
   }
   
-  .board {
+  .tictactoe_board {
     display: grid;
     grid-template-columns: repeat(3, 100px);
     grid-gap: 5px;
