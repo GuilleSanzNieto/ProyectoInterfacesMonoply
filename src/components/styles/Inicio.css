@@ -190,6 +190,22 @@ input[type="color"] {
   object-fit: cover;
 }
 
+.instrucciones-button{
+  position: absolute;
+  top: 0;           /* Pegado arriba */
+  left: 0;         /* Pegado a la derecha */
+  margin: 10px;     /* Separación para que no quede en el borde total */
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.instrucciones-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 
 .settings-overlay {
   position: fixed;
@@ -212,10 +228,23 @@ input[type="color"] {
   text-align: left;
 }
 
-.settings-panel label {
-  display: block;
-  margin-bottom: 20px;
-  font-size: 16px;
+.instrucciones-overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.instrucciones-panel{
+  background: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  min-width: 300px;
+  text-align: right;
 }
 
   

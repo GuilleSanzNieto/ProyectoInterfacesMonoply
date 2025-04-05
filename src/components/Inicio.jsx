@@ -4,6 +4,7 @@ import { PlayersContext } from '../Contexts/PlayersContext.jsx';
 import ColorPicker from './ColorPicker.jsx';
 import  logoUma from '../images/logoUMA.png';
 import ajustes from '../images/imagesAjustes.png';
+import instrucciones from '../images/imagesAyuda.png';
 
 function Inicio({ onStart }) {
   const {players, setPlayers} = useContext(PlayersContext);
@@ -14,6 +15,7 @@ function Inicio({ onStart }) {
   const [modoDaltonico, setModoDaltonico] = useState(false);
   const [idioma,setIdioma] = useState('es');
   const [modoOscuro, setModoOscuro] = useState(false);
+  const [showInstrucciones, setShowInstrucciones] = useState(false);
 
 
   const allColors = [
@@ -83,12 +85,16 @@ function Inicio({ onStart }) {
   return (
     <div className="inicio-container">
       <div className="header-container">
-      <div className="logo">
-        <img src={logoUma} alt="Logo" className='logo'/>
-      </div>
-      <button className="settings-button" onClick={() => setShowSettings(true)} title= "Ajustes">
-        <img src={ajustes} alt="Ajustes" className='settings-icon'/>
-      </button>
+        <div className="logo">
+          <img src={logoUma} alt="Logo" className='logo'/>
+        </div>
+        <button className="settings-button" onClick={() => setShowSettings(true)} title= "Ajustes">
+          <img src={ajustes} alt="Ajustes" className='settings-icon'/>
+        </button>
+        <button className="instrucciones-button" onClick={() => setShowInstrucciones(true)} title= "Instrucciones">
+          <img src={instrucciones} alt="Instrucciones" className='instrucciones-icon'/>
+        </button>
+
       </div>
       <div className="player-selection">
         {[2, 3, 4].map(num => (
@@ -156,6 +162,15 @@ function Inicio({ onStart }) {
               Modo oscuro
             </label>
             <button onClick={() => setShowSettings(false)}>Cerrar</button>
+          </div>
+        </div>
+      )}
+      {showInstrucciones && (
+        <div className="instrucciones-overlay">
+          <div className="instrucciones-panel">
+            <h2>Instrucciones</h2>
+            <p>Estas son las instrucciones del juego...</p>
+            <button onClick={() => setShowInstrucciones(false)}>Cerrar</button>
           </div>
         </div>
       )}
