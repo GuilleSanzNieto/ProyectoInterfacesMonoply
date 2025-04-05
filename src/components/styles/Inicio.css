@@ -144,6 +144,82 @@ input[type="color"] {
   .color-marron    { background-color: #795548; }
   
 
+.settings-button {
+  background-color: #eee;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Para posicionarlo en la esquina, si deseas */
+  top: 20px;          /* Ajusta según necesites */
+  right: 20px;        /* Ajusta según necesites */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.header-container {
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 20px;
+}
+
+.logo {
+  max-height: 250px;  /* Ajusta según tus necesidades */
+  height: auto;
+}
+
+.settings-button {
+  position: absolute;
+  top: 0;           /* Pegado arriba */
+  right: 0;         /* Pegado a la derecha */
+  margin: 10px;     /* Separación para que no quede en el borde total */
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.settings-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+.settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.settings-panel {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  min-width: 300px;
+  text-align: left;
+}
+
+.settings-panel label {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+  
+
 /* 
 en caso de movil  */
 @media (max-width: 600px) {

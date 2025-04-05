@@ -2,13 +2,20 @@ import React, { useState, useContext } from 'react';
 import './styles/Inicio.css';
 import { PlayersContext } from '../Contexts/PlayersContext.jsx';
 import ColorPicker from './ColorPicker.jsx';
+import  logoUma from '../images/logoUMA.png';
+import ajustes from '../images/imagesAjustes.png';
 
 function Inicio({ onStart }) {
   const {players, setPlayers} = useContext(PlayersContext);
   const [numPlayers, setNumPlayers] = useState(2);
   const [errors, setErrors] = useState([]);
   const [showColorPickerIndex, setShowColorPickerIndex] = useState(null);
-    
+  const [showSettings, setShowSettings] = useState(false);
+  const [modoDaltonico, setModoDaltonico] = useState(false);
+  const [idioma,setIdioma] = useState('es');
+  const [modoOscuro, setModoOscuro] = useState(false);
+
+
   const allColors = [
     { class: "color-rojo", hex: "#f44336" },
     { class: "color-rosa", hex: "#e91e63" },
@@ -20,8 +27,6 @@ function Inicio({ onStart }) {
     { class: "color-naranja", hex: "#ff9800" },
     { class: "color-marron", hex: "#795548" },
   ];
-
-
   
   const usedColors = players.map(player => player.color);
 
@@ -77,7 +82,14 @@ function Inicio({ onStart }) {
 
   return (
     <div className="inicio-container">
-      <div className="logo">LOGO</div>
+      <div className="header-container">
+      <div className="logo">
+        <img src={logoUma} alt="Logo" className='logo'/>
+      </div>
+      <button className="settings-button" onClick={() => setShowSettings(true)} title= "Ajustes">
+        <img src={ajustes} alt="Ajustes" className='settings-icon'/>
+      </button>
+      </div>
       <div className="player-selection">
         {[2, 3, 4].map(num => (
           <button
@@ -115,6 +127,37 @@ function Inicio({ onStart }) {
           }}
           onClose={() => setShowColorPickerIndex(null)}
         />
+      )}
+      {showSettings && (
+        <div className="settings-overlay">
+          <div className="settings-panel">
+            <h2>Ajustes del juego</h2>
+            <label>
+              <input
+                type="checkbox"
+                checked={modoDaltonico}
+                onChange={(e) => setModoDaltonico(e.target.checked)}
+              />
+              Modo daltónico
+            </label>
+            <label>
+              Idioma:
+              <select value={idioma} onChange={(e) => setIdioma(e.target.value)}>
+                <option value="es">Español</option>
+                <option value="en">Inglés</option>
+              </select>
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={modoOscuro}
+                onChange={(e) => setModoOscuro(e.target.checked)}
+              />
+              Modo oscuro
+            </label>
+            <button onClick={() => setShowSettings(false)}>Cerrar</button>
+          </div>
+        </div>
       )}
     </div>
   );
