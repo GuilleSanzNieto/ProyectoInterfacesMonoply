@@ -1,0 +1,15 @@
+🃏 Minijuego: Juego de Memoria
+
+🎯 Objetivo
+Encuentra todas las parejas de cartas iguales.
+
+🕹️ Cómo jugar
+- Al comenzar, las cartas están ocultas.
+- Haz clic en una carta para voltearla.
+- Luego haz clic en otra para intentar encontrar su pareja.
+- Si ambas cartas son iguales, se quedarán descubiertas.
+- Si no coinciden, se voltearán de nuevo.
+- El juego termina cuando todas las parejas han sido encontradas.
+
+💡 Consejo
+¡Memoriza bien las posiciones! La clave es observar y recordar 🧠

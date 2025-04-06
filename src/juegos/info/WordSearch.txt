@@ -1,0 +1,13 @@
+🔎 Minijuego: Word Search Universitario
+
+🎯 Objetivo  
+Encuentra las 4 palabras escondidas relacionadas con la universidad.
+
+🧩 Cómo jugar  
+- Haz clic en una letra para empezar.  
+- Luego haz clic en otra letra que forme una línea recta con la primera, así secesivamente.  
+- Si la palabra seleccionada está entre las ocultas, ¡la descubrirás!
+
+🏆 Ganas cuando encuentras las 4 palabras.
+
+🧠🧮 ¡Ejercita tu mente y tus ojos!

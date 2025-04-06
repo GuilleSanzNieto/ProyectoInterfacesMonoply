@@ -1,0 +1,16 @@
+🧠 Minijuego: Mates Test
+
+🎯 Objetivo
+Resuelve correctamente 3 operaciones matemáticas seguidas para ganar.
+
+🕹️ Cómo jugar
+- Se te mostrará una operación aleatoria (suma, resta o multiplicación).
+- Escribe el resultado en el campo de respuesta.
+- Pulsa "Verificar" para comprobar tu respuesta.
+- Si aciertas, avanzas a la siguiente operación.
+- Si fallas, el juego termina.
+
+🏆 Ganas si respondes correctamente a 3 operaciones seguidas.
+
+💡 Consejo
+¡Concéntrate! No hay segundas oportunidades si te equivocas 😅

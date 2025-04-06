@@ -1,0 +1,20 @@
+✊✋✌️ Minijuego: Piedra, Papel o Tijera
+
+🎯 Objetivo
+Gana más rondas que el ordenador eligiendo estratégicamente entre Piedra, Papel o Tijera.
+
+🕹️ Cómo jugar
+- Elige una opción haciendo clic en el símbolo correspondiente.
+- El ordenador seleccionará aleatoriamente su jugada.
+- Se juega un total de 3 rondas.
+- Gana quien obtenga más victorias al final de las 3 rondas.
+
+📊 Reglas
+- Piedra aplasta a Tijera 🪨✂️
+- Tijera corta a Papel ✂️📄
+- Papel envuelve a Piedra 📄🪨
+
+🏆 Resultado
+Al completar las 3 rondas, verás si ganaste, perdiste o empataste contra el ordenador.
+
+¡Buena suerte! 🤜🤛

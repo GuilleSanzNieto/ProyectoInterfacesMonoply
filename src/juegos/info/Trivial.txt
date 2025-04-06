@@ -1,0 +1,19 @@
+📚 Minijuego: Trivial de Capitales
+
+🎯 Objetivo
+Demuestra tus conocimientos respondiendo correctamente 2 preguntas.
+
+🧠 ¿Cómo se juega?
+- El juego consta de 2 fases.
+- En cada fase se te presenta una pregunta con 3 posibles respuestas.
+- Haz clic en la respuesta que creas correcta.
+
+✅ ¿Cómo ganar?
+- Responde correctamente las dos preguntas seguidas para ganar.
+- Si fallas en cualquiera de las dos fases, pierdes el juego.
+
+👀 Nota
+- La segunda pregunta nunca será igual a la primera.
+- Las preguntas se seleccionan aleatoriamente.
+
+¡Pon a prueba tu memoria y gana este reto! 🧠📝

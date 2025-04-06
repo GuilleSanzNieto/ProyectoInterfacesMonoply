@@ -1,0 +1,17 @@
+⭕❌ Minijuego: Tic Tac Toe (Tres en Raya)
+
+🎯 Objetivo
+Sé el primero en alinear tres de tus símbolos (❌ o ⭕) en una fila, columna o diagonal.
+
+🕹️ Cómo jugar
+- Juegas como ❌, el ordenador como ⭕.
+- Haz clic en cualquier celda vacía del tablero para colocar tu símbolo.
+- Luego de tu jugada, el ordenador hará su movimiento.
+- El juego continúa hasta que uno gane o el tablero se llene.
+
+📊 Reglas
+- Ganas si logras formar una línea de 3 ❌ (horizontal, vertical o diagonal).
+- El ordenador gana si forma una línea de 3 ⭕.
+- Si el tablero se llena y nadie gana, es un empate.
+
+¡A pensar con estrategia y a ganar! 💡✨

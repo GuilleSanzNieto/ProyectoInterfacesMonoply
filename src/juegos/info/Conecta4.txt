@@ -1,0 +1,15 @@
+🧩 Minijuego: Conecta 4
+
+🎯 Objetivo
+Sé el primero en alinear cuatro fichas del mismo color en línea horizontal, vertical o diagonal.
+
+🕹️ Cómo jugar
+- Juegas contra la máquina (color amarillo).
+- Tú eres el jugador rojo.
+- Haz clic en una columna para dejar caer tu ficha.
+- Las fichas caen hasta la posición más baja disponible.
+- Luego le toca a la máquina.
+- Gana quien logre alinear cuatro fichas primero.
+
+💡 Consejo
+¡Piensa estratégicamente! La máquina bloqueará tus jugadas si estás a punto de ganar 😉
