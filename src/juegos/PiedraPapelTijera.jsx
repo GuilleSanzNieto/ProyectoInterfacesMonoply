@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaHandRock, FaHandPaper, FaHandScissors } from 'react-icons/fa';
 import './styles/PiedraPapelTijera.css';
 import './styles/commonStyles.css'; // Importa los estilos comunes para el overlay
 
@@ -69,16 +70,16 @@ const PiedraPapelTijera = ({ visible }) => {
     setCycleIndex(0);
   };
 
-  const obtenerEmoticono = (opcion) => {
+  const obtenerIcono = (opcion) => {
     switch (opcion) {
       case 'Piedra':
-        return '✊';
+        return <FaHandRock />;
       case 'Papel':
-        return '✋';
+        return <FaHandPaper />;
       case 'Tijera':
-        return '✌️';
+        return <FaHandScissors />;
       default:
-        return '';
+        return null;
     }
   };
 
@@ -88,8 +89,8 @@ const PiedraPapelTijera = ({ visible }) => {
       {/* Área de la elección del ordenador */}
       <div className="computer-display">
         { eleccionOrdenador 
-          ? obtenerEmoticono(eleccionOrdenador) 
-          : obtenerEmoticono(opciones[cycleIndex])
+          ? obtenerIcono(eleccionOrdenador) 
+          : obtenerIcono(opciones[cycleIndex])
         }
       </div>
       <div className="scoreboard">
@@ -97,12 +98,12 @@ const PiedraPapelTijera = ({ visible }) => {
         <div className="score">Ordenador: {puntuacionOrdenador}</div>
       </div>
       <div className="botones">
-        <button onClick={() => jugar('Piedra')} disabled={rondas >= 3}>✊</button>
-        <button onClick={() => jugar('Papel')} disabled={rondas >= 3}>✋</button>
-        <button onClick={() => jugar('Tijera')} disabled={rondas >= 3}>✌️</button>
+        <button onClick={() => jugar('Piedra')} disabled={rondas >= 3}><FaHandRock /></button>
+        <button onClick={() => jugar('Papel')} disabled={rondas >= 3}><FaHandPaper /></button>
+        <button onClick={() => jugar('Tijera')} disabled={rondas >= 3}><FaHandScissors /></button>
       </div>
       <div className="info">
-        <p>Tu elección: {eleccionUsuario && obtenerEmoticono(eleccionUsuario)}</p>
+        <p>Tu elección: {eleccionUsuario && obtenerIcono(eleccionUsuario)}</p>
         <p>Resultado: {resultado}</p>
       </div>
       {rondas >= 3 && (

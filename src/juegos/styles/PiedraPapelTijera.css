@@ -21,6 +21,10 @@ h1 {
   background: none;
 }
 
+.computer-display .icono-visible {
+  color: #000;
+}
+
 .scoreboard {
   display: flex;
   justify-content: space-between;
@@ -38,6 +42,11 @@ h1 {
   font-size: 2em;
   margin: 0 10px;
   cursor: pointer;
+  color: inherit;
+}
+
+.botones .icono-visible {
+  color: #000;
 }
 
 .info {

@@ -1,18 +1,27 @@
 import React, {useState, useEffect} from 'react';
+import { FaDog, FaCat } from 'react-icons/fa';
+import { GiRabbit, GiPanda } from 'react-icons/gi';
 import './styles/MemoriCard.css';
 import './styles/commonStyles.css'; // Importa los estilos comunes para el overlay
+
+const iconMap = {
+  dog: <FaDog />,
+  cat: <FaCat />,
+  rabbit: <GiRabbit />,
+  panda: <GiPanda />
+};
 
 // Datos iniciales de las cartas (4 pares, 8 cartas en total)
 // A cada carta se le asigna un id único y un valor (o imagen) que identifica el par.
 const initialCards = [
-  { id: 1, value: '🐶', flipped: false, matched: false },
-  { id: 2, value: '🐱', flipped: false, matched: false },
-  { id: 3, value: '🐶', flipped: false, matched: false },
-  { id: 4, value: '🐱', flipped: false, matched: false },
-  { id: 5, value: '🐰', flipped: false, matched: false },
-  { id: 6, value: '🐼', flipped: false, matched: false },
-  { id: 7, value: '🐰', flipped: false, matched: false },
-  { id: 8, value: '🐼', flipped: false, matched: false },
+  { id: 1, value: 'dog', flipped: false, matched: false },
+  { id: 2, value: 'cat', flipped: false, matched: false },
+  { id: 3, value: 'dog', flipped: false, matched: false },
+  { id: 4, value: 'cat', flipped: false, matched: false },
+  { id: 5, value: 'rabbit', flipped: false, matched: false },
+  { id: 6, value: 'panda', flipped: false, matched: false },
+  { id: 7, value: 'rabbit', flipped: false, matched: false },
+  { id: 8, value: 'panda', flipped: false, matched: false },
 ];
 
 const colors = ['#FFC107', '#8BC34A', '#00BCD4', '#FF5722', '#9C27B0'];
@@ -114,7 +123,9 @@ const MemoriCard = ({ visible }) => {
         >
           <div className="card-inner">
             <div className="card-front"></div>
-            <div className="card-back">{card.value}</div>
+            <div className="card-back">
+              {iconMap[card.value]}
+            </div>
           </div>
         </div>
       ))}
