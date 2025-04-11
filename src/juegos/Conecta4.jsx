@@ -56,6 +56,7 @@ const Conecta4 = ({ visible }) => {
     }
     return null;
   };
+  
 
   const handleColumnClick = (colIndex) => {
     if (winner) return; // No se permiten más movimientos si hay ganador
