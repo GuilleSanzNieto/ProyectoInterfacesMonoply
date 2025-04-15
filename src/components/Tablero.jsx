@@ -273,65 +273,78 @@ const Tablero = () => {
           </div>
         )}
         {showPropertyModal && currentProperty && (
-          propertyModalByLanding ? (
-            <div className="property-modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div className="property-modal-content" style={{ background: '#fff', borderRadius: '12px', padding: '2rem 2.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.25)', minWidth: '260px', maxWidth: '90vw', textAlign: 'center' }}>
-                <h3>{currentProperty.name}</h3>
-                <p>Precio: ${currentProperty.price}</p>
-                {!players[currentTurn].properties?.some(p => p.index === currentProperty.index) ? (
-                  <>
+          (() => {
+            // Comprobar si la propiedad ya pertenece a algún jugador
+            const propiedadYaComprada = players.some(player => player.properties?.some(p => p.index === currentProperty.index));
+            const esPropietarioActual = players[currentTurn].properties?.some(p => p.index === currentProperty.index);
+            if (propertyModalByLanding) {
+              return (
+                <div className="property-modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div className="property-modal-content" style={{ background: '#fff', borderRadius: '12px', padding: '2rem 2.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.25)', minWidth: '260px', maxWidth: '90vw', textAlign: 'center' }}>
+                    <h3>{currentProperty.name}</h3>
+                    <p>Precio: ${currentProperty.price}</p>
+                    {!propiedadYaComprada ? (
+                      <>
+                        <button
+                          disabled={players[currentTurn].money < currentProperty.price}
+                          onClick={() => {
+                            buyProperty(currentTurn, currentProperty);
+                            setShowPropertyModal(false);
+                          }}
+                        >
+                          Comprar
+                        </button>
+                        <button onClick={() => setShowPropertyModal(false)}>Pasar</button>
+                      </>
+                    ) : esPropietarioActual ? (
+                      <button
+                        onClick={() => {
+                          sellProperty(currentTurn, currentProperty);
+                          setShowPropertyModal(false);
+                        }}
+                      >
+                        Vender
+                      </button>
+                    ) : (
+                      <p style={{color: 'red', fontWeight: 'bold'}}>Esta propiedad ya ha sido comprada por otro jugador.</p>
+                    )}
+                  </div>
+                </div>
+              );
+            } else {
+              return (
+                <div className="property-modal-content" style={{ background: '#fff', borderRadius: '12px', padding: '2rem 2.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.25)', minWidth: '260px', maxWidth: '90vw', textAlign: 'center', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 20 }}>
+                  <h3>{currentProperty.name}</h3>
+                  <p>Precio: ${currentProperty.price}</p>
+                  {!propiedadYaComprada ? (
+                    <>
+                      <button
+                        disabled={players[currentTurn].money < currentProperty.price}
+                        onClick={() => {
+                          buyProperty(currentTurn, currentProperty);
+                          setShowPropertyModal(false);
+                        }}
+                      >
+                        Comprar
+                      </button>
+                      <button onClick={() => setShowPropertyModal(false)}>Pasar</button>
+                    </>
+                  ) : esPropietarioActual ? (
                     <button
-                      disabled={players[currentTurn].money < currentProperty.price}
                       onClick={() => {
-                        buyProperty(currentTurn, currentProperty);
+                        sellProperty(currentTurn, currentProperty);
                         setShowPropertyModal(false);
                       }}
                     >
-                      Comprar
+                      Vender
                     </button>
-                    <button onClick={() => setShowPropertyModal(false)}>Pasar</button>
-                  </>
-                ) : (
-                  <button
-                    onClick={() => {
-                      sellProperty(currentTurn, currentProperty);
-                      setShowPropertyModal(false);
-                    }}
-                  >
-                    Vender
-                  </button>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="property-modal-content" style={{ background: '#fff', borderRadius: '12px', padding: '2rem 2.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.25)', minWidth: '260px', maxWidth: '90vw', textAlign: 'center', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 20 }}>
-              <h3>{currentProperty.name}</h3>
-              <p>Precio: ${currentProperty.price}</p>
-              {!players[currentTurn].properties?.some(p => p.index === currentProperty.index) ? (
-                <>
-                  <button
-                    disabled={players[currentTurn].money < currentProperty.price}
-                    onClick={() => {
-                      buyProperty(currentTurn, currentProperty);
-                      setShowPropertyModal(false);
-                    }}
-                  >
-                    Comprar
-                  </button>
-                  <button onClick={() => setShowPropertyModal(false)}>Pasar</button>
-                </>
-              ) : (
-                <button
-                  onClick={() => {
-                    sellProperty(currentTurn, currentProperty);
-                    setShowPropertyModal(false);
-                  }}
-                >
-                  Vender
-                </button>
-              )}
-            </div>
-          )
+                  ) : (
+                    <p style={{color: 'red', fontWeight: 'bold'}}>Esta propiedad ya ha sido comprada por otro jugador.</p>
+                  )}
+                </div>
+              );
+            }
+          })()
         )}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
