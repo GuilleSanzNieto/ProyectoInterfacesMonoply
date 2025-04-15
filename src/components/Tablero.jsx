@@ -306,7 +306,8 @@ const Tablero = () => {
                     ) : esPropietarioActual ? (
                       <button
                         onClick={() => {
-                          sellProperty(currentTurn, currentProperty);
+                          sellProperty(propertyBuyerIndex, currentProperty);
+                          setPropertyBuyerIndex(null);
                           setShowPropertyModal(false);
                         }}
                       >
