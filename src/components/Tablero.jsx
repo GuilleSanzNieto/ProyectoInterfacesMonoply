@@ -313,7 +313,10 @@ const Tablero = () => {
                         Vender
                       </button>
                     ) : (
-                      <p style={{color: 'red', fontWeight: 'bold'}}>Esta propiedad ya ha sido comprada por otro jugador.</p>
+                      <>
+                        <p style={{color: 'red', fontWeight: 'bold'}}>Esta propiedad ya ha sido comprada por otro jugador.</p>
+                        <button onClick={() => setShowPropertyModal(false)}>Cerrar</button>
+                      </>
                     )}
                   </div>
                 </div>
@@ -343,7 +346,10 @@ const Tablero = () => {
                       Vender
                     </button>
                   ) : (
-                    <p style={{color: 'red', fontWeight: 'bold'}}>Esta propiedad ya ha sido comprada por otro jugador.</p>
+                    <>
+                      <p style={{color: 'red', fontWeight: 'bold'}}>Esta propiedad ya ha sido comprada por otro jugador.</p>
+                      <button onClick={() => setShowPropertyModal(false)}>Cerrar</button>
+                    </>
                   )}
                 </div>
               );
