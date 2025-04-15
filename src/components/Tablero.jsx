@@ -82,6 +82,7 @@ const Tablero = () => {
   const [showPropertyModal, setShowPropertyModal] = useState(false);
   const [currentProperty, setCurrentProperty] = useState(null);
   const [propertyModalByLanding, setPropertyModalByLanding] = useState(false);
+  const [propertyBuyerIndex, setPropertyBuyerIndex] = useState(null);
   const miniGameCells = [2, 7, 17, 22, 33, 38];
   // const miniGameCells = [];
   // for(let i = 0; i < 41; i++){
@@ -168,6 +169,7 @@ const Tablero = () => {
         setCurrentProperty(propiedad);
         setShowPropertyModal(true);
         setPropertyModalByLanding(true);
+        setPropertyBuyerIndex(currentTurn); // Captura el turno en ese momento
       }
       executeWhenAnimationEnds(finalPos);
 
@@ -224,6 +226,14 @@ const Tablero = () => {
     );
   }
 
+  const handleBuyProperty = (property) => {
+    if (propertyBuyerIndex !== null) {
+      buyProperty(propertyBuyerIndex, property);
+      setShowPropertyModal(false);
+      setPropertyBuyerIndex(null);
+    }
+  };
+
   const tableroComponent = (
     <div className="tablero">
       <div className="fila-superior">
@@ -276,7 +286,7 @@ const Tablero = () => {
           (() => {
             // Comprobar si la propiedad ya pertenece a algún jugador
             const propiedadYaComprada = players.some(player => player.properties?.some(p => p.index === currentProperty.index));
-            const esPropietarioActual = players[currentTurn].properties?.some(p => p.index === currentProperty.index);
+            const esPropietarioActual = players[propertyBuyerIndex]?.properties?.some(p => p.index === currentProperty.index);
             if (propertyModalByLanding) {
               return (
                 <div className="property-modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -286,11 +296,8 @@ const Tablero = () => {
                     {!propiedadYaComprada ? (
                       <>
                         <button
-                          disabled={players[currentTurn].money < currentProperty.price}
-                          onClick={() => {
-                            buyProperty(currentTurn, currentProperty);
-                            setShowPropertyModal(false);
-                          }}
+                          disabled={players[propertyBuyerIndex]?.money < currentProperty.price}
+                          onClick={() => handleBuyProperty(currentProperty)}
                         >
                           Comprar
                         </button>
@@ -319,11 +326,8 @@ const Tablero = () => {
                   {!propiedadYaComprada ? (
                     <>
                       <button
-                        disabled={players[currentTurn].money < currentProperty.price}
-                        onClick={() => {
-                          buyProperty(currentTurn, currentProperty);
-                          setShowPropertyModal(false);
-                        }}
+                        disabled={players[propertyBuyerIndex]?.money < currentProperty.price}
+                        onClick={() => handleBuyProperty(currentProperty)}
                       >
                         Comprar
                       </button>
