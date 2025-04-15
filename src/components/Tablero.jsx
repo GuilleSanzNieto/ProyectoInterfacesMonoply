@@ -26,28 +26,29 @@ const MoneyPanel = () => {
   );
 };
 
+// Solo propiedades reales, índices coinciden con casillaNames
 const propiedades = [
   { index: 1, name: "Centro de Enfermería (Ronda)", price: 100 },
   { index: 3, name: "Centro de Magisterio (Antequera)", price: 120 },
-  { index: 6, name: "Biblioteca", price: 150 },
-  { index: 8, name: "Pabellón de deportes", price: 180 },
-  { index: 9, name: "Jardín botánico", price: 200 },
-  { index: 11, name: "Comunicación", price: 220 },
-  { index: 13, name: "Filosofía", price: 240 },
-  { index: 14, name: "Derecho", price: 260 },
-  { index: 16, name: "Educación", price: 280 },
-  { index: 18, name: "Ciencias", price: 300 },
-  { index: 19, name: "Medicina", price: 320 },
-  { index: 21, name: "Turismo", price: 340 },
-  { index: 23, name: "Estudios sociales", price: 360 },
-  { index: 24, name: "Comunicación", price: 380 },
-  { index: 26, name: "Ciencias de la salud", price: 400 },
-  { index: 27, name: "Psicología", price: 420 },
-  { index: 29, name: "Industriales", price: 440 },
-  { index: 31, name: "Bellas artes", price: 460 },
-  { index: 32, name: "Económicas", price: 480 },
-  { index: 34, name: "Arquitectura", price: 500 },
-  { index: 37, name: "Telecomunicaciones", price: 520 },
+  { index: 6, name: "biblioteca", price: 150 },
+  { index: 8, name: "pabellón de deportes", price: 180 },
+  { index: 9, name: "jardin botanico", price: 200 },
+  { index: 11, name: "comunicacion", price: 220 },
+  { index: 13, name: "filosofia", price: 240 },
+  { index: 14, name: "derecho", price: 260 },
+  { index: 16, name: "educacion", price: 280 },
+  { index: 18, name: "ciencias", price: 300 },
+  { index: 19, name: "medicina", price: 320 },
+  { index: 21, name: "turismo", price: 340 },
+  { index: 23, name: "estudios sociales", price: 360 },
+  { index: 24, name: "comercio", price: 380 },
+  { index: 26, name: "ciencias de la salud", price: 400 },
+  { index: 27, name: "psicologia", price: 420 },
+  { index: 29, name: "industriales", price: 440 },
+  { index: 31, name: "bellas artes", price: 460 },
+  { index: 32, name: "economicas", price: 480 },
+  { index: 34, name: "arquitectura", price: 500 },
+  { index: 37, name: "telecomunicaciones", price: 520 },
   { index: 39, name: "ETSII", price: 540 },
 ];
 
@@ -73,7 +74,7 @@ const PropertiesPanel = () => {
 };
 
 const Tablero = () => {
-  const { players, currentTurn, nextTurn, updatePlayerPosition, spinning, setSpinning, buyProperty, sellProperty } = useContext(PlayersContext);
+  const { players, currentTurn, nextTurn, updatePlayerPosition, spinning, setSpinning, buyProperty, sellProperty, setPlayers } = useContext(PlayersContext);
   const [activeIndexes, setActiveIndexes] = useState([]);
   const [valorDados, setValorDados] = useState([]);
   const [showMiniGame, setShowMiniGame] = useState(false);
@@ -83,6 +84,7 @@ const Tablero = () => {
   const [currentProperty, setCurrentProperty] = useState(null);
   const [propertyModalByLanding, setPropertyModalByLanding] = useState(false);
   const [propertyBuyerIndex, setPropertyBuyerIndex] = useState(null);
+  const [payRentMessage, setPayRentMessage] = useState("");
   const miniGameCells = [2, 7, 17, 22, 33, 38];
   // const miniGameCells = [];
   // for(let i = 0; i < 41; i++){
@@ -93,8 +95,8 @@ const Tablero = () => {
 
   const casillaNames = ["", "Centro de Enfermería (Ronda)", "Juego por dinero", "Centro de Magisterio (Antequera)", 
     "suerte", "metro1", "biblioteca", "juego por dinero", "pabellón de deportes", "jardin botanico", "prision", "comunicacion", "suerte", "filosofia", "derecho",
-    "metro2", "educacion", "juego por dinero", "ciencias", "medicina", "google", "turismo", "juego por dinero", "estudios sociales", "comunicacion", "metro3", "ciencias de la salud", 
-    "psicologia", "suerte", "industriales", "go to prision", "bellas artes", "economicas", "juego por dinero", "arquitectura", "metro4", "suerte", "telecomunicaciones", "juego por dinero", "ETSII", ""]
+    "metro2", "educacion", "juego por dinero", "ciencias", "medicina", "google", "turismo", "juego por dinero", "estudios sociales", "comercio", "metro3", "ciencias de la salud", 
+    "psicologia", "suerte", "industriales", "go to prision", "bellas artes", "economicas", "juego por dinero", "arquitectura", "metro4", "suerte", "telecomunicaciones", "juego por dinero", "ETSII"]
 
 
 
@@ -103,11 +105,13 @@ const Tablero = () => {
     setActiveIndexes([]);
 
 
-    if (miniGameCells.includes(finalPosition)) {
-      executeMiniGameRandom();
-    } else{
-      setEndMinigame(false);
-    }
+    // if (miniGameCells.includes(finalPosition)) {
+    //   executeMiniGameRandom();
+    // } else{
+    //   setEndMinigame(false);
+    // }
+    setEndMinigame(false);
+
   };
 
   const executeMiniGameRandom = () => {
@@ -234,6 +238,30 @@ const Tablero = () => {
     }
   };
 
+  const handlePayRent = (ownerIndex) => {
+    // El jugador actual paga 200€ al dueño
+    const payerIndex = propertyBuyerIndex;
+    if (players[payerIndex].money >= 200) {
+      // Descontar al jugador actual
+      players[payerIndex].money -= 200;
+      // Sumar al dueño
+      players[ownerIndex].money += 200;
+      // Actualizar el estado global
+      const updatedPlayers = [...players];
+      setPlayers(updatedPlayers);
+      setPayRentMessage(`Has pagado 200€ a ${players[ownerIndex].name}`);
+    } else {
+      setPayRentMessage("No tienes suficiente dinero para pagar el alquiler.");
+    }
+    setTimeout(() => {
+      setShowPropertyModal(false);
+      setPropertyBuyerIndex(null);
+      setPayRentMessage("");
+      nextTurn();
+      setSpinning(false);
+    }, 2000);
+  };
+
   const tableroComponent = (
     <div className="tablero">
       <div className="fila-superior">
@@ -287,12 +315,14 @@ const Tablero = () => {
             // Comprobar si la propiedad ya pertenece a algún jugador
             const propiedadYaComprada = players.some(player => player.properties?.some(p => p.index === currentProperty.index));
             const esPropietarioActual = players[propertyBuyerIndex]?.properties?.some(p => p.index === currentProperty.index);
+            const ownerIndex = players.findIndex(player => player.properties?.some(p => p.index === currentProperty.index));
             if (propertyModalByLanding) {
               return (
                 <div className="property-modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <div className="property-modal-content" style={{ background: '#fff', borderRadius: '12px', padding: '2rem 2.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.25)', minWidth: '260px', maxWidth: '90vw', textAlign: 'center' }}>
                     <h3>{currentProperty.name}</h3>
-                    <p>Precio: ${currentProperty.price}</p>
+                    <p>Precio: ${currentProperty.price}</p>b
+                    {payRentMessage && <p style={{color: 'blue', fontWeight: 'bold'}}>{payRentMessage}</p>}
                     {!propiedadYaComprada ? (
                       <>
                         <button
@@ -304,19 +334,21 @@ const Tablero = () => {
                         <button onClick={() => setShowPropertyModal(false)}>Pasar</button>
                       </>
                     ) : esPropietarioActual ? (
-                      <button
-                        onClick={() => {
-                          sellProperty(propertyBuyerIndex, currentProperty);
-                          setPropertyBuyerIndex(null);
-                          setShowPropertyModal(false);
-                        }}
-                      >
-                        Vender
-                      </button>
+                      <>
+                        <button
+                          onClick={() => {
+                            sellProperty(currentTurn, currentProperty);
+                            setShowPropertyModal(false);
+                          }}
+                        >
+                          Vender
+                        </button>
+                        <button onClick={() => setShowPropertyModal(false)}>Cerrar</button>
+                      </>
                     ) : (
                       <>
                         <p style={{color: 'red', fontWeight: 'bold'}}>Esta propiedad ya ha sido comprada por otro jugador.</p>
-                        <button onClick={() => setShowPropertyModal(false)}>Cerrar</button>
+                        <button onClick={() => handlePayRent(ownerIndex)} disabled={payRentMessage !== ""}>Pagar 200€ de alquiler</button>
                       </>
                     )}
                   </div>
@@ -338,6 +370,7 @@ const Tablero = () => {
                       <button onClick={() => setShowPropertyModal(false)}>Pasar</button>
                     </>
                   ) : esPropietarioActual ? (
+                    <>
                     <button
                       onClick={() => {
                         sellProperty(currentTurn, currentProperty);
@@ -346,10 +379,12 @@ const Tablero = () => {
                     >
                       Vender
                     </button>
+                    <button onClick={() => setShowPropertyModal(false)}>Cerrar</button>
+                    </>
                   ) : (
                     <>
                       <p style={{color: 'red', fontWeight: 'bold'}}>Esta propiedad ya ha sido comprada por otro jugador.</p>
-                      <button onClick={() => setShowPropertyModal(false)}>Cerrar</button>
+                      <button onClick={() => handlePayRent(ownerIndex)} disabled={payRentMessage !== ""}>Pagar 200€ de alquiler</button>
                     </>
                   )}
                 </div>
