@@ -331,7 +331,9 @@ const Tablero = () => {
                         >
                           Comprar
                         </button>
-                        <button onClick={() => setShowPropertyModal(false)}>Pasar</button>
+                        <button onClick={() => setShowPropertyModal(false)}>
+                          Pasar
+                        </button>
                       </>
                     ) : esPropietarioActual ? (
                       <>
@@ -349,6 +351,9 @@ const Tablero = () => {
                       <>
                         <p style={{color: 'red', fontWeight: 'bold'}}>Esta propiedad ya ha sido comprada por otro jugador.</p>
                         <button onClick={() => handlePayRent(ownerIndex)} disabled={payRentMessage !== ""}>Pagar 200€ de alquiler</button>
+                        <button onClick={() => setShowPropertyModal(false)}>
+                          Cerrar
+                        </button>
                       </>
                     )}
                   </div>
