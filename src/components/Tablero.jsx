@@ -47,8 +47,8 @@ const propiedades = [
   { index: 31, name: "Bellas artes", price: 460 },
   { index: 32, name: "Económicas", price: 480 },
   { index: 34, name: "Arquitectura", price: 500 },
-  { index: 36, name: "Telecomunicaciones", price: 520 },
-  { index: 38, name: "ETSII", price: 540 },
+  { index: 37, name: "Telecomunicaciones", price: 520 },
+  { index: 39, name: "ETSII", price: 540 },
 ];
 
 const PropertiesPanel = () => {
@@ -308,7 +308,8 @@ const Tablero = () => {
                     ) : esPropietarioActual ? (
                       <button
                         onClick={() => {
-                          sellProperty(currentTurn, currentProperty);
+                          sellProperty(propertyBuyerIndex, currentProperty);
+                          setPropertyBuyerIndex(null);
                           setShowPropertyModal(false);
                         }}
                       >
