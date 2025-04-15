@@ -24,8 +24,8 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  /* display: flex;  Eliminado para permitir scroll global */
+  /* place-items: center;  Eliminado para permitir scroll global */
   min-width: 320px;
   min-height: 100vh;
 }
