@@ -17,6 +17,7 @@ const Tablero = () => {
   const [valorDados, setValorDados] = useState([]);
   const [showMiniGame, setShowMiniGame] = useState(false);
   const [miniGameComponent, setMiniGameComponent] = useState(null);
+  const [infoCasilla, setInfoCasilla] = useState(null); // Estado para mostrar la información de la casilla
   const miniGameCells = [2, 7, 17, 22, 33, 38];
   // const miniGameCells = [];
   // for(let i = 0; i < 41; i++){
@@ -63,6 +64,16 @@ const Tablero = () => {
 
   }
 
+  const handleCasillaClick = (index) => {
+    setInfoCasilla({
+      index,
+      name: casillaNames[index],
+    });
+  };
+
+  const closeInfoCasilla = () => {
+    setInfoCasilla(null);
+  };
 
   // Animación para mover el token del jugador actual
   const animation = (start, steps) => {
@@ -124,12 +135,12 @@ const Tablero = () => {
       <div
         key={i}
         className={`casilla ${isCorner ? 'casilla-esquina' : ''} ${isActive ? 'recorrer' : ''}`}
+        onClick={() => handleCasillaClick(i)}
       >
         <div className="content">
-          <span className= "nombre-casilla">
+          <span className="nombre-casilla">
             {casillaNames[i]}
           </span>
-         
         </div>
         <div className="color">
           {mostarTokens(i)}
@@ -175,6 +186,14 @@ const Tablero = () => {
         ? // Renderiza dinámicamente el mini juego seleccionado
           React.createElement(miniGameComponent, { visible: setEndMinigame })
         : tableroComponent}
+      {infoCasilla && (
+        <div className="info-casilla" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '10px', border: '1px solid black', borderRadius: '5px' }}>
+          <h3>Información de la casilla</h3>
+          <p><strong>Nombre:</strong> {infoCasilla.name}</p>
+          <p><strong>Índice:</strong> {infoCasilla.index}</p>
+          <button onClick={closeInfoCasilla}>Cerrar</button>
+        </div>
+      )}
     </div>
   );
 };
