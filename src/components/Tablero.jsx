@@ -26,13 +26,62 @@ const MoneyPanel = () => {
   );
 };
 
+const propiedades = [
+  { index: 1, name: "Centro de Enfermería (Ronda)", price: 100 },
+  { index: 3, name: "Centro de Magisterio (Antequera)", price: 120 },
+  { index: 6, name: "Biblioteca", price: 150 },
+  { index: 8, name: "Pabellón de deportes", price: 180 },
+  { index: 9, name: "Jardín botánico", price: 200 },
+  { index: 11, name: "Comunicación", price: 220 },
+  { index: 13, name: "Filosofía", price: 240 },
+  { index: 14, name: "Derecho", price: 260 },
+  { index: 16, name: "Educación", price: 280 },
+  { index: 18, name: "Ciencias", price: 300 },
+  { index: 19, name: "Medicina", price: 320 },
+  { index: 21, name: "Turismo", price: 340 },
+  { index: 23, name: "Estudios sociales", price: 360 },
+  { index: 24, name: "Comunicación", price: 380 },
+  { index: 26, name: "Ciencias de la salud", price: 400 },
+  { index: 27, name: "Psicología", price: 420 },
+  { index: 29, name: "Industriales", price: 440 },
+  { index: 31, name: "Bellas artes", price: 460 },
+  { index: 32, name: "Económicas", price: 480 },
+  { index: 34, name: "Arquitectura", price: 500 },
+  { index: 36, name: "Telecomunicaciones", price: 520 },
+  { index: 38, name: "ETSII", price: 540 },
+];
+
+const PropertiesPanel = () => {
+  const { players } = useContext(PlayersContext);
+  return (
+    <div className="properties-panel">
+      <h3>Propiedades de los jugadores</h3>
+      <ul>
+        {players.map((player, idx) => (
+          <li key={idx} style={{ color: player.color }}>
+            {player.name || `Jugador ${idx + 1}`}: 
+            <ul>
+              {(player.properties || []).map((prop, i) => (
+                <li key={i}>{prop.name}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 const Tablero = () => {
-  const { players, currentTurn, nextTurn, updatePlayerPosition, spinning, setSpinning } = useContext(PlayersContext);
+  const { players, currentTurn, nextTurn, updatePlayerPosition, spinning, setSpinning, buyProperty, sellProperty } = useContext(PlayersContext);
   const [activeIndexes, setActiveIndexes] = useState([]);
   const [valorDados, setValorDados] = useState([]);
   const [showMiniGame, setShowMiniGame] = useState(false);
   const [miniGameComponent, setMiniGameComponent] = useState(null);
   const [infoCasilla, setInfoCasilla] = useState(null); // Estado para mostrar la información de la casilla
+  const [showPropertyModal, setShowPropertyModal] = useState(false);
+  const [currentProperty, setCurrentProperty] = useState(null);
+  const [propertyModalByLanding, setPropertyModalByLanding] = useState(false);
   const miniGameCells = [2, 7, 17, 22, 33, 38];
   // const miniGameCells = [];
   // for(let i = 0; i < 41; i++){
@@ -80,10 +129,15 @@ const Tablero = () => {
   }
 
   const handleCasillaClick = (index) => {
+    const propiedad = propiedades.find(p => p.index === index);
     setInfoCasilla({
       index,
       name: casillaNames[index],
+      price: propiedad ? propiedad.price : null
     });
+    setShowPropertyModal(false);
+    setCurrentProperty(null);
+    setPropertyModalByLanding(false);
   };
 
   const closeInfoCasilla = () => {
@@ -108,8 +162,14 @@ const Tablero = () => {
     });
 
     setTimeout(() => {
-
-      executeWhenAnimationEnds(newActiveIndexes[newActiveIndexes.length - 1]);
+      const finalPos = newActiveIndexes[newActiveIndexes.length - 1];
+      const propiedad = propiedades.find(p => p.index === finalPos);
+      if (propiedad) {
+        setCurrentProperty(propiedad);
+        setShowPropertyModal(true);
+        setPropertyModalByLanding(true);
+      }
+      executeWhenAnimationEnds(finalPos);
 
     }, (steps + 2) * 250);
   };
@@ -196,20 +256,88 @@ const Tablero = () => {
   )
 
   return (
-    <div className="tablero-container">
-      {showMiniGame && miniGameComponent
-        ? // Renderiza dinámicamente el mini juego seleccionado
-          React.createElement(miniGameComponent, { visible: setEndMinigame })
-        : tableroComponent}
-      {infoCasilla && (
-        <div className="info-casilla" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '10px', border: '1px solid black', borderRadius: '5px' }}>
-          <h3>Información de la casilla</h3>
-          <p><strong>Nombre:</strong> {infoCasilla.name}</p>
-          <p><strong>Índice:</strong> {infoCasilla.index}</p>
-          <button onClick={closeInfoCasilla}>Cerrar</button>
-        </div>
-      )}
-      <MoneyPanel />
+    <div className="tablero-layout">
+      <div style={{ flex: 1, minWidth: 0, position: 'relative' }}>
+        {showMiniGame && miniGameComponent
+          ? React.createElement(miniGameComponent, { visible: setEndMinigame })
+          : tableroComponent}
+        {infoCasilla && (
+          <div className="info-casilla" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '10px', border: '1px solid black', borderRadius: '5px', zIndex: 10 }}>
+            <h3>Información de la casilla</h3>
+            <p><strong>Nombre:</strong> {infoCasilla.name}</p>
+            <p><strong>Índice:</strong> {infoCasilla.index}</p>
+            {infoCasilla.price !== null && (
+              <p><strong>Precio:</strong> ${infoCasilla.price}</p>
+            )}
+            <button onClick={closeInfoCasilla}>Cerrar</button>
+          </div>
+        )}
+        {showPropertyModal && currentProperty && (
+          propertyModalByLanding ? (
+            <div className="property-modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div className="property-modal-content" style={{ background: '#fff', borderRadius: '12px', padding: '2rem 2.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.25)', minWidth: '260px', maxWidth: '90vw', textAlign: 'center' }}>
+                <h3>{currentProperty.name}</h3>
+                <p>Precio: ${currentProperty.price}</p>
+                {!players[currentTurn].properties?.some(p => p.index === currentProperty.index) ? (
+                  <>
+                    <button
+                      disabled={players[currentTurn].money < currentProperty.price}
+                      onClick={() => {
+                        buyProperty(currentTurn, currentProperty);
+                        setShowPropertyModal(false);
+                      }}
+                    >
+                      Comprar
+                    </button>
+                    <button onClick={() => setShowPropertyModal(false)}>Pasar</button>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => {
+                      sellProperty(currentTurn, currentProperty);
+                      setShowPropertyModal(false);
+                    }}
+                  >
+                    Vender
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="property-modal-content" style={{ background: '#fff', borderRadius: '12px', padding: '2rem 2.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.25)', minWidth: '260px', maxWidth: '90vw', textAlign: 'center', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 20 }}>
+              <h3>{currentProperty.name}</h3>
+              <p>Precio: ${currentProperty.price}</p>
+              {!players[currentTurn].properties?.some(p => p.index === currentProperty.index) ? (
+                <>
+                  <button
+                    disabled={players[currentTurn].money < currentProperty.price}
+                    onClick={() => {
+                      buyProperty(currentTurn, currentProperty);
+                      setShowPropertyModal(false);
+                    }}
+                  >
+                    Comprar
+                  </button>
+                  <button onClick={() => setShowPropertyModal(false)}>Pasar</button>
+                </>
+              ) : (
+                <button
+                  onClick={() => {
+                    sellProperty(currentTurn, currentProperty);
+                    setShowPropertyModal(false);
+                  }}
+                >
+                  Vender
+                </button>
+              )}
+            </div>
+          )
+        )}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
+        <MoneyPanel />
+        <PropertiesPanel />
+      </div>
     </div>
   );
 };

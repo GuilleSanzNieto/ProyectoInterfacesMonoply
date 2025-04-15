@@ -4,8 +4,8 @@ export const PlayersContext = createContext();
 
 export const PlayersProvider = ({ children }) => {
     const [players, setPlayers] = useState([
-        { name: '', color: '#000000', position: 0, money: 1500 },
-        { name: '', color: '#000000', position: 0, money: 1500 }
+        { name: '', color: '#000000', position: 0, money: 1500, properties: [] },
+        { name: '', color: '#000000', position: 0, money: 1500, properties: [] }
     ]);
     const [currentTurn, setCurrentTurn] = useState(0);
     const [spinning, setSpinning] = useState(false);
@@ -33,8 +33,36 @@ export const PlayersProvider = ({ children }) => {
         );
     };
 
+    const buyProperty = (playerIndex, property) => {
+        setPlayers(prevPlayers =>
+            prevPlayers.map((player, idx) =>
+                idx === playerIndex
+                    ? {
+                        ...player,
+                        money: player.money - property.price,
+                        properties: [...(player.properties || []), property]
+                    }
+                    : player
+            )
+        );
+    };
+
+    const sellProperty = (playerIndex, property) => {
+        setPlayers(prevPlayers =>
+            prevPlayers.map((player, idx) =>
+                idx === playerIndex
+                    ? {
+                        ...player,
+                        money: player.money + property.price,
+                        properties: player.properties.filter(p => p.index !== property.index)
+                    }
+                    : player
+            )
+        );
+    };
+
     return (
-        <PlayersContext.Provider value={{ players, setPlayers, currentTurn, setCurrentTurn, nextTurn, updatePlayerPosition, updatePlayerMoney, spinning, setSpinning }}>
+        <PlayersContext.Provider value={{ players, setPlayers, currentTurn, setCurrentTurn, nextTurn, updatePlayerPosition, updatePlayerMoney, buyProperty, sellProperty, spinning, setSpinning }}>
             {children}
         </PlayersContext.Provider>
     );

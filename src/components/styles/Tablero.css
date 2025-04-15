@@ -4,10 +4,8 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  box-sizing: border-box;
+  /* Elimina overflow: hidden y display:flex aquí para permitir scroll */
 }
 
 
@@ -174,51 +172,80 @@ html, body {
   animation: recorrer 1s ease-in-out;
 }
 
-/* Panel de dinero responsive */
-.money-panel {
-  position: fixed;
-  top: 2rem;
-  right: 2rem;
+/* Panel de dinero y propiedades en layout flexible y responsive */
+.tablero-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+@media (max-width: 900px) {
+  .tablero-layout {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+}
+
+.money-panel, .properties-panel {
   width: 250px;
-  max-height: 80vh;
+  max-width: 100vw;
   background: #fff;
   border: 2px solid #222;
   border-radius: 10px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.15);
   padding: 1rem;
-  z-index: 100;
   overflow-y: auto;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
 }
 
-@media (max-width: 900px) {
-  .money-panel {
-    position: static;
-    width: 100%;
-    max-width: 100vw;
-    margin: 1rem auto 0 auto;
-    top: unset;
-    right: unset;
-    border-radius: 0 0 10px 10px;
-  }
-}
-
-.money-panel h3 {
+.money-panel h3, .properties-panel h3 {
   margin-top: 0;
   font-size: 1.1rem;
   text-align: center;
 }
 
-.money-panel ul {
+.money-panel ul, .properties-panel ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.money-panel li {
+.money-panel li, .properties-panel li {
   font-size: 1rem;
   margin: 0.5rem 0;
   font-weight: bold;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.property-modal-overlay {
+  background: rgba(0,0,0,0.4);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.property-modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  min-width: 260px;
+  max-width: 90vw;
+  text-align: center;
+}
+.property-modal-content button {
+  margin: 0.5rem 0.5rem 0 0.5rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
 }
