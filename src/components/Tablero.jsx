@@ -9,6 +9,7 @@ import Conecta4 from '../juegos/Conecta4.jsx';
 import MatesTest from '../juegos/MatesTest.jsx';
 import PiedraPapelTijera from '../juegos/PiedraPapelTijera.jsx';
 import Trivial from '../juegos/Trivial.jsx';
+import Suerte from './Suerte.jsx';
 
 const MoneyPanel = () => {
   const { players } = useContext(PlayersContext);
@@ -78,6 +79,7 @@ const Tablero = () => {
   const [activeIndexes, setActiveIndexes] = useState([]);
   const [valorDados, setValorDados] = useState([]);
   const [showMiniGame, setShowMiniGame] = useState(false);
+  const [showSuerte, setShowSuerte] = useState(false);
   const [miniGameComponent, setMiniGameComponent] = useState(null);
   const [infoCasilla, setInfoCasilla] = useState(null); // Estado para mostrar la información de la casilla
   const [showPropertyModal, setShowPropertyModal] = useState(false);
@@ -86,6 +88,7 @@ const Tablero = () => {
   const [propertyBuyerIndex, setPropertyBuyerIndex] = useState(null);
   const [payRentMessage, setPayRentMessage] = useState("");
   const miniGameCells = [2, 7, 17, 22, 33, 38];
+  const suerteCells = [4, 12, 28, 36];
   // const miniGameCells = [];
   // for(let i = 0; i < 41; i++){
   //   if(i % 2 === 0){
@@ -110,6 +113,11 @@ const Tablero = () => {
     // } else{
     //   setEndMinigame(false);
     // }
+
+    if (suerteCells.includes(finalPosition)) {
+      setShowSuerte(true);
+    }
+    
     setEndMinigame(false);
 
   };
@@ -308,6 +316,11 @@ const Tablero = () => {
               <p><strong>Precio:</strong> ${infoCasilla.price}</p>
             )}
             <button onClick={closeInfoCasilla}>Cerrar</button>
+          </div>
+        )}
+        {showSuerte && (
+          <div className="suerte-modal" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '10px', border: '1px solid black', borderRadius: '5px', zIndex: 10 }}>
+            <Suerte onClose={() => setShowSuerte(false)} />
           </div>
         )}
         {showPropertyModal && currentProperty && (
