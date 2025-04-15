@@ -8,13 +8,13 @@ function ColorPicker({ allColors, usedColors, onColorSelect, onClose }) {
         <h2>Elige tu color</h2>
         <div className="color-options">
           {allColors.map((color, index) => {
-            const isUsed = usedColors.includes(color.class);
+            const isUsed = usedColors.includes(color.hex);
             return (
               <div
                 key={index}
                 className={`color-circle ${isUsed ? 'used' : 'available'}`}
                 style={{ backgroundColor: color.hex }}
-                onClick={() => !isUsed && onColorSelect(color.class)}
+                onClick={() => !isUsed && onColorSelect(color.hex)}
               />
             );
           })}

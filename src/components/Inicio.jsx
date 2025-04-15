@@ -117,7 +117,8 @@ function Inicio({ onStart }) {
             className={errors[index]?.name ? "input-error" : ""}
           />
           <div
-            className={errors[index]?.name ? "input-errorCirculo" : `color-preview ${player.color}`}
+            className={errors[index]?.name ? "input-errorCirculo" : `color-preview`}
+            style={{ backgroundColor: player.color }}
             onClick={() => setShowColorPickerIndex(index)}>
           </div>
         </div>
@@ -127,10 +128,11 @@ function Inicio({ onStart }) {
         <ColorPicker
           allColors={allColors}
           usedColors={players.map((p, i) => i !== showColorPickerIndex ? p.color : null).filter(Boolean)}
-          onColorSelect={(colorClass) => {
-            handlePlayerChange(showColorPickerIndex, 'color', colorClass);
+          onColorSelect={(selectedColor) => {
+            handlePlayerChange(showColorPickerIndex, 'color', selectedColor); // selectedColor es ahora un valor hexadecimal
             setShowColorPickerIndex(null);
           }}
+          
           onClose={() => setShowColorPickerIndex(null)}
         />
       )}
