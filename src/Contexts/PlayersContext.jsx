@@ -4,8 +4,8 @@ export const PlayersContext = createContext();
 
 export const PlayersProvider = ({ children }) => {
     const [players, setPlayers] = useState([
-        { name: '', color: '#000000', position: 0 },
-        { name: '', color: '#000000', position: 0 }
+        { name: '', color: '#000000', position: 0, money: 1500 },
+        { name: '', color: '#000000', position: 0, money: 1500 }
     ]);
     const [currentTurn, setCurrentTurn] = useState(0);
     const [spinning, setSpinning] = useState(false);
@@ -25,8 +25,16 @@ export const PlayersProvider = ({ children }) => {
         
     };
 
+    const updatePlayerMoney = (playerIndex, newMoney) => {
+        setPlayers(prevPlayers =>
+            prevPlayers.map((player, index) =>
+                index === playerIndex ? { ...player, money: newMoney } : player
+            )
+        );
+    };
+
     return (
-        <PlayersContext.Provider value={{ players, setPlayers, currentTurn, setCurrentTurn, nextTurn, updatePlayerPosition, spinning, setSpinning }}>
+        <PlayersContext.Provider value={{ players, setPlayers, currentTurn, setCurrentTurn, nextTurn, updatePlayerPosition, updatePlayerMoney, spinning, setSpinning }}>
             {children}
         </PlayersContext.Provider>
     );

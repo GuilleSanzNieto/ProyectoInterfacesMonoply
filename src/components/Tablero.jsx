@@ -10,6 +10,21 @@ import MatesTest from '../juegos/MatesTest.jsx';
 import PiedraPapelTijera from '../juegos/PiedraPapelTijera.jsx';
 import Trivial from '../juegos/Trivial.jsx';
 
+const MoneyPanel = () => {
+  const { players } = useContext(PlayersContext);
+  return (
+    <div className="money-panel">
+      <h3>Dinero de los jugadores</h3>
+      <ul>
+        {players.map((player, idx) => (
+          <li key={idx} style={{ color: player.color }}>
+            {player.name || `Jugador ${idx + 1}`}: ${player.money}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 const Tablero = () => {
   const { players, currentTurn, nextTurn, updatePlayerPosition, spinning, setSpinning } = useContext(PlayersContext);
@@ -194,6 +209,7 @@ const Tablero = () => {
           <button onClick={closeInfoCasilla}>Cerrar</button>
         </div>
       )}
+      <MoneyPanel />
     </div>
   );
 };
