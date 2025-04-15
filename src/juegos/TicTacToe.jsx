@@ -67,6 +67,10 @@ const TicTacToe = ({ visible }) => {
     const gameWinner = checkWinner(newBoard);
     if (gameWinner) {
       setWinner(gameWinner);
+      //Vuelve al tablero
+      setTimeout(() => {
+        visible(false);
+      }, 3000);
       return;
     }
     
@@ -92,6 +96,10 @@ const TicTacToe = ({ visible }) => {
     const gameWinner = checkWinner(newBoard);
     if (gameWinner) {
       setWinner(gameWinner);
+       //Vuelve al tablero
+       setTimeout(() => {
+        visible(false);
+      }, 3000);
       return;
     }
     

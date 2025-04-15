@@ -69,7 +69,7 @@ const Trivial = ({ visible }) => {
         let newQ;
         do {
           newQ = questions[Math.floor(Math.random() * questions.length)];
-        } while(newQ.text === selectedQuestion.text);
+        } while (newQ.text === selectedQuestion.text);
         setPhase2Question(newQ);
         setPhase(2);
         setResponseMessage(''); // Limpia mensaje para la nueva fase
@@ -77,12 +77,20 @@ const Trivial = ({ visible }) => {
         setWins(prev => prev + 1);
         if (wins + 1 === 2) { // Si en total tiene 2 aciertos, gana el juego
           setHasWon(true);
+          //Vuelve al tablero
+          setTimeout(() => {
+            visible(false);
+          }, 3000);
         }
       }
     } else {
       setResponseMessage('Incorrecto');
       setResponseColor('red');
       setHasLost(true);
+      //Vuelve al tablero
+      setTimeout(() => {
+        visible(false);
+      }, 3000);
     }
   };
 

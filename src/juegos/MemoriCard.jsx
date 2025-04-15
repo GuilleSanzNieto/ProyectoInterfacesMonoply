@@ -91,6 +91,9 @@ const MemoriCard = ({ visible }) => {
     useEffect(() => {
         if (cards.length > 0 && cards.every(card => card.matched)) {
             setHasWon(true);
+            setTimeout(() => {
+              visible(false);
+            }, 3000);
         }
     }, [cards]);
 
@@ -107,6 +110,11 @@ const MemoriCard = ({ visible }) => {
     );
     setCards(newCards);
     setHasWon(false);
+    
+    //Vuelve al tablero
+    setTimeout(() => {
+      visible(false);
+    }, 3000);
     resetTurn();
   };
 

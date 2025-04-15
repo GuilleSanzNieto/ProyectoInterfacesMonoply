@@ -49,12 +49,17 @@ const PiedraPapelTijera = ({ visible }) => {
       (usuario === 'Tijera' && ordenador === 'Papel')
     ) {
       setResultado('Ganaste');
+      //Vuelve al tablero
       setTimeout(() => {
         visible(false);
       }, 3000);
       setPuntuacionUsuario(puntuacionUsuario + 1);
     } else {
       setResultado('Perdiste');
+       //Vuelve al tablero
+       setTimeout(() => {
+        visible(false);
+      }, 3000);
       setPuntuacionOrdenador(puntuacionOrdenador + 1);
     }
     setRondas(rondas + 1);
