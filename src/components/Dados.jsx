@@ -28,7 +28,7 @@ const Dados = ({ spinning, setValor, index }) => {
 
   const spin = () => {
     // const randomNum = Math.floor(Math.random() * 6) + 1;
-    const randomNum = 2;
+    const randomNum = 6;
     
     let newKindaSpin = ''; 
     let newA = ''; 

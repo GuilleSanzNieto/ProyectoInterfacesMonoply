@@ -160,8 +160,16 @@ const Tablero = () => {
   // Animación para mover el token del jugador actual
   const animation = (start, steps) => {
     const newActiveIndexes = [];
+    let passedStart = 0;
     for (let i = 0; i <= steps; i++) {
-      newActiveIndexes.push((start + i) % 40);
+      const idx = (start + i) % 40;
+      newActiveIndexes.push(idx);
+      // Si pasa por la casilla 0 (salida), suma 200€ (pero no en la posición inicial)
+      if (i > 0 && idx === 0) {
+        setPlayers(prevPlayers => prevPlayers.map((player, index) =>
+          index === currentTurn ? { ...player, money: player.money + 200 } : player
+        ));
+      }
     }
 
     setActiveIndexes([]);
@@ -270,6 +278,18 @@ const Tablero = () => {
     }, 2000);
   };
 
+  const handleBankrupt = () => {
+    setPlayers(prevPlayers => {
+      const newPlayers = prevPlayers.filter((_, idx) => idx !== currentTurn);
+      // Si el jugador eliminado era el último, retrocede el turno
+      if (currentTurn >= newPlayers.length && newPlayers.length > 0) {
+        nextTurn();
+      }
+      return newPlayers;
+    });
+    // Si solo queda un jugador, puedes mostrar un mensaje de victoria si lo deseas
+  };
+
   const tableroComponent = (
     <div className="tablero">
       <div className="fila-superior">
@@ -297,6 +317,9 @@ const Tablero = () => {
             Turno de: {players[currentTurn].name}
           </p>
         )}
+        <button style={{marginTop: '1rem', background: '#d32f2f', color: 'white'}} onClick={handleBankrupt}>
+          Bancarrota
+        </button>
       </div>
     </div>
   )
