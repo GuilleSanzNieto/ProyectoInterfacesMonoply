@@ -321,7 +321,7 @@ const Tablero = () => {
                 <div className="property-modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <div className="property-modal-content" style={{ background: '#fff', borderRadius: '12px', padding: '2rem 2.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.25)', minWidth: '260px', maxWidth: '90vw', textAlign: 'center' }}>
                     <h3>{currentProperty.name}</h3>
-                    <p>Precio: ${currentProperty.price}</p>b
+                    <p>Precio: ${currentProperty.price}</p>
                     {payRentMessage && <p style={{color: 'blue', fontWeight: 'bold'}}>{payRentMessage}</p>}
                     {!propiedadYaComprada ? (
                       <>
