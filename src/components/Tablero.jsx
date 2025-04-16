@@ -87,6 +87,7 @@ const Tablero = () => {
   const [propertyModalByLanding, setPropertyModalByLanding] = useState(false);
   const [propertyBuyerIndex, setPropertyBuyerIndex] = useState(null);
   const [payRentMessage, setPayRentMessage] = useState("");
+  const [lastActions, setLastActions] = useState([]);
   const miniGameCells = [2, 7, 17, 22, 33, 38];
   const suerteCells = [4, 12, 28, 36];
   // const miniGameCells = [];
@@ -101,25 +102,54 @@ const Tablero = () => {
     "metro2", "educacion", "juego por dinero", "ciencias", "medicina", "google", "turismo", "juego por dinero", "estudios sociales", "comercio", "metro3", "ciencias de la salud", 
     "psicologia", "suerte", "industriales", "go to prision", "bellas artes", "economicas", "juego por dinero", "arquitectura", "metro4", "suerte", "telecomunicaciones", "juego por dinero", "ETSII"]
 
-
+  const addAction = (action) => {
+    setLastActions(prev => [action, ...prev].slice(0, 3));
+  };
 
   const executeWhenAnimationEnds = (finalPosition) => {
     setValorDados([]);
     setActiveIndexes([]);
-
-
-    // if (miniGameCells.includes(finalPosition)) {
-    //   executeMiniGameRandom();
-    // } else{
-    //   setEndMinigame(false);
-    // }
-
+    
+    let extraTurn = false; // Bandera para el turno extra
+    
     if (suerteCells.includes(finalPosition)) {
+      // Definimos las 3 opciones de suerte con su mensaje y efecto
+      const outcomes = [
+        { message: `${players[currentTurn].name} ha recibido una bonificación`, effect: 'bonus', moneyChange: +200 },
+        { message: `${players[currentTurn].name} ha pagado una multa`, effect: 'fine', moneyChange: -100 },
+        { message: `${players[currentTurn].name} recibe un turno extra`, effect: 'extraTurn' }
+      ];
+      
+      const outcome = outcomes[Math.floor(Math.random() * outcomes.length)];
+      
       setShowSuerte(true);
+      // Registra el mensaje exactamente como en la carta
+      addAction(outcome.message);
+      
+      // Aplica el efecto correspondiente sin agregar mensajes extras
+      switch (outcome.effect) {
+        case 'bonus':
+        case 'fine':
+          setPlayers(prevPlayers =>
+            prevPlayers.map((player, idx) =>
+              idx === currentTurn ? { ...player, money: player.money + outcome.moneyChange } : player
+            )
+          );
+          break;
+        case 'extraTurn':
+          extraTurn = true;
+          break;
+        default:
+          break;
+      }
     }
     
-    setEndMinigame(false);
-
+    // Si no se obtuvo turno extra, se pasa el turno sin agregar mensaje adicional
+    if (!extraTurn) {
+      nextTurn();
+    }
+    
+    setSpinning(false);
   };
 
   const executeMiniGameRandom = () => {
@@ -204,6 +234,7 @@ const Tablero = () => {
 
   useEffect(() => {
     if (!showMiniGame && valorDados[0] && valorDados[1]) {
+      addAction(`${players[currentTurn].name} ha tirado los dados`);
       const sumaDados = valorDados[0] + valorDados[1];
       const currentPos = players[currentTurn]?.position || 0;
       animation(currentPos, sumaDados);
@@ -249,13 +280,14 @@ const Tablero = () => {
   const handleBuyProperty = (property) => {
     if (propertyBuyerIndex !== null) {
       buyProperty(propertyBuyerIndex, property);
+      addAction(`${players[propertyBuyerIndex].name} ha comprado ${property.name}`);
       setShowPropertyModal(false);
       setPropertyBuyerIndex(null);
     }
   };
 
   const handlePayRent = (ownerIndex) => {
-    // El jugador actual paga 200€ al dueño
+    // El jugador actual (payerIndex) paga 200€ al dueño
     const payerIndex = propertyBuyerIndex;
     if (players[payerIndex].money >= 200) {
       // Descontar al jugador actual
@@ -266,8 +298,10 @@ const Tablero = () => {
       const updatedPlayers = [...players];
       setPlayers(updatedPlayers);
       setPayRentMessage(`Has pagado 200€ a ${players[ownerIndex].name}`);
+      addAction(`${players[payerIndex].name} ha pagado 200€ de alquiler a ${players[ownerIndex].name}`);
     } else {
       setPayRentMessage("No tienes suficiente dinero para pagar el alquiler.");
+      addAction(`${players[payerIndex].name} no tiene suficiente dinero para pagar el alquiler a ${players[ownerIndex].name}`);
     }
     setTimeout(() => {
       setShowPropertyModal(false);
@@ -279,6 +313,7 @@ const Tablero = () => {
   };
 
   const handleBankrupt = () => {
+    addAction(`${players[currentTurn].name} ha declarado bancarrota`);
     setPlayers(prevPlayers => {
       const newPlayers = prevPlayers.filter((_, idx) => idx !== currentTurn);
       // Si el jugador eliminado era el último, retrocede el turno
@@ -310,14 +345,24 @@ const Tablero = () => {
           <Dados spinning={spinning} index={1} setValor={setValorDados} />
         </div>
         {valorDados[0] && valorDados[1] && (
-          <p>{valorDados[0]} + {valorDados[1]} = {valorDados[0] + valorDados[1]}</p>
+          <p>
+            {valorDados[0]} + {valorDados[1]} = {valorDados[0] + valorDados[1]}
+          </p>
         )}
         {players.length > 0 && (
-          <p style={{ color: players[currentTurn].color, fontWeight: 'bold' }}>
+          <p style={{ color: players[currentTurn].color, fontWeight: 'bold', margin: 0 }}>
             Turno de: {players[currentTurn].name}
           </p>
         )}
-        <button style={{marginTop: '1rem', background: '#d32f2f', color: 'white'}} onClick={handleBankrupt}>
+        {/* Registro de las últimas 3 acciones, debajo del turno y encima del botón de bancarrota */}
+        <div className="actions-log" style={{ marginTop: '8px' }}>
+          {lastActions.map((action, index) => (
+            <p key={index} style={{ margin: '0.2rem 0', fontSize: '1rem' }}>
+              {action}
+            </p>
+          ))}
+        </div>
+        <button style={{ marginTop: '1rem', background: '#d32f2f', color: 'white' }} onClick={handleBankrupt}>
           Bancarrota
         </button>
       </div>
@@ -367,7 +412,7 @@ const Tablero = () => {
                         >
                           Comprar
                         </button>
-                        <button onClick={() => setShowPropertyModal(false)}>
+                        <button onClick={() => { setShowPropertyModal(false); addAction(`${players[propertyBuyerIndex].name} ha pasado el turno`); }}>
                           Pasar
                         </button>
                       </>
@@ -408,7 +453,7 @@ const Tablero = () => {
                       >
                         Comprar
                       </button>
-                      <button onClick={() => setShowPropertyModal(false)}>Pasar</button>
+                      <button onClick={() => { setShowPropertyModal(false); addAction(`${players[propertyBuyerIndex].name} ha pasado el turno`); }}>Pasar</button>
                     </>
                   ) : esPropietarioActual ? (
                     <>

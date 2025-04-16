@@ -7,7 +7,7 @@ const Suerte = ({ onClose }) => {
 
   // Definimos las 3 opciones disponibles
   const opciones = [
-    "Bonooficiacion: Se te suman 200€",
+    "Bonificacion: Se te suman 200€",
     "Multa: Se te restan 100€",
     "Turno Extra: ¡Tienes un turno extra!"
   ];
