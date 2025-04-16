@@ -1,0 +1,43 @@
+.trade-deal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .trade-deal-container {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 12px;
+    width: 300px;
+    max-width: 90vw;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    text-align: center;
+  }
+  .trade-form > div {
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  .trade-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .trade-form input, .trade-form select {
+    width: 100%;
+    padding: 4px;
+  }
+  .trade-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+  }
+  .error-message {
+    color: red;
+    margin-bottom: 10px;
+  }

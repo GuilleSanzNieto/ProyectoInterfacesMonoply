@@ -369,6 +369,8 @@ const Tablero = () => {
     </div>
   )
 
+  const [showTradeDeal, setShowTradeDeal] = useState(false);
+
   return (
     <div className="tablero-layout">
       <div style={{ flex: 1, minWidth: 0, position: 'relative' }}>
@@ -482,7 +484,13 @@ const Tablero = () => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
         <MoneyPanel />
         <PropertiesPanel />
+        <button 
+          onClick={() => setShowTradeDeal(true)}
+          style={{ padding: '10px 20px', fontSize: '1rem', marginTop: '1rem' }}>
+          Realizar Trato
+        </button>
       </div>
+      {showTradeDeal && <TradeDeal onClose={() => setShowTradeDeal(false)} />}
     </div>
   );
 };
