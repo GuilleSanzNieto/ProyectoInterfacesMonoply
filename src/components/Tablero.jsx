@@ -87,6 +87,7 @@ const Tablero = () => {
   const [propertyModalByLanding, setPropertyModalByLanding] = useState(false);
   const [propertyBuyerIndex, setPropertyBuyerIndex] = useState(null);
   const [payRentMessage, setPayRentMessage] = useState("");
+  const [showJailModal, setShowJailModal] = useState(false);
   const [lastActions, setLastActions] = useState([]);
   const miniGameCells = [2, 7, 17, 22, 33, 38];
   const suerteCells = [4, 12, 28, 36];
@@ -214,6 +215,23 @@ const Tablero = () => {
 
     setTimeout(() => {
       const finalPos = newActiveIndexes[newActiveIndexes.length - 1];
+
+      // Si cae en "go to prision" (índice 30)
+      if (finalPos === 30) {
+        // Mueve al jugador a la prisión (índice 10) y lo marca como en prisión
+        setPlayers(prevPlayers =>
+          prevPlayers.map((player, idx) =>
+            idx === currentTurn ? { ...player, position: 10, inJail: true } : player
+          )
+        );
+        addAction(`${players[currentTurn].name} ha sido enviado a prisión`);
+        setTimeout(() => {
+          nextTurn();
+          setSpinning(false);
+        }, 1000);
+        return;
+      }
+
       const propiedad = propiedades.find(p => p.index === finalPos);
       if (propiedad) {
         setCurrentProperty(propiedad);
@@ -237,9 +255,37 @@ const Tablero = () => {
       addAction(`${players[currentTurn].name} ha tirado los dados`);
       const sumaDados = valorDados[0] + valorDados[1];
       const currentPos = players[currentTurn]?.position || 0;
+  
+      // Si el jugador está en prisión
+      if (players[currentTurn]?.inJail) {
+        if (valorDados[0] === valorDados[1]) {
+          setPlayers(prevPlayers =>
+            prevPlayers.map((player, idx) =>
+              idx === currentTurn ? { ...player, inJail: false } : player
+            )
+          );
+          addAction(`${players[currentTurn].name} ha sacado dobles y sale de prisión`);
+          animation(currentPos, sumaDados);
+        } else {
+          addAction(`${players[currentTurn].name} no ha sacado dobles y sigue en prisión`);
+          setTimeout(() => {
+            nextTurn();
+            setSpinning(false);
+          }, 1000);
+        }
+        setValorDados([]);
+        return;
+      }
+  
       animation(currentPos, sumaDados);
     }
   }, [valorDados, showMiniGame]);
+
+  useEffect(() => {
+    if (players[currentTurn]?.inJail) {
+      setShowJailModal(true);
+    }
+  }, [currentTurn]);
 
   const mostarTokens = (casillaIndex) => {
     return players.map((player, index) =>
@@ -479,6 +525,40 @@ const Tablero = () => {
               );
             }
           })()
+        )}
+
+        {showJailModal && (
+          <div className="jail-modal" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', border: '2px solid #333', borderRadius: '10px', zIndex: 1000 }}>
+            <h3>¡Estás en prisión!</h3>
+            <p>{players[currentTurn].name}, elige una opción:</p>
+            <button
+              className="jail-btn"
+              onClick={() => {
+                // Pagar 100 y salir
+                setPlayers(prevPlayers =>
+                  prevPlayers.map((player, idx) =>
+                    idx === currentTurn
+                      ? { ...player, money: player.money - 100, inJail: false }
+                      : player
+                  )
+                );
+                addAction(`${players[currentTurn].name} ha pagado $100 para salir de prisión`);
+                setShowJailModal(false);
+              }}
+              disabled={players[currentTurn].money < 100}
+            >
+              Pagar 100€ y salir
+            </button>
+            <button
+              className="jail-btn"
+              onClick={() => {
+                setShowJailModal(false);
+                setSpinning(true); // Permite lanzar los dados
+              }}
+            >
+              Tirar dados
+            </button>
+          </div>
         )}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
