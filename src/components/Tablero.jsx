@@ -10,6 +10,8 @@ import MatesTest from '../juegos/MatesTest.jsx';
 import PiedraPapelTijera from '../juegos/PiedraPapelTijera.jsx';
 import Trivial from '../juegos/Trivial.jsx';
 import Suerte from './Suerte.jsx';
+import TradeDeal from './TradeDeal.jsx';
+import PendingTrade from './PendingTrade.jsx';
 
 const MoneyPanel = () => {
   const { players } = useContext(PlayersContext);
@@ -101,7 +103,10 @@ const Tablero = () => {
   const casillaNames = ["", "Centro de Enfermería (Ronda)", "Juego por dinero", "Centro de Magisterio (Antequera)", 
     "suerte", "metro1", "biblioteca", "juego por dinero", "pabellón de deportes", "jardin botanico", "prision", "comunicacion", "suerte", "filosofia", "derecho",
     "metro2", "educacion", "juego por dinero", "ciencias", "medicina", "google", "turismo", "juego por dinero", "estudios sociales", "comercio", "metro3", "ciencias de la salud", 
-    "psicologia", "suerte", "industriales", "go to prision", "bellas artes", "economicas", "juego por dinero", "arquitectura", "metro4", "suerte", "telecomunicaciones", "juego por dinero", "ETSII"]
+    "psicologia", "suerte", "industriales", "go to prision", "bellas artes", "economicas", "juego por dinero", "arquitectura", "metro4", "suerte", "telecomunicaciones", "juego por dinero", "ETSII"];
+
+
+  const pendingTradeOffer = players[currentTurn]?.pendingTradeOffer;
 
   const addAction = (action) => {
     setLastActions(prev => [action, ...prev].slice(0, 3));
@@ -525,6 +530,70 @@ const Tablero = () => {
               );
             }
           })()
+        )}
+
+      { pendingTradeOffer && (
+        <PendingTrade 
+          tradeOffer={pendingTradeOffer} 
+          onAccept={() => {
+            const tradeOffer = pendingTradeOffer;
+            const proposerIndex = tradeOffer.from;
+            const responderIndex = currentTurn;  // El jugador actual es el receptor
+            let updatedPlayers = [...players];
+
+            // Intercambio de dinero:
+            updatedPlayers[proposerIndex] = {
+              ...updatedPlayers[proposerIndex],
+              money: updatedPlayers[proposerIndex].money - tradeOffer.proposerMoney + tradeOffer.responderMoney
+            };
+            updatedPlayers[responderIndex] = {
+              ...updatedPlayers[responderIndex],
+              money: updatedPlayers[responderIndex].money - tradeOffer.responderMoney + tradeOffer.proposerMoney
+            };
+
+            // Intercambio de la propiedad ofrecida por el emisor.
+            if (tradeOffer.proposerProperty) {
+              const propIndex = tradeOffer.proposerProperty;
+              const prop = (updatedPlayers[proposerIndex].properties || []).find(p => p.index.toString() === propIndex);
+              if (prop) {
+                updatedPlayers[proposerIndex].properties = (updatedPlayers[proposerIndex].properties || []).filter(p => p.index.toString() !== propIndex);
+                updatedPlayers[responderIndex].properties = [
+                  ...(updatedPlayers[responderIndex].properties || []),
+                  prop
+                ];
+              }
+            }
+            
+              // Intercambio de la propiedad solicitada (del receptor al emisor).
+              if (tradeOffer.responderProperty) {
+                const propIndex = tradeOffer.responderProperty;
+                const prop = (updatedPlayers[responderIndex].properties || []).find(p => p.index.toString() === propIndex);
+                if (prop) {
+                  updatedPlayers[responderIndex].properties = (updatedPlayers[responderIndex].properties || []).filter(p => p.index.toString() !== propIndex);
+                  updatedPlayers[proposerIndex].properties = [
+                    ...(updatedPlayers[proposerIndex].properties || []),
+                    prop
+                  ];
+                }
+              }
+              
+              // Elimina la oferta pendiente del receptor
+              updatedPlayers[responderIndex] = {
+                ...updatedPlayers[responderIndex],
+                pendingTradeOffer: null
+              };
+
+              setPlayers(updatedPlayers);
+            }}
+            onReject={() => {
+              let updatedPlayers = [...players];
+              updatedPlayers[currentTurn] = {
+                ...updatedPlayers[currentTurn],
+                pendingTradeOffer: null
+              };
+              setPlayers(updatedPlayers);
+            }}
+          />
         )}
 
         {showJailModal && (
