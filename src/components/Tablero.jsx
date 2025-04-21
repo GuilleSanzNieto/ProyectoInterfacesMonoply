@@ -119,20 +119,19 @@ const Tablero = () => {
     let extraTurn = false; // Bandera para el turno extra
     
     if (suerteCells.includes(finalPosition)) {
-      // Definimos las 3 opciones de suerte con su mensaje y efecto
+      const currentName = players[currentTurn].name; // Capturamos el nombre antes de que se modifique algo
       const outcomes = [
-        { message: `${players[currentTurn].name} ha recibido una bonificación`, effect: 'bonus', moneyChange: +200 },
-        { message: `${players[currentTurn].name} ha pagado una multa`, effect: 'fine', moneyChange: -100 },
-        { message: `${players[currentTurn].name} recibe un turno extra`, effect: 'extraTurn' }
+        { message: `${currentName} ha recibido una bonificación`, effect: 'bonus', moneyChange: +200 },
+        { message: `${currentName} ha pagado una multa`, effect: 'fine', moneyChange: -100 },
+        { message: `${currentName} recibe un turno extra`, effect: 'extraTurn' }
       ];
       
       const outcome = outcomes[Math.floor(Math.random() * outcomes.length)];
+      console.log('Outcome seleccionado:', outcome); // Para depuración
       
       setShowSuerte(true);
-      // Registra el mensaje exactamente como en la carta
       addAction(outcome.message);
       
-      // Aplica el efecto correspondiente sin agregar mensajes extras
       switch (outcome.effect) {
         case 'bonus':
         case 'fine':
