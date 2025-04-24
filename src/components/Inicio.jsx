@@ -36,7 +36,7 @@ function Inicio({ onStart }) {
   const handleNumPlayersChange = (num) => {
     setNumPlayers(num);
     setPlayers(
-      Array.from({ length: num }, (_, i) => players[i] || { name: '', color: '#000000', position: 0 })
+      Array.from({ length: num }, (_, i) => players[i] || { name: '', color: '#000000', position: 0, money: 5500, properties: [] })
     );
   };
 
