@@ -149,11 +149,17 @@ const Tablero = () => {
       }
     }
     
+    if(miniGameCells.includes(finalPosition)){
+      // Si cae en una casilla de minijuego, ejecuta un minijuego aleatorio 
+      executeMiniGameRandom();
+      return;
+    }
+
     // Si no se obtuvo turno extra, se pasa el turno sin agregar mensaje adicional
     if (!extraTurn) {
       nextTurn();
     }
-    
+
     setSpinning(false);
   };
 
