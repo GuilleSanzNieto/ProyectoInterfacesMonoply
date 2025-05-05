@@ -96,6 +96,7 @@ function Inicio({ onStart }) {
         </button>
 
       </div>
+      <h3>Número de Jugadores</h3>
       <div className="player-selection">
         {[2, 3, 4].map(num => (
           <button

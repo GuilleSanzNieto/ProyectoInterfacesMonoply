@@ -4,13 +4,14 @@ import './styles/commonStyles.css'; // Importa estilos comunes (overlay, win-mes
 
 const WordSearch = ({ visible }) => {
   const battery = ['UMA', 'CAMPUS', 'ESTUDIANTE', 'ESCUELA', 'UNIVERSIDAD', 'MALAGA', 'FACULTAD', 'DEPORTES', 'ASIGNATURA', 'MATRICULA'];
-  
+
   const [roundWords] = useState(() =>
     [...battery].sort(() => 0.5 - Math.random()).slice(0, 4)
   );
-  
+
   const [board, setBoard] = useState(generateBoard());
   const [firstCell, setFirstCell] = useState(null);
+  const [secondCell, setSecondCell] = useState(null);
   const [selectedCells, setSelectedCells] = useState([]);
   const [foundWords, setFoundWords] = useState([]);
   const [foundPositions, setFoundPositions] = useState([]);
@@ -98,13 +99,13 @@ const WordSearch = ({ visible }) => {
     let word = '';
     const rowDiff = end.row - start.row;
     const colDiff = end.col - start.col;
-    
+
     // Solo permite horizontal, vertical o diagonal
     if (Math.abs(rowDiff) === Math.abs(colDiff) || rowDiff === 0 || colDiff === 0) {
       const steps = Math.max(Math.abs(rowDiff), Math.abs(colDiff));
       const rowStep = rowDiff === 0 ? 0 : rowDiff / Math.abs(rowDiff);
       const colStep = colDiff === 0 ? 0 : colDiff / Math.abs(colDiff);
-      
+
       for (let i = 0; i <= steps; i++) {
         const currentRow = start.row + (rowStep * i);
         const currentCol = start.col + (colStep * i);
@@ -117,7 +118,7 @@ const WordSearch = ({ visible }) => {
         return reverseWord;
       }
     }
-    
+
     return word;
   };
 
@@ -129,18 +130,19 @@ const WordSearch = ({ visible }) => {
     } else {
       // Segunda selección
       const secondCell = { row, col };
+      setSecondCell(secondCell);
       const word = getWordBetweenPoints(firstCell, secondCell);
       const reverseWord = getWordBetweenPoints(secondCell, firstCell);
-      
+
       let cells = [];
       const rowDiff = secondCell.row - firstCell.row;
       const colDiff = secondCell.col - firstCell.col;
-      
+
       if (Math.abs(rowDiff) === Math.abs(colDiff) || rowDiff === 0 || colDiff === 0) {
         const steps = Math.max(Math.abs(rowDiff), Math.abs(colDiff));
         const rowStep = rowDiff === 0 ? 0 : rowDiff / Math.abs(rowDiff);
         const colStep = colDiff === 0 ? 0 : colDiff / Math.abs(colDiff);
-        
+
         for (let i = 0; i <= steps; i++) {
           const currentRow = firstCell.row + (rowStep * i);
           const currentCol = firstCell.col + (colStep * i);
@@ -149,7 +151,7 @@ const WordSearch = ({ visible }) => {
       }
 
       setSelectedCells(cells);
-      
+
       // Comprueba si la palabra es válida en ambas direcciones
       if (roundWords.includes(word) || roundWords.includes(reverseWord)) {
         const validWord = roundWords.includes(word) ? word : reverseWord;
@@ -167,9 +169,10 @@ const WordSearch = ({ visible }) => {
           setFoundPositions(prev => [...prev, ...cells]);
         }
       }
-      
+
       // Reinicia la selección
       setFirstCell(null);
+      setSecondCell(null);
       setTimeout(() => {
         setSelectedCells([]);
       }, 500);
@@ -180,7 +183,7 @@ const WordSearch = ({ visible }) => {
     const isFound = foundPositions.some(pos => pos.row === row && pos.col === col);
     const isSelected = selectedCells.some(pos => pos.row === row && pos.col === col);
     return (
-      <button 
+      <button
         className={`cell ${isFound ? "found" : ""} ${isSelected ? "selected" : ""}`}
         onClick={() => handleCellClick(row, col)}
       >
@@ -204,7 +207,7 @@ const WordSearch = ({ visible }) => {
   return (
     <div className="word-search">
       <h1>Word Search</h1>
-      
+
       <div className="to-find-words">
         <h2>Palabras a encontrar:</h2>
         <ul>
@@ -215,9 +218,12 @@ const WordSearch = ({ visible }) => {
           ))}
         </ul>
       </div>
-      
+      {firstCell && !secondCell && (
+        <p className="hint">Ahora selecciona la <strong>última letra</strong> de la palabra.</p>
+      )}
+
       {renderBoard()}
-      
+
       <div className="found-words">
         <h2>Found Words:</h2>
         <h3>Palabras encontradas: {foundWords.length} de 4</h3>
@@ -227,7 +233,7 @@ const WordSearch = ({ visible }) => {
           ))}
         </ul>
       </div>
-      
+
       {(hasWon || hasLost) && (
         <div className="overlay">
           <div className={hasWon ? "win-message" : "loser-alt"}>

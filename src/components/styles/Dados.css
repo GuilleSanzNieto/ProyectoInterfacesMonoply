@@ -71,27 +71,27 @@
 
 @keyframes one {
     0% {transform: rotateX(-10deg) rotateY(10deg);}
-    100% {transform: rotateX(700deg) rotateY(380deg) rotateZ(360deg);}
+    100% {transform: rotateX(710deg) rotateY(370deg) rotateZ(360deg);}
 }
 @keyframes two {
     0% {transform: rotateX(-10deg) rotateY(10deg);}
-    100% {transform: rotateX(610deg) rotateY(720deg) rotateZ(20deg);}
+    100% {transform: rotateX(620deg) rotateY(720deg) rotateZ(10deg);}
 }
 @keyframes three {
     0% {transform: rotateX(-10deg) rotateY(10deg);}
-    100% {transform: rotateX(700deg) rotateY(290deg) rotateZ(360deg);}
+    100% {transform: rotateX(710deg) rotateY(280deg) rotateZ(360deg);}
 }
 @keyframes four {
     0% {transform: rotateX(-10deg) rotateY(10deg);}
-    100% {transform: rotateX(700deg) rotateY(820deg);}
+    100% {transform: rotateX(710deg) rotateY(820deg);}
 }
 @keyframes five {
     0% {transform: rotateX(-10deg) rotateY(10deg);}
-    100% {transform: rotateX(790deg) rotateY(360deg) rotateZ(340deg);}
+    100% {transform: rotateX(800deg) rotateY(360deg) rotateZ(350deg);}
 }
 @keyframes six {
     0% {transform: rotateX(-10deg) rotateY(10deg);}
-    100% {transform: rotateX(700deg) rotateY(200deg) rotateZ(360deg);}
+    100% {transform: rotateX(710deg) rotateY(190deg) rotateZ(360deg);}
 } 
 
 

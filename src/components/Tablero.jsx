@@ -63,7 +63,7 @@ const PropertiesPanel = () => {
       <ul>
         {players.map((player, idx) => (
           <li key={idx} style={{ color: player.color }}>
-            {player.name || `Jugador ${idx + 1}`}: 
+            {player.name || `Jugador ${idx + 1}`}:
             <ul>
               {(player.properties || []).map((prop, i) => (
                 <li key={i}>{prop.name}</li>
@@ -100,9 +100,9 @@ const Tablero = () => {
   //   }
   // }
 
-  const casillaNames = ["", "Centro de Enfermería (Ronda)", "Juego por dinero", "Centro de Magisterio (Antequera)", 
+  const casillaNames = ["", "Centro de Enfermería (Ronda)", "Juego por dinero", "Centro de Magisterio (Antequera)",
     "suerte", "metro1", "biblioteca", "juego por dinero", "pabellón de deportes", "jardin botanico", "prision", "comunicacion", "suerte", "filosofia", "derecho",
-    "metro2", "educacion", "juego por dinero", "ciencias", "medicina", "google", "turismo", "juego por dinero", "estudios sociales", "comercio", "metro3", "ciencias de la salud", 
+    "metro2", "educacion", "juego por dinero", "ciencias", "medicina", "google", "turismo", "juego por dinero", "estudios sociales", "comercio", "metro3", "ciencias de la salud",
     "psicologia", "suerte", "industriales", "go to prision", "bellas artes", "economicas", "juego por dinero", "arquitectura", "metro4", "suerte", "telecomunicaciones", "juego por dinero", "ETSII"];
 
 
@@ -115,9 +115,9 @@ const Tablero = () => {
   const executeWhenAnimationEnds = (finalPosition) => {
     setValorDados([]);
     setActiveIndexes([]);
-    
+
     let extraTurn = false; // Bandera para el turno extra
-    
+
     if (suerteCells.includes(finalPosition)) {
       const currentName = players[currentTurn].name; // Capturamos el nombre antes de que se modifique algo
       const outcomes = [
@@ -125,13 +125,13 @@ const Tablero = () => {
         { message: `${currentName} ha pagado una multa`, effect: 'fine', moneyChange: -100 },
         { message: `${currentName} recibe un turno extra`, effect: 'extraTurn' }
       ];
-      
+
       const outcome = outcomes[Math.floor(Math.random() * outcomes.length)];
       console.log('Outcome seleccionado:', outcome); // Para depuración
-      
+
       setShowSuerte(true);
       addAction(outcome.message);
-      
+
       switch (outcome.effect) {
         case 'bonus':
         case 'fine':
@@ -148,8 +148,8 @@ const Tablero = () => {
           break;
       }
     }
-    
-    if(miniGameCells.includes(finalPosition)){
+
+    if (miniGameCells.includes(finalPosition)) {
       // Si cae en una casilla de minijuego, ejecuta un minijuego aleatorio 
       executeMiniGameRandom();
       return;
@@ -173,7 +173,7 @@ const Tablero = () => {
   };
 
   const setEndMinigame = (value) => {
-    if(value === false){
+    if (value === false) {
       setShowMiniGame(false);
       setMiniGameComponent(null);
       nextTurn();
@@ -265,7 +265,7 @@ const Tablero = () => {
       addAction(`${players[currentTurn].name} ha tirado los dados`);
       const sumaDados = valorDados[0] + valorDados[1];
       const currentPos = players[currentTurn]?.position || 0;
-  
+
       // Si el jugador está en prisión
       if (players[currentTurn]?.inJail) {
         if (valorDados[0] === valorDados[1]) {
@@ -286,7 +286,7 @@ const Tablero = () => {
         setValorDados([]);
         return;
       }
-  
+
       animation(currentPos, sumaDados);
     }
   }, [valorDados, showMiniGame]);
@@ -418,9 +418,15 @@ const Tablero = () => {
             </p>
           ))}
         </div>
-        <button style={{ marginTop: '1rem', background: '#d32f2f', color: 'white' }} onClick={handleBankrupt}>
-          Bancarrota
+        <button
+          onClick={() => {
+            setSpinning(true); // Permite lanzar los dados
+          }}
+        >
+          Tirar dados
         </button>
+
+
       </div>
     </div>
   )
@@ -461,7 +467,7 @@ const Tablero = () => {
                   <div className="property-modal-content" style={{ background: '#fff', borderRadius: '12px', padding: '2rem 2.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.25)', minWidth: '260px', maxWidth: '90vw', textAlign: 'center' }}>
                     <h3>{currentProperty.name}</h3>
                     <p>Precio: ${currentProperty.price}</p>
-                    {payRentMessage && <p style={{color: 'blue', fontWeight: 'bold'}}>{payRentMessage}</p>}
+                    {payRentMessage && <p style={{ color: 'blue', fontWeight: 'bold' }}>{payRentMessage}</p>}
                     {!propiedadYaComprada ? (
                       <>
                         <button
@@ -488,11 +494,8 @@ const Tablero = () => {
                       </>
                     ) : (
                       <>
-                        <p style={{color: 'red', fontWeight: 'bold'}}>Esta propiedad ya ha sido comprada por otro jugador.</p>
+                        <p style={{ color: 'red', fontWeight: 'bold' }}>Esta propiedad ya ha sido comprada por otro jugador.</p>
                         <button onClick={() => handlePayRent(ownerIndex)} disabled={payRentMessage !== ""}>Pagar 200€ de alquiler</button>
-                        <button onClick={() => setShowPropertyModal(false)}>
-                          Cerrar
-                        </button>
                       </>
                     )}
                   </div>
@@ -515,19 +518,19 @@ const Tablero = () => {
                     </>
                   ) : esPropietarioActual ? (
                     <>
-                    <button
-                      onClick={() => {
-                        sellProperty(currentTurn, currentProperty);
-                        setShowPropertyModal(false);
-                      }}
-                    >
-                      Vender
-                    </button>
-                    <button onClick={() => setShowPropertyModal(false)}>Cerrar</button>
+                      <button
+                        onClick={() => {
+                          sellProperty(currentTurn, currentProperty);
+                          setShowPropertyModal(false);
+                        }}
+                      >
+                        Vender
+                      </button>
+                      <button onClick={() => setShowPropertyModal(false)}>Cerrar</button>
                     </>
                   ) : (
                     <>
-                      <p style={{color: 'red', fontWeight: 'bold'}}>Esta propiedad ya ha sido comprada por otro jugador.</p>
+                      <p style={{ color: 'red', fontWeight: 'bold' }}>Esta propiedad ya ha sido comprada por otro jugador.</p>
                       <button onClick={() => handlePayRent(ownerIndex)} disabled={payRentMessage !== ""}>Pagar 200€ de alquiler</button>
                     </>
                   )}
@@ -537,38 +540,38 @@ const Tablero = () => {
           })()
         )}
 
-      { pendingTradeOffer && (
-        <PendingTrade 
-          tradeOffer={pendingTradeOffer} 
-          onAccept={() => {
-            const tradeOffer = pendingTradeOffer;
-            const proposerIndex = tradeOffer.from;
-            const responderIndex = currentTurn;  // El jugador actual es el receptor
-            let updatedPlayers = [...players];
+        {pendingTradeOffer && (
+          <PendingTrade
+            tradeOffer={pendingTradeOffer}
+            onAccept={() => {
+              const tradeOffer = pendingTradeOffer;
+              const proposerIndex = tradeOffer.from;
+              const responderIndex = currentTurn;  // El jugador actual es el receptor
+              let updatedPlayers = [...players];
 
-            // Intercambio de dinero:
-            updatedPlayers[proposerIndex] = {
-              ...updatedPlayers[proposerIndex],
-              money: updatedPlayers[proposerIndex].money - tradeOffer.proposerMoney + tradeOffer.responderMoney
-            };
-            updatedPlayers[responderIndex] = {
-              ...updatedPlayers[responderIndex],
-              money: updatedPlayers[responderIndex].money - tradeOffer.responderMoney + tradeOffer.proposerMoney
-            };
+              // Intercambio de dinero:
+              updatedPlayers[proposerIndex] = {
+                ...updatedPlayers[proposerIndex],
+                money: updatedPlayers[proposerIndex].money - tradeOffer.proposerMoney + tradeOffer.responderMoney
+              };
+              updatedPlayers[responderIndex] = {
+                ...updatedPlayers[responderIndex],
+                money: updatedPlayers[responderIndex].money - tradeOffer.responderMoney + tradeOffer.proposerMoney
+              };
 
-            // Intercambio de la propiedad ofrecida por el emisor.
-            if (tradeOffer.proposerProperty) {
-              const propIndex = tradeOffer.proposerProperty;
-              const prop = (updatedPlayers[proposerIndex].properties || []).find(p => p.index.toString() === propIndex);
-              if (prop) {
-                updatedPlayers[proposerIndex].properties = (updatedPlayers[proposerIndex].properties || []).filter(p => p.index.toString() !== propIndex);
-                updatedPlayers[responderIndex].properties = [
-                  ...(updatedPlayers[responderIndex].properties || []),
-                  prop
-                ];
+              // Intercambio de la propiedad ofrecida por el emisor.
+              if (tradeOffer.proposerProperty) {
+                const propIndex = tradeOffer.proposerProperty;
+                const prop = (updatedPlayers[proposerIndex].properties || []).find(p => p.index.toString() === propIndex);
+                if (prop) {
+                  updatedPlayers[proposerIndex].properties = (updatedPlayers[proposerIndex].properties || []).filter(p => p.index.toString() !== propIndex);
+                  updatedPlayers[responderIndex].properties = [
+                    ...(updatedPlayers[responderIndex].properties || []),
+                    prop
+                  ];
+                }
               }
-            }
-            
+
               // Intercambio de la propiedad solicitada (del receptor al emisor).
               if (tradeOffer.responderProperty) {
                 const propIndex = tradeOffer.responderProperty;
@@ -581,7 +584,7 @@ const Tablero = () => {
                   ];
                 }
               }
-              
+
               // Elimina la oferta pendiente del receptor
               updatedPlayers[responderIndex] = {
                 ...updatedPlayers[responderIndex],
@@ -638,10 +641,13 @@ const Tablero = () => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
         <MoneyPanel />
         <PropertiesPanel />
-        <button 
+        <button
           onClick={() => setShowTradeDeal(true)}
           style={{ padding: '10px 20px', fontSize: '1rem', marginTop: '1rem' }}>
           Realizar Trato
+        </button>
+        <button style={{ marginTop: '1rem', background: '#d32f2f', color: 'white' }} onClick={handleBankrupt}>
+          Bancarrota
         </button>
       </div>
       {showTradeDeal && <TradeDeal onClose={() => setShowTradeDeal(false)} />}
