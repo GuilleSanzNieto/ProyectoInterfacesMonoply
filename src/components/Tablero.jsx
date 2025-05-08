@@ -88,6 +88,12 @@ const getCasillaOverlayColor = (i) => {
   else return 'transparent'; // De lo contrario, sin franja
 };
 
+// Función para obtener el fondo de la casilla según el índice
+const getCasillaBackground = (i) => {
+  return "#ccffcc";
+  
+};
+
 const Tablero = () => {
   const { players, currentTurn, nextTurn, updatePlayerPosition, spinning, setSpinning, buyProperty, sellProperty, setPlayers } = useContext(PlayersContext);
   const [activeIndexes, setActiveIndexes] = useState([]);
@@ -333,6 +339,7 @@ const Tablero = () => {
         key={i}
         className={`casilla ${isCorner ? 'casilla-esquina' : ''} ${isActive ? 'recorrer' : ''}`}
         onClick={() => handleCasillaClick(i)}
+        style={{ backgroundColor: getCasillaBackground(i) }}  // Se asigna el fondo aquí
       >
         <div className="content">
           <span className="nombre-casilla">
@@ -342,8 +349,7 @@ const Tablero = () => {
         <div 
           className="color" 
           style={{ backgroundColor: getCasillaOverlayColor(i) }}
-        >
-        </div>
+        ></div>
         <div className="tokens">
           {mostarTokens(i)}
         </div>

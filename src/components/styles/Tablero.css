@@ -1,11 +1,10 @@
-/*cambio marta*/
 
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   box-sizing: border-box;
-  /* Elimina overflow: hidden y display:flex aquí para permitir scroll */
+  /*background-color: #bdeef6;*/
 }
 
 
@@ -21,11 +20,12 @@ html, body {
   max-height: 800px;
   grid-template-columns: repeat(11, 1fr);
   grid-template-rows: repeat(11, 1fr);
-  border: 2px solid black;
+  border: 1.5px solid black;
+  background-color: #ccffcc; 
 }
 
 .casilla {
-  border: 1px solid gray;
+  border: 1.5px solid rgb(0, 0, 0);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,6 +61,7 @@ html, body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  border-radius: 1.5px 1.5px 1.5px 1.5px;
 }
 
 .fila-superior .casilla .content{
@@ -72,6 +73,16 @@ html, body {
 }
 
 .fila-superior .casilla .color{
+  width: 100%;
+  height: 20px;
+  /* El background-color se sobrescribirá con el inline style */
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fila-inferior .casilla .color{
   width: 100%;
   height: 20px;
   /* El background-color se sobrescribirá con el inline style */
@@ -103,15 +114,7 @@ html, body {
   align-items: center; 
 }
 
-.fila-inferior .casilla .color{
-  width: 100%;
-  height: 20px;
-  /* El background-color se sobrescribirá con el inline style */
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 
 .token{
   width: 15px;
@@ -250,6 +253,7 @@ html, body {
   justify-content: center;
   gap: 2rem;
   width: 100%;
+  height: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 0;
