@@ -76,6 +76,18 @@ const PropertiesPanel = () => {
   );
 };
 
+const getCasillaOverlayColor = (i) => {
+  if ([1, 3].includes(i)) return 'brown';           // Casillas 1 y 3: rojo
+  else if ([6, 8, 9].includes(i)) return 'blue';     // Casillas 6, 8 y 9: azul
+  else if ([11, 13, 14].includes(i)) return 'pink';  // Casillas 11, 13 y 14: verde
+  else if ([16, 18, 19].includes(i)) return 'orange'; // Casillas 16, 18 y 19: amarillo
+  else if ([21, 23, 24].includes(i)) return 'red'; // Casillas 21, 23 y 24: morado
+  else if ([26, 27, 29].includes(i)) return 'yellow'; // Casillas 26, 28 y 29: naranja
+  else if ([31, 32, 34].includes(i)) return 'green';   // Casillas 31, 32 y 34: verde azulado
+  else if ([37, 39].includes(i)) return 'purple';      // Casillas 37 y 39: rosa
+  else return 'transparent'; // De lo contrario, sin franja
+};
+
 const Tablero = () => {
   const { players, currentTurn, nextTurn, updatePlayerPosition, spinning, setSpinning, buyProperty, sellProperty, setPlayers } = useContext(PlayersContext);
   const [activeIndexes, setActiveIndexes] = useState([]);
@@ -95,10 +107,10 @@ const Tablero = () => {
   const suerteCells = [4, 12, 28, 36];
 
 
-  const casillaNames = ["", "Centro de Enfermería (Ronda)", "Juego por dinero", "Centro de Magisterio (Antequera)",
-    "suerte", "metro1", "biblioteca", "juego por dinero", "pabellón de deportes", "jardin botanico", "prision", "comunicacion", "suerte", "filosofia", "derecho",
-    "metro2", "educacion", "juego por dinero", "ciencias", "medicina", "google", "turismo", "juego por dinero", "estudios sociales", "comercio", "metro3", "ciencias de la salud",
-    "psicologia", "suerte", "industriales", "go to prision", "bellas artes", "economicas", "juego por dinero", "arquitectura", "metro4", "suerte", "telecomunicaciones", "juego por dinero", "ETSII"];
+  const casillaNames = ["Inicio", "Enfermería (Ronda)", "Juego por dinero", "Magisterio (Antequera)",
+    "Suerte", "Metro 1", "Biblioteca", "Juego por dinero", "Pabellón de deportes", "Jardin botanico", "Prision", "Comunicacion", "Suerte", "Filosofia", "Derecho",
+    "Metro 2", "Educacion", "Juego por dinero", "Ciencias", "Medicina", "Google", "Turismo", "Juego por dinero", "Estudios sociales", "Comercio", "Metro 3", "Ciencias de la salud",
+    "Psicologia", "Suerte", "Industriales", "Go to prision", "Bellas artes", "Económicas", "Juego por dinero", "Arquitectura", "Metro 4", "Suerte", "Telecomunicaciones", "Juego por dinero", "ETSII"];
 
 
   const pendingTradeOffer = players[currentTurn]?.pendingTradeOffer;
@@ -316,6 +328,7 @@ const Tablero = () => {
   for (let i = 0; i < 41; i++) {
     const isCorner = [10, 20, 30, 40].includes(i);
     const isActive = activeIndexes.includes(i);
+    
     casillas.push(
       <div
         key={i}
@@ -327,7 +340,12 @@ const Tablero = () => {
             {casillaNames[i]}
           </span>
         </div>
-        <div className="color">
+        <div 
+          className="color" 
+          style={{ backgroundColor: getCasillaOverlayColor(i) }}
+        >
+        </div>
+        <div className="tokens">
           {mostarTokens(i)}
         </div>
       </div>
