@@ -93,12 +93,7 @@ const Tablero = () => {
   const [lastActions, setLastActions] = useState([]);
   const miniGameCells = [2, 7, 17, 22, 33, 38];
   const suerteCells = [4, 12, 28, 36];
-  // const miniGameCells = [];
-  // for(let i = 0; i < 41; i++){
-  //   if(i % 2 === 0){
-  //     miniGameCells.push(i);
-  //   }
-  // }
+
 
   const casillaNames = ["", "Centro de Enfermería (Ronda)", "Juego por dinero", "Centro de Magisterio (Antequera)",
     "suerte", "metro1", "biblioteca", "juego por dinero", "pabellón de deportes", "jardin botanico", "prision", "comunicacion", "suerte", "filosofia", "derecho",
@@ -127,10 +122,10 @@ const Tablero = () => {
       ];
 
       const outcome = outcomes[Math.floor(Math.random() * outcomes.length)];
-      console.log('Outcome seleccionado:', outcome); // Para depuración
 
-      setShowSuerte(true);
+      
       addAction(outcome.message);
+
 
       switch (outcome.effect) {
         case 'bonus':
@@ -147,6 +142,12 @@ const Tablero = () => {
         default:
           break;
       }
+
+      setShowSuerte(outcome);
+
+
+
+
     }
 
     if (miniGameCells.includes(finalPosition)) {
@@ -201,12 +202,11 @@ const Tablero = () => {
   // Animación para mover el token del jugador actual
   const animation = (start, steps) => {
     const newActiveIndexes = [];
-    let passedStart = 0;
     for (let i = 0; i <= steps; i++) {
       const idx = (start + i) % 40;
       newActiveIndexes.push(idx);
       // Si pasa por la casilla 0 (salida), suma 200€ (pero no en la posición inicial)
-      if (i > 0 && idx === 0) {
+      if (idx === 40) {
         setPlayers(prevPlayers => prevPlayers.map((player, index) =>
           index === currentTurn ? { ...player, money: player.money + 200 } : player
         ));
@@ -249,6 +249,7 @@ const Tablero = () => {
         setPropertyModalByLanding(true);
         setPropertyBuyerIndex(currentTurn); // Captura el turno en ese momento
       }
+
       executeWhenAnimationEnds(finalPos);
 
     }, (steps + 2) * 250);
@@ -348,6 +349,7 @@ const Tablero = () => {
     if (players[payerIndex].money >= 200) {
       // Descontar al jugador actual
       players[payerIndex].money -= 200;
+
       // Sumar al dueño
       players[ownerIndex].money += 200;
       // Actualizar el estado global
@@ -359,12 +361,12 @@ const Tablero = () => {
       setPayRentMessage("No tienes suficiente dinero para pagar el alquiler.");
       addAction(`${players[payerIndex].name} no tiene suficiente dinero para pagar el alquiler a ${players[ownerIndex].name}`);
     }
+
     setTimeout(() => {
       setShowPropertyModal(false);
       setPropertyBuyerIndex(null);
       setPayRentMessage("");
-      nextTurn();
-      setSpinning(false);
+      // setSpinning(false);
     }, 2000);
   };
 
@@ -450,11 +452,15 @@ const Tablero = () => {
             <button onClick={closeInfoCasilla}>Cerrar</button>
           </div>
         )}
+
+
         {showSuerte && (
           <div className="suerte-modal" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '10px', border: '1px solid black', borderRadius: '5px', zIndex: 10 }}>
-            <Suerte onClose={() => setShowSuerte(false)} />
+            <Suerte outcome={showSuerte} onClose={() => setShowSuerte(false)} />
           </div>
         )}
+
+
         {showPropertyModal && currentProperty && (
           (() => {
             // Comprobar si la propiedad ya pertenece a algún jugador
@@ -484,7 +490,7 @@ const Tablero = () => {
                       <>
                         <button
                           onClick={() => {
-                            sellProperty(currentTurn, currentProperty);
+                            sellProperty(propertyBuyerIndex, currentProperty);
                             setShowPropertyModal(false);
                           }}
                         >
@@ -539,6 +545,7 @@ const Tablero = () => {
             }
           })()
         )}
+
 
         {pendingTradeOffer && (
           <PendingTrade
@@ -637,7 +644,13 @@ const Tablero = () => {
             </button>
           </div>
         )}
+
       </div>
+
+
+
+
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
         <MoneyPanel />
         <PropertiesPanel />
