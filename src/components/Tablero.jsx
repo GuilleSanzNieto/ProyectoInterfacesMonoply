@@ -419,12 +419,12 @@ const Tablero = () => {
           <Dados spinning={spinning} index={1} setValor={setValorDados} />
         </div>
         {valorDados[0] && valorDados[1] && (
-          <p>
+          <p className="dice-sum">
             {valorDados[0]} + {valorDados[1]} = {valorDados[0] + valorDados[1]}
           </p>
         )}
         {players.length > 0 && (
-          <p style={{ color: players[currentTurn].color, fontWeight: 'bold', margin: 0 }}>
+          <p className="turno-jugador">
             Turno de: {players[currentTurn].name}
           </p>
         )}
@@ -485,16 +485,17 @@ const Tablero = () => {
                   <div className="property-modal-content" style={{ background: '#fff', borderRadius: '12px', padding: '2rem 2.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.25)', minWidth: '260px', maxWidth: '90vw', textAlign: 'center' }}>
                     <h3>{currentProperty.name}</h3>
                     <p>Precio: ${currentProperty.price}</p>
-                    {payRentMessage && <p style={{ color: 'blue', fontWeight: 'bold' }}>{payRentMessage}</p>}
+                    {payRentMessage && <p style={{ color: 'red', fontWeight: 'bold' }}>{payRentMessage}</p>}
                     {!propiedadYaComprada ? (
                       <>
-                        <button
+                        <button className="comprar-btn"
                           disabled={players[propertyBuyerIndex]?.money < currentProperty.price}
                           onClick={() => handleBuyProperty(currentProperty)}
                         >
                           Comprar
                         </button>
-                        <button onClick={() => { setShowPropertyModal(false); addAction(`${players[propertyBuyerIndex].name} ha pasado el turno`); }}>
+                        <button className="pasar-btn"
+                        onClick={() => { setShowPropertyModal(false); addAction(`${players[propertyBuyerIndex].name} ha pasado el turno`); }}>
                           Pasar
                         </button>
                       </>
