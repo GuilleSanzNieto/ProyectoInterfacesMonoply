@@ -103,25 +103,9 @@ const MemoriCard = ({ visible }) => {
     setIsComparing(false);
   };
 
-  // Reiniciar el juego
-  const resetGame = () => {
-    const newCards = shuffleCards(
-      initialCards.map(card => ({ ...card, flipped: false, matched: false }))
-    );
-    setCards(newCards);
-    setHasWon(false);
-    
-    //Vuelve al tablero
-    setTimeout(() => {
-      visible(false);
-    }, 3000);
-    resetTurn();
-  };
-
   return (
     <div className="memory-wrapper">
     <h1>Juego de Memoria</h1>
-    <button onClick={resetGame}>Reiniciar Juego</button>
     <div className="memory-container">
       {cards.map(card => (
         <div
