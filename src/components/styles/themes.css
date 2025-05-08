@@ -1,0 +1,16 @@
+:root{
+    --bg:#f7f7f7; --fg:#1c1c1c; --accent:#0066ff; --card:#ffffff;
+  }
+.dark{
+--bg:#121212; --fg:#f1f1f1; --accent:#4dabff; --card:#1e1e1e;
+}
+.daltonic{
+--accent:#ff8c00;
+}
+.dark.daltonic{
+--bg:#000; --fg:#fff; --accent:#ffb000;
+}
+body{background:var(--bg);color:var(--fg);font-family:Inter,sans-serif;}
+button,select,input{color:var(--fg);background:var(--card);border:2px solid var(--accent);}
+button:hover{background:var(--accent);color:#fff;}
+button:active{background:#0056b3;}

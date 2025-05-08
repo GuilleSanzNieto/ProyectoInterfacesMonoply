@@ -7,9 +7,57 @@ html, body {
   /*background-color: #bdeef6;*/
 }
 
+.actions-log {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: auto; /* Cambiado de max-height a height: auto */
+  overflow-y: visible; /* Elimina el scroll */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.actions-log p {
+  margin: 5px 0;
+  padding: 3px 0;
+  font-size: 0.9rem;
+  border-bottom: 1px dotted #ccc;
+  color: #444;
+  white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+  overflow: hidden; /* Oculta el texto que sobresale */
+  text-overflow: ellipsis; /* Muestra puntos suspensivos si el texto es demasiado largo */
+}
+
+.actions-log p:first-child {
+  border-bottom: none;
+  font-weight: bold;
+  color: #000;
+}
+.turno-jugador {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  color: inherit;
+}
 
 :root {
   --size_esquina: min(15vw, 100px);
+}
+
+.dice-sum {
+  position: static; /* Cambiado de absolute a static */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
 }
 
 .tablero {
@@ -226,6 +274,43 @@ html, body {
   gap: 15%;
 }
 
+/* Estilos para el botón de comprar con fondo verde */
+button.comprar-btn {
+  background-color: #4CAF50; /* Verde */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button.comprar-btn:hover {
+  background-color: #45a049; /* Verde más oscuro al pasar el ratón */
+}
+
+/* Estilos para el botón de pasar con fondo azul */
+button.pasar-btn {
+  background-color: #07406f; /* Azul */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button.pasar-btn:hover {
+  background-color: #0b7dda; /* Azul más oscuro al pasar el ratón */
+}
 
 
 
