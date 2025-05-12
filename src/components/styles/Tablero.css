@@ -177,7 +177,7 @@ html, body {
 
 .casilla-esquina {
   background-color: black;
-  color: white;
+  color: rgb(0, 0, 0);
   aspect-ratio: 1 / 1; /* Asegura que las esquinas sean cuadradas */
 }
 
