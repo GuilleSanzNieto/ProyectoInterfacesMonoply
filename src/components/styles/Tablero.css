@@ -105,6 +105,7 @@ html, body {
 
 
 .fila-superior .casilla{
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -121,6 +122,9 @@ html, body {
 }
 
 .fila-superior .casilla .color{
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
   height: 20px;
   /* El background-color se sobrescribirá con el inline style */
@@ -170,6 +174,7 @@ html, body {
   border-radius: 50%;
   margin-left: 2px;
   margin-right: 2px;
+  z-index: 3;
 }
 
 
