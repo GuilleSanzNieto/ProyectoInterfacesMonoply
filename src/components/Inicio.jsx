@@ -169,14 +169,47 @@ function Inicio({ onStart }) {
         </div>
       )}
       {showInstrucciones && (
-        <div className="instrucciones-overlay">
-          <div className="instrucciones-panel">
-            <h2>Instrucciones</h2>
-            <p>Estas son las instrucciones del juego...</p>
-            <button onClick={() => setShowInstrucciones(false)}>Cerrar</button>
+      <div className="instrucciones-overlay">
+        <div className="instrucciones-panel">
+          <h2>📜 Instrucciones del Monopoly UMA</h2>
+          <div className="instrucciones-contenido">
+            <p><strong>🎯 Objetivo:</strong> Sé el último jugador en pie sin bancarrota, comprando propiedades, cobrando alquileres y construyendo aulas y facultades.</p>
+            
+            <p><strong>🎲 Inicio:</strong> Cada jugador elige ficha, color y recibe $5500 UMA. Coloca tu ficha en la casilla de <em>“INICIO”</em>.</p>
+
+            <p><strong>🚶 Turnos:</strong> En tu turno:</p>
+            <ul>
+              <li>Lanza los dados y avanza tu ficha.</li>
+              <li>Si caes en una propiedad libre, puedes comprarla.</li>
+              <li>Si no la compras, pasas el turno.</li>
+              <li>Si es de otro jugador, pagas alquiler.</li>
+            </ul>
+
+            <p><strong>🏗️ Construcción:</strong> Si tienes todas las propiedades del mismo color, puedes edificar:</p>
+            <ul>
+              <li>Primero aulas, luego facultades.</li>
+              <li>El alquiler aumenta con cada construcción.</li>
+            </ul>
+
+            <p><strong>📚 Cárcel:</strong> Puedes salir:</p>
+            <ul>
+              <li>Pagando $200 a la UMA</li>
+              <li>O sacando dobles cuando sea tu turno</li>
+            </ul>
+
+            <p><strong>💸 Bancarrota:</strong> Si no puedes pagar, estás fuera. El último jugador con dinero gana.</p>
+
+            <p><strong>🎁 Reglas especiales UMA (opcionales):</strong></p>
+            <ul>
+              <li>Cobras $200 UMA al pasar por la casilla de “INICIO”.</li>
+            </ul>
           </div>
+
+          <button onClick={() => setShowInstrucciones(false)}>Cerrar</button>
         </div>
-      )}
+      </div>
+    )}
+
     </div>
   );
 }
