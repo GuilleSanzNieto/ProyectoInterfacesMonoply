@@ -58,7 +58,8 @@ function Inicio({ onStart }) {
     const validationErrors = players.map(player => ({
       name: player.name.trim() === '',
       //suponeos que si el color es #000000 no ha elegido color
-      color: !player.color || player.color.trim()  === ''
+      color: !player.color || player.color === '#000000'
+
     }));
     const nombres = players.map(player => player.name.trim());
     const nombresRepetidos = nombres.filter((item, index) => nombres.indexOf(item) !== index);
@@ -118,7 +119,7 @@ function Inicio({ onStart }) {
             className={errors[index]?.name ? "input-error" : ""}
           />
           <div
-            className={errors[index]?.name ? "input-errorCirculo" : `color-preview`}
+            className={errors[index]?.color ? "input-errorCirculo" : `color-preview`}
             style={{ backgroundColor: player.color }}
             onClick={() => setShowColorPickerIndex(index)}>
           </div>
