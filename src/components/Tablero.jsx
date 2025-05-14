@@ -508,6 +508,7 @@ const Tablero = () => {
                     ) : esPropietarioActual ? (
                       <>
                         <button
+                          className="vender-btn"
                           onClick={() => {
                             sellProperty(propertyBuyerIndex, currentProperty);
                             setShowPropertyModal(false);
