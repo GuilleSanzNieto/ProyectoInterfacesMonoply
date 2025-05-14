@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './styles/WordSearch.css';
 import './styles/commonStyles.css'; // Importa estilos comunes (overlay, win-message, losser-message)
 
-const WordSearch = ({ visible }) => {
+const WordSearch = ({ visible, onGameEnd }) => {
   const battery = ['UMA', 'CAMPUS', 'ESTUDIANTE', 'ESCUELA', 'UNIVERSIDAD', 'MALAGA', 'FACULTAD', 'DEPORTES', 'ASIGNATURA', 'MATRICULA'];
 
   const [roundWords] = useState(() =>
@@ -160,6 +160,7 @@ const WordSearch = ({ visible }) => {
             const newFound = [...prev, validWord];
             if (newFound.length === 4) {
               setHasWon(true);
+              if (onGameEnd) onGameEnd(0);
               setTimeout(() => {
                 visible(false);
               }, 3000);

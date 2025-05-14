@@ -33,25 +33,25 @@ const MoneyPanel = () => {
 const propiedades = [
   { index: 1, name: "Centro de Enfermería (Ronda)", price: 100 },
   { index: 3, name: "Centro de Magisterio (Antequera)", price: 120 },
-  { index: 6, name: "biblioteca", price: 150 },
-  { index: 8, name: "pabellón de deportes", price: 180 },
-  { index: 9, name: "jardin botanico", price: 200 },
-  { index: 11, name: "comunicacion", price: 220 },
-  { index: 13, name: "filosofia", price: 240 },
-  { index: 14, name: "derecho", price: 260 },
-  { index: 16, name: "educacion", price: 280 },
-  { index: 18, name: "ciencias", price: 300 },
-  { index: 19, name: "medicina", price: 320 },
-  { index: 21, name: "turismo", price: 340 },
-  { index: 23, name: "estudios sociales", price: 360 },
-  { index: 24, name: "comercio", price: 380 },
-  { index: 26, name: "ciencias de la salud", price: 400 },
-  { index: 27, name: "psicologia", price: 420 },
-  { index: 29, name: "industriales", price: 440 },
-  { index: 31, name: "bellas artes", price: 460 },
-  { index: 32, name: "economicas", price: 480 },
-  { index: 34, name: "arquitectura", price: 500 },
-  { index: 37, name: "telecomunicaciones", price: 520 },
+  { index: 6, name: "Biblioteca", price: 150 },
+  { index: 8, name: "Pabellón de deportes", price: 180 },
+  { index: 9, name: "Jardin botánico", price: 200 },
+  { index: 11, name: "Comunicación", price: 220 },
+  { index: 13, name: "Filosofía", price: 240 },
+  { index: 14, name: "Derecho", price: 260 },
+  { index: 16, name: "Educación", price: 280 },
+  { index: 18, name: "Ciencias", price: 300 },
+  { index: 19, name: "Medicina", price: 320 },
+  { index: 21, name: "Turismo", price: 340 },
+  { index: 23, name: "Estudios sociales", price: 360 },
+  { index: 24, name: "Comercio", price: 380 },
+  { index: 26, name: "Ciencias de la salud", price: 400 },
+  { index: 27, name: "Psicología", price: 420 },
+  { index: 29, name: "Industriales", price: 440 },
+  { index: 31, name: "Bellas artes", price: 460 },
+  { index: 32, name: "Económicas", price: 480 },
+  { index: 34, name: "Arquitectura", price: 500 },
+  { index: 37, name: "Telecomunicaciones", price: 520 },
   { index: 39, name: "ETSII", price: 540 },
 ];
 
@@ -188,6 +188,27 @@ const Tablero = () => {
     const miniGamesArray = [TicTacToe, WordSearch, MemoriCard, Conecta4, MatesTest, PiedraPapelTijera, Trivial];
     const randomIndex = Math.floor(Math.random() * miniGamesArray.length);
     console.log('Ejecutando minijuego:', miniGamesArray[randomIndex].name);
+
+    const onGameEnd = (winnerIndex) => {
+    const reward = 100; // Cantidad de dinero que se suma al ganador
+
+    if (winnerIndex !== null && winnerIndex >= 0) {
+      // Si hay un ganador, se le suma el dinero
+      const winnerName = players[winnerIndex].name;
+      setPlayers(prevPlayers =>
+        prevPlayers.map((player, idx) =>
+          idx === winnerIndex ? { ...player, money: player.money + reward } : player
+        )
+      );
+      addAction(`${winnerName} ha ganado el minijuego y ha recibido ${reward}€`);
+    }
+    else{
+      addAction(`El minijuego ha terminado sin un ganador`);
+    }
+    setShowMiniGame(false);
+    nextTurn();
+  };
+
     setMiniGameComponent(() => miniGamesArray[randomIndex]);
     setShowMiniGame(true);
   };

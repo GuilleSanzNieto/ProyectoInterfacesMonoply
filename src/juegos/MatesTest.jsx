@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './styles/MatesTest.css';
 import './styles/commonStyles.css'; // Para overlay, win-message y loser-alt
 
-const MathGame = ({ visible }) => {
+const MathGame = ({ visible, onGameEnd }) => {
   // Usamos números entre 1 y 20.
   const [num1, setNum1] = useState(0);
   const [num2, setNum2] = useState(0);
@@ -52,6 +52,9 @@ const MathGame = ({ visible }) => {
           // Si acertó 3 operaciones, finalizar mostrando overlay ganador
           setResultMessage('¡Ganaste!');
           setShowAnimation(true);
+
+          if (onGameEnd) onGameEnd(0);
+
           setTimeout(() => {
             visible(false);
           }, 3000);
@@ -66,6 +69,7 @@ const MathGame = ({ visible }) => {
       setShowAnimation(true);
       setTimeout(() => {
         setResultMessage('Perdiste');
+        if (onGameEnd) onGameEnd(null);
         setTimeout(() => {
           visible(false);
         }, 3000);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './styles/TicTacToe.css';
 import './styles/commonStyles.css'; // Importa estilos comunes (overlay, win-message, losser-message)
 
-const TicTacToe = ({ visible }) => {
+const TicTacToe = ({ visible, onGameEnd }) => {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [winner, setWinner] = useState(null);
@@ -67,6 +67,9 @@ const TicTacToe = ({ visible }) => {
     const gameWinner = checkWinner(newBoard);
     if (gameWinner) {
       setWinner(gameWinner);
+      if (onGameEnd) {
+        onGameEnd(gameWinner === 'X' ? 0 : null);
+      }
       //Vuelve al tablero
       setTimeout(() => {
         visible(false);
