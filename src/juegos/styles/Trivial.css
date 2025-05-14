@@ -68,3 +68,17 @@
 .incorrect {
     color: red;
 }
+
+/* Contador de preguntas */
+.trivial-counter {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #8f7a66;
+    background: #fff7e6;
+    border: 2px solid #ffdfba;
+    border-radius: 8px;
+    padding: 8px 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+    display: inline-block;
+}

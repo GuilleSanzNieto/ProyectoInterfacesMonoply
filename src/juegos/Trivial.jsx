@@ -99,6 +99,9 @@ const Trivial = ({ visible }) => {
   return (
     <div className="trivial-wrapper">
       <h1>Juego de Trivial</h1>
+      <div className="trivial-counter">
+        Aciertos: {wins} de 2
+      </div>
       {phase === 1 && (
         <div className="question">
           <p>{selectedQuestion.text}</p>

@@ -88,6 +88,12 @@ const getCasillaOverlayColor = (i) => {
   else return 'transparent'; // De lo contrario, sin franja
 };
 
+// Función para obtener el fondo de la casilla según el índice
+const getCasillaBackground = (i) => {
+  return "#ccffcc";
+  
+};
+
 const Tablero = () => {
   const { players, currentTurn, nextTurn, updatePlayerPosition, spinning, setSpinning, buyProperty, sellProperty, setPlayers } = useContext(PlayersContext);
   const [activeIndexes, setActiveIndexes] = useState([]);
@@ -103,11 +109,12 @@ const Tablero = () => {
   const [payRentMessage, setPayRentMessage] = useState("");
   const [showJailModal, setShowJailModal] = useState(false);
   const [lastActions, setLastActions] = useState([]);
+  const [showBankruptConfirm, setShowBankruptConfirm] = useState(false);
   const miniGameCells = [2, 7, 17, 22, 33, 38];
   const suerteCells = [4, 12, 28, 36];
 
 
-  const casillaNames = ["Inicio", "Enfermería (Ronda)", "Juego por dinero", "Magisterio (Antequera)",
+  const casillaNames = ["INICIO", "Enfermería (Ronda)", "Juego por dinero", "Magisterio (Antequera)",
     "Suerte", "Metro 1", "Biblioteca", "Juego por dinero", "Pabellón de deportes", "Jardin botanico", "Prision", "Comunicacion", "Suerte", "Filosofia", "Derecho",
     "Metro 2", "Educacion", "Juego por dinero", "Ciencias", "Medicina", "Google", "Turismo", "Juego por dinero", "Estudios sociales", "Comercio", "Metro 3", "Ciencias de la salud",
     "Psicologia", "Suerte", "Industriales", "Go to prision", "Bellas artes", "Económicas", "Juego por dinero", "Arquitectura", "Metro 4", "Suerte", "Telecomunicaciones", "Juego por dinero", "ETSII"];
@@ -326,7 +333,7 @@ const Tablero = () => {
 
   const casillas = [];
   for (let i = 0; i < 41; i++) {
-    const isCorner = [10, 20, 30, 40].includes(i);
+    const isCorner = [0, 10, 20, 30, 40].includes(i);
     const isActive = activeIndexes.includes(i);
     
     casillas.push(
@@ -334,6 +341,7 @@ const Tablero = () => {
         key={i}
         className={`casilla ${isCorner ? 'casilla-esquina' : ''} ${isActive ? 'recorrer' : ''}`}
         onClick={() => handleCasillaClick(i)}
+        style={{ backgroundColor: getCasillaBackground(i) }}  // Se asigna el fondo aquí
       >
         <div className="content">
           <span className="nombre-casilla">
@@ -343,8 +351,7 @@ const Tablero = () => {
         <div 
           className="color" 
           style={{ backgroundColor: getCasillaOverlayColor(i) }}
-        >
-        </div>
+        ></div>
         <div className="tokens">
           {mostarTokens(i)}
         </div>
@@ -361,20 +368,21 @@ const Tablero = () => {
     }
   };
 
-  const handlePayRent = (ownerIndex) => {
-    // El jugador actual (payerIndex) paga 200€ al dueño
+  const handlePayRent = (ownerIndex, rentPrice) => {
     const payerIndex = propertyBuyerIndex;
-    if (players[payerIndex].money >= 200) {
+    if (players[payerIndex].money >= rentPrice) {
       // Descontar al jugador actual
-      players[payerIndex].money -= 200;
+      players[payerIndex].money -= rentPrice;
 
       // Sumar al dueño
-      players[ownerIndex].money += 200;
+      players[ownerIndex].money += rentPrice;
+
       // Actualizar el estado global
       const updatedPlayers = [...players];
       setPlayers(updatedPlayers);
-      setPayRentMessage(`Has pagado 200€ a ${players[ownerIndex].name}`);
-      addAction(`${players[payerIndex].name} ha pagado 200€ de alquiler a ${players[ownerIndex].name}`);
+
+      setPayRentMessage(`Has pagado ${rentPrice}€ a ${players[ownerIndex].name}`);
+      addAction(`${players[payerIndex].name} ha pagado ${rentPrice}€ de alquiler a ${players[ownerIndex].name}`);
     } else {
       setPayRentMessage("No tienes suficiente dinero para pagar el alquiler.");
       addAction(`${players[payerIndex].name} no tiene suficiente dinero para pagar el alquiler a ${players[ownerIndex].name}`);
@@ -384,7 +392,6 @@ const Tablero = () => {
       setShowPropertyModal(false);
       setPropertyBuyerIndex(null);
       setPayRentMessage("");
-      // setSpinning(false);
     }, 2000);
   };
 
@@ -426,7 +433,16 @@ const Tablero = () => {
           </p>
         )}
         {players.length > 0 && (
-          <p className="turno-jugador">
+          <p
+            className="turno-jugador"
+            style={{
+              backgroundColor: players[currentTurn].color, // Fondo del color del jugador
+              color: "white", // Texto en blanco
+              padding: "10px", // Espaciado interno
+              borderRadius: "5px", // Bordes redondeados
+              textAlign: "center", // Centrar el texto
+            }}
+          >
             Turno de: {players[currentTurn].name}
           </p>
         )}
@@ -521,7 +537,12 @@ const Tablero = () => {
                     ) : (
                       <>
                         <p style={{ color: 'red', fontWeight: 'bold' }}>Esta propiedad ya ha sido comprada por otro jugador.</p>
-                        <button onClick={() => handlePayRent(ownerIndex)} disabled={payRentMessage !== ""}>Pagar 200€ de alquiler</button>
+                        <button
+                          onClick={() => handlePayRent(ownerIndex, currentProperty.price)} // Usa el precio dinámico
+                          disabled={payRentMessage !== ""}
+                        >
+                          Pagar {currentProperty.price}€ de alquiler
+                        </button>
                       </>
                     )}
                   </div>
@@ -557,7 +578,12 @@ const Tablero = () => {
                   ) : (
                     <>
                       <p style={{ color: 'red', fontWeight: 'bold' }}>Esta propiedad ya ha sido comprada por otro jugador.</p>
-                      <button onClick={() => handlePayRent(ownerIndex)} disabled={payRentMessage !== ""}>Pagar 200€ de alquiler</button>
+                      <button
+                        onClick={() => handlePayRent(ownerIndex, currentProperty.price)} // Usa el precio dinámico
+                        disabled={payRentMessage !== ""}
+                      >
+                        Pagar {currentProperty.price}€ de alquiler
+                      </button>
                     </>
                   )}
                 </div>
@@ -679,11 +705,63 @@ const Tablero = () => {
           style={{ padding: '10px 20px', fontSize: '1rem', marginTop: '1rem' }}>
           Realizar Trato
         </button>
-        <button style={{ marginTop: '1rem', background: '#d32f2f', color: 'white' }} onClick={handleBankrupt}>
+        <button
+          style={{ marginTop: '1rem', background: '#d32f2f', color: 'white' }}
+          onClick={() => setShowBankruptConfirm(true)}
+        >
           Bancarrota
         </button>
       </div>
       {showTradeDeal && <TradeDeal onClose={() => setShowTradeDeal(false)} />}
+      {showBankruptConfirm && (
+        <div
+          className="bankrupt-modal"
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'white',
+            padding: '20px',
+            border: '2px solid black',
+            borderRadius: '10px',
+            zIndex: 1000,
+            textAlign: 'center',
+          }}
+        >
+          <h3>¿Estás seguro de declarar bancarrota?</h3>
+          <div style={{ marginTop: '10px' }}>
+            <button
+              style={{
+                marginRight: '10px',
+                padding: '10px 20px',
+                backgroundColor: '#d32f2f',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+              }}
+              onClick={() => {
+                handleBankrupt(); // Llama a la función de bancarrota
+                setShowBankruptConfirm(false); // Cierra el modal
+              }}
+            >
+              Sí
+            </button>
+            <button
+              style={{
+                padding: '10px 20px',
+                backgroundColor: '#4caf50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+              }}
+              onClick={() => setShowBankruptConfirm(false)} // Cierra el modal
+            >
+              No
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
