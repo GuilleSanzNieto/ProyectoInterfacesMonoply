@@ -4,8 +4,8 @@ export const PlayersContext = createContext();
 
 export const PlayersProvider = ({ children }) => {
     const [players, setPlayers] = useState([
-        { name: '', color: '#000000', position: 0, money: 5500, properties: [] },
-        { name: '', color: '#000000', position: 0, money: 5500, properties: [] }
+        { name: '', color: '#000000', position: 0, money: 3000, properties: [] },
+        { name: '', color: '#000000', position: 0, money: 3000, properties: [] }
     ]);
     const [currentTurn, setCurrentTurn] = useState(0);
     const [spinning, setSpinning] = useState(false);

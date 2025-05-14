@@ -36,7 +36,7 @@ function Inicio({ onStart }) {
   const handleNumPlayersChange = (num) => {
     setNumPlayers(num);
     setPlayers(
-      Array.from({ length: num }, (_, i) => players[i] || { name: '', color: '#000000', position: 0, money: 5500, properties: [] })
+      Array.from({ length: num }, (_, i) => players[i] || { name: '', color: '#000000', position: 0, money: 3000, properties: [] })
     );
   };
 
@@ -174,9 +174,9 @@ function Inicio({ onStart }) {
         <div className="instrucciones-panel">
           <h2>📜 Instrucciones del Monopoly UMA</h2>
           <div className="instrucciones-contenido">
-            <p><strong>🎯 Objetivo:</strong> Sé el último jugador en pie sin bancarrota, comprando propiedades, cobrando alquileres y construyendo aulas y facultades.</p>
+            <p><strong>🎯 Objetivo:</strong> Sé el último jugador en pie sin bancarrota, comprando propiedades y cobrando alquileres.</p>
             
-            <p><strong>🎲 Inicio:</strong> Cada jugador elige ficha, color y recibe $5500 UMA. Coloca tu ficha en la casilla de <em>“INICIO”</em>.</p>
+            <p><strong>🎲 Inicio:</strong> Cada jugador elige ficha, color y recibe $3000. Coloca tu ficha en la casilla de <em>“INICIO”</em>.</p>
 
             <p><strong>🚶 Turnos:</strong> En tu turno:</p>
             <ul>
@@ -184,12 +184,6 @@ function Inicio({ onStart }) {
               <li>Si caes en una propiedad libre, puedes comprarla.</li>
               <li>Si no la compras, pasas el turno.</li>
               <li>Si es de otro jugador, pagas alquiler.</li>
-            </ul>
-
-            <p><strong>🏗️ Construcción:</strong> Si tienes todas las propiedades del mismo color, puedes edificar:</p>
-            <ul>
-              <li>Primero aulas, luego facultades.</li>
-              <li>El alquiler aumenta con cada construcción.</li>
             </ul>
 
             <p><strong>📚 Cárcel:</strong> Puedes salir:</p>

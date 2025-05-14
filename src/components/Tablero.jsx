@@ -136,7 +136,7 @@ const Tablero = () => {
       const currentName = players[currentTurn].name; // Capturamos el nombre antes de que se modifique algo
       const outcomes = [
         { message: `${currentName} ha recibido una bonificación`, effect: 'bonus', moneyChange: +200 },
-        { message: `${currentName} ha pagado una multa`, effect: 'fine', moneyChange: -100 },
+        { message: `${currentName} ha pagado una multa`, effect: 'fine', moneyChange: -200 },
         { message: `${currentName} recibe un turno extra`, effect: 'extraTurn' }
       ];
 
