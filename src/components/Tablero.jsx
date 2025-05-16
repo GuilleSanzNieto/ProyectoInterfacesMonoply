@@ -55,26 +55,27 @@ const propiedades = [
   { index: 39, name: "ETSII", price: 540 },
 ];
 
-const PropertiesPanel = () => {
+function PropertiesPanel() {
   const { players } = useContext(PlayersContext);
+
   return (
     <div className="properties-panel">
       <h3>Propiedades de los jugadores</h3>
-      <ul>
-        {players.map((player, idx) => (
-          <li key={idx} style={{ color: player.color }}>
-            {player.name || `Jugador ${idx + 1}`}:
-            <ul>
-              {(player.properties || []).map((prop, i) => (
-                <li key={i}>{prop.name}</li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+      {players.map((player, idx) => (
+        <div key={idx} className="player-properties">
+          <h4 style={{ color: player.color }}>
+            {player.name || `Jugador ${idx + 1}`}
+          </h4>
+          <ul>
+            {(player.properties || []).map((prop, i) => (
+              <li key={i}>• {prop.name}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
-};
+}
 
 const getCasillaOverlayColor = (i) => {
   if ([1, 3].includes(i)) return 'brown';           // Casillas 1 y 3: rojo
@@ -620,59 +621,46 @@ const Tablero = () => {
             onAccept={() => {
               const tradeOffer = pendingTradeOffer;
               const proposerIndex = tradeOffer.from;
-              const responderIndex = currentTurn;  // El jugador actual es el receptor
-              let updatedPlayers = [...players];
+              const responderIndex = currentTurn; // Quien recibe la oferta
+              const updatedPlayers = [...players];
 
-              // Intercambio de dinero:
-              updatedPlayers[proposerIndex] = {
-                ...updatedPlayers[proposerIndex],
-                money: updatedPlayers[proposerIndex].money - tradeOffer.proposerMoney + tradeOffer.responderMoney
-              };
-              updatedPlayers[responderIndex] = {
-                ...updatedPlayers[responderIndex],
-                money: updatedPlayers[responderIndex].money - tradeOffer.responderMoney + tradeOffer.proposerMoney
-              };
+              // Intercambio de dinero
+              updatedPlayers[proposerIndex].money =
+                updatedPlayers[proposerIndex].money - tradeOffer.proposerMoney + tradeOffer.responderMoney;
+              updatedPlayers[responderIndex].money =
+                updatedPlayers[responderIndex].money - tradeOffer.responderMoney + tradeOffer.proposerMoney;
 
-              // Intercambio de la propiedad ofrecida por el emisor.
-              if (tradeOffer.proposerProperty) {
-                const propIndex = tradeOffer.proposerProperty;
-                const prop = (updatedPlayers[proposerIndex].properties || []).find(p => p.index.toString() === propIndex);
-                if (prop) {
-                  updatedPlayers[proposerIndex].properties = (updatedPlayers[proposerIndex].properties || []).filter(p => p.index.toString() !== propIndex);
-                  updatedPlayers[responderIndex].properties = [
-                    ...(updatedPlayers[responderIndex].properties || []),
-                    prop
-                  ];
-                }
+              // Intercambia las propiedades del proposer
+              if (Array.isArray(tradeOffer.proposerProperties)) {
+                tradeOffer.proposerProperties.forEach(propIndexStr => {
+                  const propIndex = parseInt(propIndexStr, 10);
+                  const prop = updatedPlayers[proposerIndex].properties?.find(p => p.index === propIndex);
+                  if (prop) {
+                    updatedPlayers[proposerIndex].properties = updatedPlayers[proposerIndex].properties.filter(p => p.index !== propIndex);
+                    updatedPlayers[responderIndex].properties = [...(updatedPlayers[responderIndex].properties || []), prop];
+                  }
+                });
               }
 
-              // Intercambio de la propiedad solicitada (del receptor al emisor).
-              if (tradeOffer.responderProperty) {
-                const propIndex = tradeOffer.responderProperty;
-                const prop = (updatedPlayers[responderIndex].properties || []).find(p => p.index.toString() === propIndex);
-                if (prop) {
-                  updatedPlayers[responderIndex].properties = (updatedPlayers[responderIndex].properties || []).filter(p => p.index.toString() !== propIndex);
-                  updatedPlayers[proposerIndex].properties = [
-                    ...(updatedPlayers[proposerIndex].properties || []),
-                    prop
-                  ];
-                }
+              // Intercambia las propiedades del responder
+              if (Array.isArray(tradeOffer.responderProperties)) {
+                tradeOffer.responderProperties.forEach(propIndexStr => {
+                  const propIndex = parseInt(propIndexStr, 10);
+                  const prop = updatedPlayers[responderIndex].properties?.find(p => p.index === propIndex);
+                  if (prop) {
+                    updatedPlayers[responderIndex].properties = updatedPlayers[responderIndex].properties.filter(p => p.index !== propIndex);
+                    updatedPlayers[proposerIndex].properties = [...(updatedPlayers[proposerIndex].properties || []), prop];
+                  }
+                });
               }
 
-              // Elimina la oferta pendiente del receptor
-              updatedPlayers[responderIndex] = {
-                ...updatedPlayers[responderIndex],
-                pendingTradeOffer: null
-              };
-
+              // Quitamos la oferta pendiente
+              updatedPlayers[responderIndex].pendingTradeOffer = null;
               setPlayers(updatedPlayers);
             }}
             onReject={() => {
-              let updatedPlayers = [...players];
-              updatedPlayers[currentTurn] = {
-                ...updatedPlayers[currentTurn],
-                pendingTradeOffer: null
-              };
+              const updatedPlayers = [...players];
+              updatedPlayers[currentTurn].pendingTradeOffer = null;
               setPlayers(updatedPlayers);
             }}
           />

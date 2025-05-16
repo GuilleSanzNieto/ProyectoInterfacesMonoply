@@ -1,4 +1,3 @@
-
 html, body {
   margin: 0;
   padding: 0;
@@ -438,4 +437,22 @@ button.vender-btn:hover {
 
 .jail-btn {
   margin: 8px;
+}
+
+.player-properties {
+  margin-bottom: 1rem;
+}
+
+.player-properties h4 {
+  margin: 0.5rem 0;
+  font-weight: bold;
+}
+
+.player-properties ul {
+  list-style-type: none;
+  padding-left: 1rem;
+}
+
+.player-properties li {
+  margin: 0.25rem 0;
 }
