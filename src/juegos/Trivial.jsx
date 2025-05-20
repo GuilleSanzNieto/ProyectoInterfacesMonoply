@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import instrucciones from '../images/imagesAyuda.png';
 import './styles/Trivial.css';
 import './styles/commonStyles.css'; // Importa estilos comunes (overlay, win-message, losser-message)
 
@@ -50,6 +51,7 @@ const Trivial = ({ visible, onGameEnd }) => {
   const [wins, setWins] = useState(0);
   const [hasWon, setHasWon] = useState(false);
   const [hasLost, setHasLost] = useState(false);
+  const [showInstrucciones, setShowInstrucciones] = useState(false);
 
   // Al montar, se selecciona una pregunta aleatoria para la fase 1
   useEffect(() => {
@@ -100,9 +102,18 @@ const Trivial = ({ visible, onGameEnd }) => {
 
   return (
     <div className="trivial-wrapper">
-      <h1>Juego de Trivial</h1>
-      <div className="trivial-counter">
-        Aciertos: {wins} de 2
+      <div className="header-container">
+        <h1>Juego de Trivial</h1>
+        <div className="trivial-counter">
+          Aciertos: {wins} de 2
+        </div>
+        <button
+        className="instrucciones-button"
+        onClick={() => setShowInstrucciones(true)}
+        title="Instrucciones"
+      >
+        <img src={instrucciones} alt="Instrucciones" className="instrucciones-icon" />
+        </button>
       </div>
       {phase === 1 && (
         <div className="question">
@@ -162,6 +173,35 @@ const Trivial = ({ visible, onGameEnd }) => {
             )}
           </div>
         </div>
+      )}
+      {showInstrucciones && (
+          <div className="instrucciones-overlay">
+            <div className="instrucciones-panel">
+              <h2>📚 Trivial</h2>
+              <div className="instrucciones-contenido">
+                <p><strong>🎯 Objetivo: </strong><br/>
+                      Demuestra tus conocimientos respondiendo correctamente 2 preguntas.
+                </p>
+                <p>
+                  <strong>🧠 ¿Cómo se juega?</strong><br/>
+                  - El juego consta de 2 fases. <br/>
+                  - En cada fase se te presenta una pregunta con 3 posibles respuestas. <br/>
+                  - Haz clic en la respuesta que creas correcta. <br/>
+                </p>
+                <p>
+                  <strong>✅ ¿Cómo ganar?</strong><br/>
+                  - Responde correctamente las dos preguntas seguidas para ganar. <br/>
+                  - Si fallas en cualquiera de las dos fases, pierdes el juego. <br/>
+                </p>
+                <p>
+                  ¡Pon a prueba tu memoria y gana este reto! 🧠📝
+                </p>
+              </div>
+              <button onClick={() => setShowInstrucciones(false)}>
+                Cerrar
+              </button>
+            </div>
+          </div>
       )}
     </div>
   );

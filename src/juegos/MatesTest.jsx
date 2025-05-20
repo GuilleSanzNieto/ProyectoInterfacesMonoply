@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import instrucciones from '../images/imagesAyuda.png';
 import './styles/MatesTest.css';
 import './styles/commonStyles.css'; // Para overlay, win-message y loser-alt
 
@@ -15,6 +16,8 @@ const MathGame = ({ visible, onGameEnd }) => {
   const [winCount, setWinCount] = useState(0);
   // Indica si la última respuesta fue correcta (true) o incorrecta (false)
   const [lastAnswerCorrect, setLastAnswerCorrect] = useState(null);
+
+  const [showInstrucciones, setShowInstrucciones] = useState(false);
 
   const generateOperation = () => {
     const n1 = Math.floor(Math.random() * 20) + 1;
@@ -87,7 +90,16 @@ const MathGame = ({ visible, onGameEnd }) => {
 
   return (
     <div className="math-game">
-      <h1>Mates Test</h1>
+      <div className="header-container">
+        <h1>Mates Test</h1>
+        <button
+        className="instrucciones-button"
+        onClick={() => setShowInstrucciones(true)}
+        title="Instrucciones"
+      >
+        <img src={instrucciones} alt="Instrucciones" className="instrucciones-icon" />
+        </button>
+      </div>
       <div className="operation">
         {num1} {operator} {num2} =
       </div>
@@ -123,6 +135,34 @@ const MathGame = ({ visible, onGameEnd }) => {
           </div>
         </div>
       )}
+      {showInstrucciones && (
+        <div className="instrucciones-overlay">
+          <div className="instrucciones-panel">
+            <h2>🧠 Mates Test</h2>
+            <div className="instrucciones-contenido">
+              <p><strong>🎯 Objetivo: </strong><br/>
+                    Resuelve correctamente 3 operaciones matemáticas seguidas para ganar.
+              </p>
+              <p>
+                <strong>🕹️ Cómo jugar: </strong><br/>
+                - Se te mostrará una operación aleatoria (suma, resta o multiplicación). <br/>
+                - Escribe el resultado en el campo de respuesta. <br/>
+                - Pulsa "Verificar" para comprobar tu respuesta. <br/>
+                - Si aciertas, avanzas a la siguiente operación. <br/>
+                - Si fallas, el juego termina. <br/>
+              </p>
+              <p>🏆 Ganas si respondes correctamente a 3 operaciones seguidas.</p>
+              <p>
+                <strong>💡Consejo: </strong><br/>
+                  ¡Concéntrate! No hay segundas oportunidades si te equivocas 😅
+              </p>
+            </div>
+            <button onClick={() => setShowInstrucciones(false)}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+    )}
     </div>
   );
 };

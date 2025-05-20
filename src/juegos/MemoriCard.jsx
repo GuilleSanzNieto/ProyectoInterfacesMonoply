@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import instrucciones from '../images/imagesAyuda.png';
 import { FaDog, FaCat } from 'react-icons/fa';
 import { GiRabbit, GiPanda } from 'react-icons/gi';
 import './styles/MemoriCard.css';
@@ -37,6 +38,7 @@ const MemoriCard = ({ visible, onGameEnd }) => {
   const [secondCard, setSecondCard] = useState(null);
   const [isComparing, setIsComparing] = useState(false);
   const [hasWon, setHasWon] = useState(false);
+  const [showInstrucciones, setShowInstrucciones] = useState(false);
 
   // Manejar el clic en una carta
   const handleCardClick = (clickedCard) => {
@@ -106,7 +108,16 @@ const MemoriCard = ({ visible, onGameEnd }) => {
 
   return (
     <div className="memory-wrapper">
-    <h1>Juego de Memoria</h1>
+      <div className="header-container">
+        <h1>Juego de memoria</h1>
+        <button
+        className="instrucciones-button"
+        onClick={() => setShowInstrucciones(true)}
+        title="Instrucciones"
+      >
+        <img src={instrucciones} alt="Instrucciones" className="instrucciones-icon" />
+        </button>
+      </div>
     <div className="memory-container">
       {cards.map(card => (
         <div
@@ -144,6 +155,34 @@ const MemoriCard = ({ visible, onGameEnd }) => {
           </div>
         </div>
       )}
+    {showInstrucciones && (
+        <div className="instrucciones-overlay">
+          <div className="instrucciones-panel">
+            <h2>🃏 Juego de Memoria</h2>
+            <div className="instrucciones-contenido">
+              <p><strong>🎯 Objetivo: </strong><br/>
+                  Encuentra todas las parejas de cartas iguales.
+              </p>
+              <p>
+                <strong>🕹️ Cómo jugar: </strong><br/>
+                - Al comenzar, las cartas están ocultas. <br/>
+                - Haz clic en una carta para voltearla. <br/>
+                - Luego haz clic en otra para intentar encontrar su pareja. <br/>
+                - Si ambas cartas son iguales, se quedarán descubiertas. <br/>
+                - Si no coinciden, se voltearán de nuevo. <br/>
+                - El juego termina cuando todas las parejas han sido encontradas. <br/>
+              </p>
+              <p>
+                <strong>💡Consejo: </strong><br/>
+                  ¡Memoriza bien las posiciones! La clave es observar y recordar 🧠
+              </p>
+            </div>
+            <button onClick={() => setShowInstrucciones(false)}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+    )}
   </div>
   );
 };

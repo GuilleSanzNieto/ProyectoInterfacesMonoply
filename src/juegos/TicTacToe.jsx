@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import instrucciones from '../images/imagesAyuda.png';
 import './styles/TicTacToe.css';
 import './styles/commonStyles.css'; // Importa estilos comunes (overlay, win-message, losser-message)
 
@@ -6,6 +7,7 @@ const TicTacToe = ({ visible, onGameEnd }) => {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [winner, setWinner] = useState(null);
+  const [showInstrucciones, setShowInstrucciones] = useState(false);
 
   const checkWinner = (board) => {
     const lines = [
@@ -136,13 +138,53 @@ const TicTacToe = ({ visible, onGameEnd }) => {
 
   return (
     <div className="tic-tac-toe">
-      <h1>Tic Tac Toe</h1>
+      <div className="header-container">
+        <h1>Tic Tac Toe</h1>
+        <button
+        className="instrucciones-button"
+        onClick={() => setShowInstrucciones(true)}
+        title="Instrucciones"
+      >
+        <img src={instrucciones} alt="Instrucciones" className="instrucciones-icon" />
+        </button>
+      </div>
       {renderBoard()}
       {/* En lugar de mostrar <p>Winner: {winner}</p>, se renderiza el overlay si hay ganador */}
       {winner && (
         <div className="overlay">
           <div className={winner === 'X' ? "win-message" : "losser-message"}></div>
         </div>
+      )}
+      {showInstrucciones && (
+          <div className="instrucciones-overlay">
+            <div className="instrucciones-panel">
+              <h2>⭕❌ Tic Tac Toe (Tres en Raya)</h2>
+              <div className="instrucciones-contenido">
+                <p><strong>🎯 Objetivo: </strong><br/>
+                      Sé el primero en alinear tres de tus símbolos (❌ o ⭕) en una fila, columna o diagonal.
+                </p>
+                <p>
+                  <strong>🕹️ Cómo jugar: </strong><br/>
+                  - Juegas como ❌, el ordenador como ⭕. <br/>
+                  - Haz clic en cualquier celda vacía del tablero para colocar tu símbolo. <br/>
+                  - Luego de tu jugada, el ordenador hará su movimiento. <br/>
+                  - El juego continúa hasta que uno gane o el tablero se llene. <br/>
+                </p>
+                <p>
+                  <strong>📊 Reglas: </strong><br/>
+                  - Ganas si logras formar una línea de 3 ❌ (horizontal, vertical o diagonal). <br/>
+                  - El ordenador gana si forma una línea de 3 ⭕. <br/>
+                  - Si el tablero se llena y nadie gana, es un empate. <br/>
+                </p>
+                <p>
+                  ¡A pensar con estrategia y a ganar! ✨
+                </p>
+              </div>
+              <button onClick={() => setShowInstrucciones(false)}>
+                Cerrar
+              </button>
+            </div>
+          </div>
       )}
     </div>
   );

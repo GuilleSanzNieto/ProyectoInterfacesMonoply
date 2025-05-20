@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import instrucciones from '../images/imagesAyuda.png';
 import { FaHandRock, FaHandPaper, FaHandScissors } from 'react-icons/fa';
 import './styles/PiedraPapelTijera.css';
 import './styles/commonStyles.css'; // Importa los estilos comunes para el overlay
@@ -12,6 +13,7 @@ const PiedraPapelTijera = ({ visible, onGameEnd }) => {
   const [puntuacionOrdenador, setPuntuacionOrdenador] = useState(0);
   const [rondas, setRondas] = useState(0);
   const [cycleIndex, setCycleIndex] = useState(0);
+  const [showInstrucciones, setShowInstrucciones] = useState(false);
 
   const colors = ['#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33F3']; // Colores para los confetti
 
@@ -104,6 +106,15 @@ const PiedraPapelTijera = ({ visible, onGameEnd }) => {
   return (
     <div className="game-container">
       <h1>Piedra, Papel o Tijera</h1>
+      <div className="header-container">
+        <button
+        className="instrucciones-button"
+        onClick={() => setShowInstrucciones(true)}
+        title="Instrucciones"
+      >
+        <img src={instrucciones} alt="Instrucciones" className="instrucciones-icon" />
+        </button>
+      </div>
       {/* Área de la elección del ordenador */}
       <div className="computer-display">
         { eleccionOrdenador 
@@ -145,6 +156,39 @@ const PiedraPapelTijera = ({ visible, onGameEnd }) => {
             )}
           </div>
         </div>
+      )}
+      {showInstrucciones && (
+          <div className="instrucciones-overlay">
+            <div className="instrucciones-panel">
+              <h2>✊✋✌️ Piedra, Papel o Tijera</h2>
+              <div className="instrucciones-contenido">
+                <p><strong>🎯 Objetivo: </strong><br/>
+                      Gana más rondas que el ordenador eligiendo estratégicamente entre Piedra, Papel o Tijera.
+                </p>
+                <p>
+                  <strong>🕹️ Cómo jugar: </strong><br/>
+                  - Elige una opción haciendo clic en el símbolo correspondiente. <br/>
+                  - El ordenador seleccionará aleatoriamente su jugada. <br/>
+                  - Se juega un total de 3 rondas. <br/>
+                  - Gana quien obtenga más victorias al final de las 3 rondas. <br/>
+                </p>
+                <p>
+                  <strong>📊 Reglas: </strong><br/>
+                  - Piedra aplasta a Tijera 🪨✂️ <br/>
+                  - Tijera corta a Papel ✂️📄 <br/>
+                  - Papel envuelve a Piedra 📄🪨 <br/>
+                </p>
+                <p>
+                  <strong>🏆 Resultado: </strong><br/>
+                    Al completar las 3 rondas, verás si ganaste, perdiste o empataste contra el ordenador. <br/>
+                    ¡Buena suerte! 🤜🤛
+                </p>
+              </div>
+              <button onClick={() => setShowInstrucciones(false)}>
+                Cerrar
+              </button>
+            </div>
+          </div>
       )}
     </div>
   );

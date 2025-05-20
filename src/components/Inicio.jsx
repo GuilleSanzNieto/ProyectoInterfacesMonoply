@@ -177,8 +177,24 @@ function Inicio({ onStart }) {
           <div className="instrucciones-panel">
             <h2>{t.instruccionesTitulo}</h2>
             <div className="instrucciones-contenido">
-              <p><strong>🎯 {t.objetivo}:</strong> {t.textoObjetivo}</p>
-              {/* Resto de párrafos usando t.llave */}
+              <p>
+                <strong>🎯 Objetivo:</strong> <br/>
+                Consigue ser el jugador con más propiedades y dinero al final de la partida.
+              </p>
+              <p>
+                <strong>🛠️ Cómo jugar:</strong> <br/>
+                - Tira los dados para avanzar por el tablero. <br/>
+                - Compra propiedades cuando caigas en casillas disponibles. <br/>
+                - Si otro jugador cae en tu propiedad, te pagará alquiler. <br/>
+                - Si caes en una casilla de Suerte o Caja de Comunidad, sigue las instrucciones de la carta. <br/>
+                - Negocia e intercambia propiedades con otros jugadores para mejorar tu posición. <br/>
+                - Si no puedes pagar una deuda, tendrás que cender propiedades o declararte en bancarrota. <br/>
+                - El juego termina cuando solo queda un jugador, que será el ganador. 🏆
+              </p>
+              <p>
+                <strong>💡 Consejo:</strong> <br/>
+                ¡Invierte sabiamente y negocia con inteligencia! A veces, una buena alianza puede ser la clave para la victoria.
+              </p>
             </div>
             <button onClick={() => setShowInstrucciones(false)}>
               {t.cerrar}

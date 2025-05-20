@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import instrucciones from '../images/imagesAyuda.png';
 import './styles/Conecta4.css';
 import './styles/commonStyles.css'; // Importa los estilos comunes para el overlay
 
@@ -13,6 +14,7 @@ const Conecta4 = ({ visible, onGameEnd }) => {
   const [board, setBoard] = useState(createBoard());
   const [currentPlayer, setCurrentPlayer] = useState('Red'); // Human: 'Red', Máquina: 'Yellow'
   const [winner, setWinner] = useState(null);
+  const [showInstrucciones, setShowInstrucciones] = useState(false);
 
   // Definimos un array de colores para el confetti
   const colors = ["#f94144", "#f3722c", "#f8961e", "#f9c74f", "#90be6d", "#43aa8b", "#577590"];
@@ -154,7 +156,16 @@ const Conecta4 = ({ visible, onGameEnd }) => {
 
   return (
     <div className="conecta4">
-      <h1>Conecta Cuatro</h1>
+      <div className="header-container">
+        <h1>Conecta Cuatro</h1>
+        <button
+        className="instrucciones-button"
+        onClick={() => setShowInstrucciones(true)}
+        title="Instrucciones"
+      >
+        <img src={instrucciones} alt="Instrucciones" className="instrucciones-icon" />
+        </button>
+      </div>
       <div className="board">
         {board.map((row, rowIndex) => (
           <div key={rowIndex} className="row">
@@ -195,6 +206,34 @@ const Conecta4 = ({ visible, onGameEnd }) => {
           </div>
         </div>
       )}
+      {showInstrucciones && (
+        <div className="instrucciones-overlay">
+          <div className="instrucciones-panel">
+            <h2>🧩 Conecta 4</h2>
+            <div className="instrucciones-contenido">
+              <p><strong>🎯 Objetivo: </strong><br/>
+                    Sé el primero en alinear cuatro fichas del mismo color en línea horizontal, vertical o diagonal.
+              </p>
+              <p>
+                <strong>🕹️ Cómo jugar: </strong><br/>
+                - Juegas contra la máquina (color amarillo). <br/>
+                - Tú eres el jugador rojo. <br/>
+                - Haz clic en una columna para dejar caer tu ficha. <br/>
+                - Las fichas caen hasta la posición más baja disponible. <br/>
+                - Luego le toca a la máquina. <br/>
+                - Gana quien logre alinear cuatro fichas primero. <br/>
+              </p>
+              <p>
+                <strong>💡Consejo: </strong><br/>
+                  ¡Piensa estratégicamente! La máquina bloqueará tus jugadas si estás a punto de ganar 😉
+              </p>
+            </div>
+            <button onClick={() => setShowInstrucciones(false)}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+    )}
     </div>
   );
 };

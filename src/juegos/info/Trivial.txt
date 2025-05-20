@@ -1,4 +1,4 @@
-📚 Minijuego: Trivial de Capitales
+📚 Minijuego: Trivial
 
 🎯 Objetivo
 Demuestra tus conocimientos respondiendo correctamente 2 preguntas.
@@ -11,9 +11,5 @@ Demuestra tus conocimientos respondiendo correctamente 2 preguntas.
 ✅ ¿Cómo ganar?
 - Responde correctamente las dos preguntas seguidas para ganar.
 - Si fallas en cualquiera de las dos fases, pierdes el juego.
-
-👀 Nota
-- La segunda pregunta nunca será igual a la primera.
-- Las preguntas se seleccionan aleatoriamente.
 
 ¡Pon a prueba tu memoria y gana este reto! 🧠📝

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import instrucciones from '../images/imagesAyuda.png';
 import './styles/WordSearch.css';
 import './styles/commonStyles.css'; // Importa estilos comunes (overlay, win-message, losser-message)
 
@@ -17,6 +18,7 @@ const WordSearch = ({ visible, onGameEnd }) => {
   const [foundPositions, setFoundPositions] = useState([]);
   const [hasWon, setHasWon] = useState(false);
   const [hasLost, setHasLost] = useState(false);
+  const [showInstrucciones, setShowInstrucciones] = useState(false);
 
   const colors = ["#f94144", "#f3722c", "#f8961e", "#f9c74f", "#90be6d", "#43aa8b", "#577590"];
 
@@ -207,7 +209,16 @@ const WordSearch = ({ visible, onGameEnd }) => {
 
   return (
     <div className="word-search">
-      <h1>Word Search</h1>
+      <div className="header-container">
+        <h1>Word Search Universitario</h1>
+        <button
+        className="instrucciones-button"
+        onClick={() => setShowInstrucciones(true)}
+        title="Instrucciones"
+      >
+        <img src={instrucciones} alt="Instrucciones" className="instrucciones-icon" />
+        </button>
+      </div>
 
       <div className="to-find-words">
         <h2>Palabras a encontrar:</h2>
@@ -261,6 +272,29 @@ const WordSearch = ({ visible, onGameEnd }) => {
             )}
           </div>
         </div>
+      )}
+      {showInstrucciones && (
+          <div className="instrucciones-overlay">
+            <div className="instrucciones-panel">
+              <h2>🔎 Word Search Universitario</h2>
+              <div className="instrucciones-contenido">
+                <p><strong>🎯 Objetivo: </strong><br/>
+                      Encuentra las 4 palabras escondidas relacionadas con la universidad.
+                </p>
+                <p>
+                  <strong>🧩 Cómo jugar: </strong><br/>
+                  - Haz clic en una letra para empezar.  <br/>
+                  - Luego haz clic en otra letra que forme una línea recta con la primera, así sucesivamente.  <br/>
+                  - Si la palabra seleccionada está entre las ocultas, ¡la descubrirás! <br/>
+                </p>
+                <p>🏆 Ganas cuando encuentras las 4 palabras.</p>
+                <p>🧠🧮 ¡Ejercita tu mente y tus ojos!</p>
+              </div>
+              <button onClick={() => setShowInstrucciones(false)}>
+                Cerrar
+              </button>
+            </div>
+          </div>
       )}
     </div>
   );
