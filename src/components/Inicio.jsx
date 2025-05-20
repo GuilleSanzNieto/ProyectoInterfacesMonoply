@@ -1,23 +1,25 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect} from 'react';
 import './styles/Inicio.css';
 import { PlayersContext } from '../Contexts/PlayersContext.jsx';
 import ColorPicker from './ColorPicker.jsx';
 import  logoUma from '../images/logoUMA.png';
 import ajustes from '../images/imagesAjustes.png';
 import instrucciones from '../images/imagesAyuda.png';
+import { useSettings } from './SettingsContext.jsx';
+import { SettingsPanel } from './SettingsPanel.jsx';
+import { useTranslation } from './i18n.js';
 
 function Inicio({ onStart }) {
+  const settings = useSettings();
   const {players, setPlayers} = useContext(PlayersContext);
   const [numPlayers, setNumPlayers] = useState(2);
   const [errors, setErrors] = useState([]);
   const [showColorPickerIndex, setShowColorPickerIndex] = useState(null);
-  const [showSettings, setShowSettings] = useState(false);
-  const [modoDaltonico, setModoDaltonico] = useState(false);
-  const [idioma,setIdioma] = useState('es');
-  const [modoOscuro, setModoOscuro] = useState(false);
   const [showInstrucciones, setShowInstrucciones] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const t = useTranslation(); 
 
-
+  console.log('showSettings:', showSettings);
   const allColors = [
     { class: "color-rojo", hex: "#f44336" },
     { class: "color-rosa", hex: "#e91e63" },
@@ -82,30 +84,46 @@ function Inicio({ onStart }) {
     onStart();
   };
 
-
-  return (
+ return (
     <div className="inicio-container">
       <div className="header-container">
         <div className="logo">
-          <img src={logoUma} alt="Logo" className='logo'/>
+          <img src={logoUma} alt="Logo" className="logo" />
         </div>
-        <button className="settings-button" onClick={() => setShowSettings(true)} title= "Ajustes">
-          <img src={ajustes} alt="Ajustes" className='settings-icon'/>
-        </button>
-        <button className="instrucciones-button" onClick={() => setShowInstrucciones(true)} title= "Instrucciones">
-          <img src={instrucciones} alt="Instrucciones" className='instrucciones-icon'/>
+
+        <button
+          className="settings-button"
+          onClick={() => setShowSettings(true)}
+          title={t.ajustesTitulo}
+        >
+          <img src={ajustes} alt={t.ajustesTitulo} className="settings-icon" />
         </button>
 
+        <button
+          className="instrucciones-button"
+          onClick={() => setShowInstrucciones(true)}
+          title={t.instruccionesTitulo}
+        >
+          <img src={instrucciones} alt={t.instruccionesTitulo} className="instrucciones-icon" />
+        </button>
       </div>
-      <h3>Número de Jugadores</h3>
+
+      <h3>{t.numeroJugadores}</h3>
+
       <div className="player-selection">
-        {[2, 3, 4].map(num => (
+        {[2, 3, 4].map(n => (
           <button
-            key={num}
-            className={num === numPlayers ? 'selected player-button' : 'player-button'}
-            onClick={() => handleNumPlayersChange(num)}
+            key={n}
+            className={n === numPlayers ? 'selected player-button' : 'player-button'}
+            onClick={() => {
+              setNumPlayers(n);
+              setPlayers(Array.from(
+                { length: n },
+                (_, i) => players[i] || { name: '', color: '#000000', position: 0, money: 3000, properties: [] }
+              ));
+            }}
           >
-            {num}
+            {n}
           </button>
         ))}
       </div>
@@ -113,100 +131,66 @@ function Inicio({ onStart }) {
         <div key={index} className="player-input">
           <input
             type="text"
-            placeholder={`Nombre del jugador ${index + 1}`}
+            placeholder={`${t.nombreJugador} ${index + 1}`}  // new key: nombreJugador: 'Player name'
             value={player.name}
-            onChange={(e) => handlePlayerChange(index, 'name', e.target.value)}
-            className={errors[index]?.name ? "input-error" : ""}
+            onChange={e => {
+              const updated = [...players];
+              updated[index].name = e.target.value;
+              setPlayers(updated);
+              setErrors(prev => {
+                const copy = [...prev];
+                if (copy[index]) copy[index].name = false;
+                return copy;
+              });
+            }}
+            className={errors[index]?.name ? 'input-error' : ''}
           />
           <div
-            className={errors[index]?.color ? "input-errorCirculo" : `color-preview`}
+            className={errors[index]?.color ? 'input-errorCirculo' : 'color-preview'}
             style={{ backgroundColor: player.color }}
-            onClick={() => setShowColorPickerIndex(index)}>
-          </div>
+            onClick={() => setShowColorPickerIndex(index)}
+          />
         </div>
       ))}
-      <button className="start-button" onClick={handleStart}>JUGAR</button>
+
+      <button className="start-button" onClick={handleStart}>
+        {t.jugar}
+      </button>
+
       {showColorPickerIndex !== null && (
         <ColorPicker
           allColors={allColors}
-          usedColors={players.map((p, i) => i !== showColorPickerIndex ? p.color : null).filter(Boolean)}
-          onColorSelect={(selectedColor) => {
-            handlePlayerChange(showColorPickerIndex, 'color', selectedColor); // selectedColor es ahora un valor hexadecimal
+          usedColors={players
+            .map((p, i) => i !== showColorPickerIndex ? p.color : null)
+            .filter(Boolean)
+          }
+          onColorSelect={col => {
+            handlePlayerChange(showColorPickerIndex, 'color', col);
             setShowColorPickerIndex(null);
           }}
-          
           onClose={() => setShowColorPickerIndex(null)}
         />
       )}
-      {showSettings && (
-        <div className="settings-overlay">
-          <div className="settings-panel">
-            <h2>Ajustes del juego</h2>
-            <label>
-              <input
-                type="checkbox"
-                checked={modoDaltonico}
-                onChange={(e) => setModoDaltonico(e.target.checked)}
-              />
-              Modo daltónico
-            </label>
-            <label>
-              Idioma:
-              <select value={idioma} onChange={(e) => setIdioma(e.target.value)}>
-                <option value="es">Español</option>
-                <option value="en">Inglés</option>
-              </select>
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={modoOscuro}
-                onChange={(e) => setModoOscuro(e.target.checked)}
-              />
-              Modo oscuro
-            </label>
-            <button onClick={() => setShowSettings(false)}>Cerrar</button>
+
+      {showInstrucciones && (
+        <div className="instrucciones-overlay">
+          <div className="instrucciones-panel">
+            <h2>{t.instruccionesTitulo}</h2>
+            <div className="instrucciones-contenido">
+              <p><strong>🎯 {t.objetivo}:</strong> {t.textoObjetivo}</p>
+              {/* Resto de párrafos usando t.llave */}
+            </div>
+            <button onClick={() => setShowInstrucciones(false)}>
+              {t.cerrar}
+            </button>
           </div>
         </div>
       )}
-      {showInstrucciones && (
-      <div className="instrucciones-overlay">
-        <div className="instrucciones-panel">
-          <h2>📜 Instrucciones del Monopoly UMA</h2>
-          <div className="instrucciones-contenido">
-            <p><strong>🎯 Objetivo:</strong> Sé el último jugador en pie sin bancarrota, comprando propiedades y cobrando alquileres.</p>
-            
-            <p><strong>🎲 Inicio:</strong> Cada jugador elige ficha, color y recibe $3000. Coloca tu ficha en la casilla de <em>“INICIO”</em>.</p>
 
-            <p><strong>🚶 Turnos:</strong> En tu turno:</p>
-            <ul>
-              <li>Lanza los dados y avanza tu ficha.</li>
-              <li>Si caes en una propiedad libre, puedes comprarla.</li>
-              <li>Si no la compras, pasas el turno.</li>
-              <li>Si es de otro jugador, pagas alquiler.</li>
-            </ul>
-
-            <p><strong>📚 Cárcel:</strong> Puedes salir:</p>
-            <ul>
-              <li>Pagando $200 a la UMA</li>
-              <li>O sacando dobles cuando sea tu turno</li>
-            </ul>
-
-            <p><strong>💸 Bancarrota:</strong> Si no puedes pagar, estás fuera. El último jugador con dinero gana.</p>
-
-            <p><strong>🎁 Reglas especiales UMA (opcionales):</strong></p>
-            <ul>
-              <li>Cobras $200 UMA al pasar por la casilla de “INICIO”.</li>
-            </ul>
-          </div>
-
-          <button onClick={() => setShowInstrucciones(false)}>Cerrar</button>
-        </div>
-      </div>
-    )}
-
+      {showSettings && (
+        <SettingsPanel onClose={() => setShowSettings(false)} />
+      )}
     </div>
   );
 }
-
 export default Inicio;

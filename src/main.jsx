@@ -1,9 +1,10 @@
-import { StrictMode } from 'react'
+import React from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import Dados from './components/Dados.jsx'
 import Tablero from './components/Tablero.jsx'
+import { SettingsProvider } from './components/SettingsContext.jsx'
 //import TicTacToe from './juegos/TicTacToe.jsx'
 // import WordSearch from './juegos/WordSearch.jsx'
 //import MemoriCard from './juegos/MemoriCard.jsx'
@@ -14,7 +15,9 @@ import Tablero from './components/Tablero.jsx'
 //import Trivial from './juegos/Trivial.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-)
+  <React.StrictMode>
+    <SettingsProvider>
+      <App />
+    </SettingsProvider>
+  </React.StrictMode>
+);
