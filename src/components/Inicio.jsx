@@ -9,6 +9,8 @@ import { useSettings } from './SettingsContext.jsx';
 import { SettingsPanel } from './SettingsPanel.jsx';
 import { useTranslation } from './i18n.js';
 
+//para poder hacer el commit de la Primera entrega 
+
 function Inicio({ onStart }) {
   const settings = useSettings();
   const {players, setPlayers} = useContext(PlayersContext);
