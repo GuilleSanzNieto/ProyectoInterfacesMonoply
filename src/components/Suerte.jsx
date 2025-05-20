@@ -1,8 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/Suerte.css';
 
 const Suerte = ({ onClose, outcome }) => {
   const [selectedCard, setSelectedCard] = useState(null);
+
+  // Ejecutar onClose automáticamente 2 segundos después de seleccionar una carta
+  useEffect(() => {
+    if (selectedCard !== null) {
+      const timeoutId = setTimeout(() => {
+        onClose();
+      }, 2000);
+
+      // Limpieza por si el componente se desmonta antes
+      return () => clearTimeout(timeoutId);
+    }
+  }, [selectedCard, onClose]);
 
 
   // Función que se ejecuta al hacer clic en alguna carta
@@ -12,6 +24,7 @@ const Suerte = ({ onClose, outcome }) => {
       setSelectedCard(index);
     }
   };
+
 
   return (
     <>
@@ -31,7 +44,6 @@ const Suerte = ({ onClose, outcome }) => {
       {selectedCard !== null && (
         <div className="result-wrapper">
           <p>{outcome?.message}</p>
-          <button onClick={onClose}>Volver atrás</button>
         </div>
       )}
     </>

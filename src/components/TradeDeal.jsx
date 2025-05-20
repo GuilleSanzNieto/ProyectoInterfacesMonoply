@@ -2,29 +2,26 @@ import React, { useState, useContext } from 'react';
 import { PlayersContext } from '../Contexts/PlayersContext.jsx';
 import './styles/TradeDeal.css';
 
-const TradeDeal = ({ onClose }) => {
+function TradeDeal({ onClose }) {
   const { players, setPlayers, currentTurn } = useContext(PlayersContext);
 
-  // Si no hay al menos dos jugadores, no renderizamos nada.
-  if (!players || players.length < 2) {
-    return null;
-  }
+  if (!players || players.length < 2) return null;
 
-  // El emisor es siempre el jugador con el turno actual.
-  const proposer = currentTurn;
-
-  // Estado para el paso del modal: 1 = seleccionar receptor, 2 = oferta completa.
+  const proposer = currentTurn;  
   const [step, setStep] = useState(1);
-  // El receptor se inicializa como indefinido hasta que se seleccione.
   const [responder, setResponder] = useState(null);
-  const [proposerProperty, setProposerProperty] = useState('');
-  const [responderProperty, setResponderProperty] = useState('');
+
+  // Mantenemos la lógica de dinero.
   const [proposerMoney, setProposerMoney] = useState(0);
   const [responderMoney, setResponderMoney] = useState(0);
+
+  // Estados para gestionar propiedad(es) seleccionadas (selección múltiple).
+  const [selectedProposerProperties, setSelectedProposerProperties] = useState([]);
+  const [selectedResponderProperties, setSelectedResponderProperties] = useState([]);
+
   const [error, setError] = useState('');
 
   const handleNext = () => {
-    // Validamos que se haya seleccionado receptor.
     if (responder === null) {
       setError("Por favor, selecciona un jugador receptor.");
       return;
@@ -33,24 +30,35 @@ const TradeDeal = ({ onClose }) => {
     setStep(2);
   };
 
+  // Función para manejar el cambio en el select de propiedades del Proposer
+  const handleProposerSelectChange = (e) => {
+    const selectedValues = Array.from(e.target.selectedOptions, opt => opt.value);
+    setSelectedProposerProperties(selectedValues);
+  };
+
+  // Función para manejar el cambio en el select de propiedades del Responder
+  const handleResponderSelectChange = (e) => {
+    const selectedValues = Array.from(e.target.selectedOptions, opt => opt.value);
+    setSelectedResponderProperties(selectedValues);
+  };
+
   const handleOfferTrade = () => {
     const proposerPlayer = players[proposer];
     const responderPlayer = players[responder];
 
-    // Validar si se seleccionó propiedad y si el jugador la posee.
-    const proposerOwns = proposerProperty 
-      ? (proposerPlayer.properties || []).some(p => p.index.toString() === proposerProperty)
-      : true;
-    const responderOwns = responderProperty 
-      ? (responderPlayer.properties || []).some(p => p.index.toString() === responderProperty)
-      : true;
-    
-    if (!proposerOwns) {
-      setError("No posees la propiedad ofrecida.");
+    // Validamos que el Proposer y Responder posean las propiedades seleccionadas.
+    const proposerOwnsAll = selectedProposerProperties.every(indexStr =>
+      (proposerPlayer.properties || []).some(p => p.index.toString() === indexStr)
+    );
+    const responderOwnsAll = selectedResponderProperties.every(indexStr =>
+      (responderPlayer.properties || []).some(p => p.index.toString() === indexStr)
+    );
+    if (!proposerOwnsAll) {
+      setError("No posees todas las propiedades seleccionadas.");
       return;
     }
-    if (!responderOwns) {
-      setError("El jugador receptor no posee la propiedad solicitada.");
+    if (!responderOwnsAll) {
+      setError("El jugador receptor no posee alguna de las propiedades seleccionadas.");
       return;
     }
     if (proposerMoney > proposerPlayer.money) {
@@ -62,24 +70,24 @@ const TradeDeal = ({ onClose }) => {
       return;
     }
 
-    // Creamos el objeto de oferta pendiente.
+    // Creamos el objeto con la oferta de intercambio.
     const tradeOffer = {
       from: proposer,
-      proposerProperty,
-      responderProperty,
+      proposerProperties: selectedProposerProperties,
+      responderProperties: selectedResponderProperties,
       proposerMoney,
       responderMoney,
       timestamp: Date.now()
     };
 
-    // Asignamos la oferta pendiente al jugador receptor.
-    let updatedPlayers = [...players];
+    // Se asigna la oferta pendiente al jugador receptor.
+    const updatedPlayers = [...players];
     updatedPlayers[responder] = {
       ...updatedPlayers[responder],
       pendingTradeOffer: tradeOffer
     };
     setPlayers(updatedPlayers);
-    
+
     console.log('Oferta de trato enviada:', tradeOffer);
     onClose();
   };
@@ -120,67 +128,59 @@ const TradeDeal = ({ onClose }) => {
           <>
             <h2>Ofrecer Trato a {players[responder].name || `Jugador ${responder + 1}`}</h2>
             {error && <p className="error-message">{error}</p>}
+            
             <div className="trade-content" style={{ display: 'flex', gap: '1rem' }}>
-              {/* Información del emisor */}
-              <div className="trade-column">
+              {/* Lado del Proposer */}
+              <div className="trade-column" style={{ flex: 1, textAlign: 'center' }}>
                 <h3>Tus Propiedades</h3>
-                <ul>
+                <select 
+                  multiple
+                  value={selectedProposerProperties}
+                  onChange={handleProposerSelectChange}
+                  style={{ width: '200px', height: '120px' }}
+                >
                   {(players[proposer].properties || []).map(p => (
-                    <li key={p.index}>
+                    <option key={p.index} value={p.index}>
                       {p.name} (#{p.index})
-                    </li>
+                    </option>
                   ))}
-                </ul>
+                </select>
+                <div style={{ marginTop: '1rem' }}>
+                  <label>Dinero a Ofrecer:</label>
+                  <input 
+                    type="number" 
+                    value={proposerMoney}
+                    onChange={e => setProposerMoney(parseInt(e.target.value) || 0)} 
+                  />
+                </div>
               </div>
-              {/* Información del receptor */}
-              <div className="trade-column">
+              
+              {/* Lado del Responder */}
+              <div className="trade-column" style={{ flex: 1, textAlign: 'center' }}>
                 <h3>Propiedades de {players[responder].name || `Jugador ${responder + 1}`}</h3>
-                <ul>
+                <select 
+                  multiple
+                  value={selectedResponderProperties}
+                  onChange={handleResponderSelectChange}
+                  style={{ width: '200px', height: '120px' }}
+                >
                   {(players[responder].properties || []).map(p => (
-                    <li key={p.index}>
+                    <option key={p.index} value={p.index}>
                       {p.name} (#{p.index})
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="trade-form">
-              <div>
-                <label>Dinero a Ofrecer:</label>
-                <input 
-                  type="number" 
-                  value={proposerMoney} 
-                  onChange={e => setProposerMoney(parseInt(e.target.value) || 0)} 
-                />
-              </div>
-              <div>
-                <label>Dinero a Solicitar:</label>
-                <input 
-                  type="number" 
-                  value={responderMoney} 
-                  onChange={e => setResponderMoney(parseInt(e.target.value) || 0)} 
-                />
-              </div>
-              <hr />
-              <div>
-                <label>Seleccionar Propiedad a Ofrecer:</label>
-                <select value={proposerProperty} onChange={e => setProposerProperty(e.target.value)}>
-                  <option value="">Ninguna</option>
-                  {(players[proposer].properties || []).map(p => (
-                    <option key={p.index} value={p.index}>{p.name}</option>
+                    </option>
                   ))}
                 </select>
-              </div>
-              <div>
-                <label>Seleccionar Propiedad Solicitada:</label>
-                <select value={responderProperty} onChange={e => setResponderProperty(e.target.value)}>
-                  <option value="">Ninguna</option>
-                  {(players[responder].properties || []).map(p => (
-                    <option key={p.index} value={p.index}>{p.name}</option>
-                  ))}
-                </select>
+                <div style={{ marginTop: '1rem' }}>
+                  <label>Dinero a Solicitar:</label>
+                  <input 
+                    type="number" 
+                    value={responderMoney}
+                    onChange={e => setResponderMoney(parseInt(e.target.value) || 0)} 
+                  />
+                </div>
               </div>
             </div>
+            
             <div className="trade-buttons">
               <button onClick={handleOfferTrade}>Ofrecer Trato</button>
               <button onClick={onClose}>Cancelar</button>
@@ -190,6 +190,6 @@ const TradeDeal = ({ onClose }) => {
       </div>
     </div>
   );
-};
+}
 
 export default TradeDeal;

@@ -39,7 +39,7 @@ const questions = [
 
 const confettiColors = ['#FFC700', '#FF0000', '#00FF00', '#0000FF', '#FF00FF'];
 
-const Trivial = ({ visible }) => {
+const Trivial = ({ visible, onGameEnd }) => {
   // Fase 1: Se muestra una pregunta única.
   // Fase 2: Se muestra una pregunta diferente.
   const [phase, setPhase] = useState(1);
@@ -77,6 +77,7 @@ const Trivial = ({ visible }) => {
         setWins(prev => prev + 1);
         if (wins + 1 === 2) { // Si en total tiene 2 aciertos, gana el juego
           setHasWon(true);
+          if (onGameEnd) onGameEnd(0);
           //Vuelve al tablero
           setTimeout(() => {
             visible(false);
@@ -87,6 +88,7 @@ const Trivial = ({ visible }) => {
       setResponseMessage('Incorrecto');
       setResponseColor('red');
       setHasLost(true);
+      if (onGameEnd) onGameEnd(null);
       //Vuelve al tablero
       setTimeout(() => {
         visible(false);

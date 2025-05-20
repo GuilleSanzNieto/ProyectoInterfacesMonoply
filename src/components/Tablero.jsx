@@ -33,48 +33,49 @@ const MoneyPanel = () => {
 const propiedades = [
   { index: 1, name: "Centro de Enfermería (Ronda)", price: 100 },
   { index: 3, name: "Centro de Magisterio (Antequera)", price: 120 },
-  { index: 6, name: "biblioteca", price: 150 },
-  { index: 8, name: "pabellón de deportes", price: 180 },
-  { index: 9, name: "jardin botanico", price: 200 },
-  { index: 11, name: "comunicacion", price: 220 },
-  { index: 13, name: "filosofia", price: 240 },
-  { index: 14, name: "derecho", price: 260 },
-  { index: 16, name: "educacion", price: 280 },
-  { index: 18, name: "ciencias", price: 300 },
-  { index: 19, name: "medicina", price: 320 },
-  { index: 21, name: "turismo", price: 340 },
-  { index: 23, name: "estudios sociales", price: 360 },
-  { index: 24, name: "comercio", price: 380 },
-  { index: 26, name: "ciencias de la salud", price: 400 },
-  { index: 27, name: "psicologia", price: 420 },
-  { index: 29, name: "industriales", price: 440 },
-  { index: 31, name: "bellas artes", price: 460 },
-  { index: 32, name: "economicas", price: 480 },
-  { index: 34, name: "arquitectura", price: 500 },
-  { index: 37, name: "telecomunicaciones", price: 520 },
+  { index: 6, name: "Biblioteca", price: 150 },
+  { index: 8, name: "Pabellón de deportes", price: 180 },
+  { index: 9, name: "Jardin botánico", price: 200 },
+  { index: 11, name: "Comunicación", price: 220 },
+  { index: 13, name: "Filosofía", price: 240 },
+  { index: 14, name: "Derecho", price: 260 },
+  { index: 16, name: "Educación", price: 280 },
+  { index: 18, name: "Ciencias", price: 300 },
+  { index: 19, name: "Medicina", price: 320 },
+  { index: 21, name: "Turismo", price: 340 },
+  { index: 23, name: "Estudios sociales", price: 360 },
+  { index: 24, name: "Comercio", price: 380 },
+  { index: 26, name: "Ciencias de la salud", price: 400 },
+  { index: 27, name: "Psicología", price: 420 },
+  { index: 29, name: "Industriales", price: 440 },
+  { index: 31, name: "Bellas artes", price: 460 },
+  { index: 32, name: "Económicas", price: 480 },
+  { index: 34, name: "Arquitectura", price: 500 },
+  { index: 37, name: "Telecomunicaciones", price: 520 },
   { index: 39, name: "ETSII", price: 540 },
 ];
 
-const PropertiesPanel = () => {
+function PropertiesPanel() {
   const { players } = useContext(PlayersContext);
+
   return (
     <div className="properties-panel">
       <h3>Propiedades de los jugadores</h3>
-      <ul>
-        {players.map((player, idx) => (
-          <li key={idx} style={{ color: player.color }}>
-            {player.name || `Jugador ${idx + 1}`}:
-            <ul>
-              {(player.properties || []).map((prop, i) => (
-                <li key={i}>{prop.name}</li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+      {players.map((player, idx) => (
+        <div key={idx} className="player-properties">
+          <h4 style={{ color: player.color }}>
+            {player.name || `Jugador ${idx + 1}`}
+          </h4>
+          <ul>
+            {(player.properties || []).map((prop, i) => (
+              <li key={i}>• {prop.name}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
-};
+}
 
 const getCasillaOverlayColor = (i) => {
   if ([1, 3].includes(i)) return 'brown';           // Casillas 1 y 3: rojo
@@ -136,7 +137,7 @@ const Tablero = () => {
       const currentName = players[currentTurn].name; // Capturamos el nombre antes de que se modifique algo
       const outcomes = [
         { message: `${currentName} ha recibido una bonificación`, effect: 'bonus', moneyChange: +200 },
-        { message: `${currentName} ha pagado una multa`, effect: 'fine', moneyChange: -100 },
+        { message: `${currentName} ha pagado una multa`, effect: 'fine', moneyChange: -200 },
         { message: `${currentName} recibe un turno extra`, effect: 'extraTurn' }
       ];
 
@@ -188,6 +189,27 @@ const Tablero = () => {
     const miniGamesArray = [TicTacToe, WordSearch, MemoriCard, Conecta4, MatesTest, PiedraPapelTijera, Trivial];
     const randomIndex = Math.floor(Math.random() * miniGamesArray.length);
     console.log('Ejecutando minijuego:', miniGamesArray[randomIndex].name);
+
+    const onGameEnd = (winnerIndex) => {
+    const reward = 100; // Cantidad de dinero que se suma al ganador
+
+    if (winnerIndex !== null && winnerIndex >= 0) {
+      // Si hay un ganador, se le suma el dinero
+      const winnerName = players[winnerIndex].name;
+      setPlayers(prevPlayers =>
+        prevPlayers.map((player, idx) =>
+          idx === winnerIndex ? { ...player, money: player.money + reward } : player
+        )
+      );
+      addAction(`${winnerName} ha ganado el minijuego y ha recibido ${reward}€`);
+    }
+    else{
+      addAction(`El minijuego ha terminado sin un ganador`);
+    }
+    setShowMiniGame(false);
+    nextTurn();
+  };
+
     setMiniGameComponent(() => miniGamesArray[randomIndex]);
     setShowMiniGame(true);
   };
@@ -599,59 +621,46 @@ const Tablero = () => {
             onAccept={() => {
               const tradeOffer = pendingTradeOffer;
               const proposerIndex = tradeOffer.from;
-              const responderIndex = currentTurn;  // El jugador actual es el receptor
-              let updatedPlayers = [...players];
+              const responderIndex = currentTurn; // Quien recibe la oferta
+              const updatedPlayers = [...players];
 
-              // Intercambio de dinero:
-              updatedPlayers[proposerIndex] = {
-                ...updatedPlayers[proposerIndex],
-                money: updatedPlayers[proposerIndex].money - tradeOffer.proposerMoney + tradeOffer.responderMoney
-              };
-              updatedPlayers[responderIndex] = {
-                ...updatedPlayers[responderIndex],
-                money: updatedPlayers[responderIndex].money - tradeOffer.responderMoney + tradeOffer.proposerMoney
-              };
+              // Intercambio de dinero
+              updatedPlayers[proposerIndex].money =
+                updatedPlayers[proposerIndex].money - tradeOffer.proposerMoney + tradeOffer.responderMoney;
+              updatedPlayers[responderIndex].money =
+                updatedPlayers[responderIndex].money - tradeOffer.responderMoney + tradeOffer.proposerMoney;
 
-              // Intercambio de la propiedad ofrecida por el emisor.
-              if (tradeOffer.proposerProperty) {
-                const propIndex = tradeOffer.proposerProperty;
-                const prop = (updatedPlayers[proposerIndex].properties || []).find(p => p.index.toString() === propIndex);
-                if (prop) {
-                  updatedPlayers[proposerIndex].properties = (updatedPlayers[proposerIndex].properties || []).filter(p => p.index.toString() !== propIndex);
-                  updatedPlayers[responderIndex].properties = [
-                    ...(updatedPlayers[responderIndex].properties || []),
-                    prop
-                  ];
-                }
+              // Intercambia las propiedades del proposer
+              if (Array.isArray(tradeOffer.proposerProperties)) {
+                tradeOffer.proposerProperties.forEach(propIndexStr => {
+                  const propIndex = parseInt(propIndexStr, 10);
+                  const prop = updatedPlayers[proposerIndex].properties?.find(p => p.index === propIndex);
+                  if (prop) {
+                    updatedPlayers[proposerIndex].properties = updatedPlayers[proposerIndex].properties.filter(p => p.index !== propIndex);
+                    updatedPlayers[responderIndex].properties = [...(updatedPlayers[responderIndex].properties || []), prop];
+                  }
+                });
               }
 
-              // Intercambio de la propiedad solicitada (del receptor al emisor).
-              if (tradeOffer.responderProperty) {
-                const propIndex = tradeOffer.responderProperty;
-                const prop = (updatedPlayers[responderIndex].properties || []).find(p => p.index.toString() === propIndex);
-                if (prop) {
-                  updatedPlayers[responderIndex].properties = (updatedPlayers[responderIndex].properties || []).filter(p => p.index.toString() !== propIndex);
-                  updatedPlayers[proposerIndex].properties = [
-                    ...(updatedPlayers[proposerIndex].properties || []),
-                    prop
-                  ];
-                }
+              // Intercambia las propiedades del responder
+              if (Array.isArray(tradeOffer.responderProperties)) {
+                tradeOffer.responderProperties.forEach(propIndexStr => {
+                  const propIndex = parseInt(propIndexStr, 10);
+                  const prop = updatedPlayers[responderIndex].properties?.find(p => p.index === propIndex);
+                  if (prop) {
+                    updatedPlayers[responderIndex].properties = updatedPlayers[responderIndex].properties.filter(p => p.index !== propIndex);
+                    updatedPlayers[proposerIndex].properties = [...(updatedPlayers[proposerIndex].properties || []), prop];
+                  }
+                });
               }
 
-              // Elimina la oferta pendiente del receptor
-              updatedPlayers[responderIndex] = {
-                ...updatedPlayers[responderIndex],
-                pendingTradeOffer: null
-              };
-
+              // Quitamos la oferta pendiente
+              updatedPlayers[responderIndex].pendingTradeOffer = null;
               setPlayers(updatedPlayers);
             }}
             onReject={() => {
-              let updatedPlayers = [...players];
-              updatedPlayers[currentTurn] = {
-                ...updatedPlayers[currentTurn],
-                pendingTradeOffer: null
-              };
+              const updatedPlayers = [...players];
+              updatedPlayers[currentTurn].pendingTradeOffer = null;
               setPlayers(updatedPlayers);
             }}
           />

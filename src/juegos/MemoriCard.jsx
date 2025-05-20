@@ -31,7 +31,7 @@ const shuffleCards = (cards) => {
   return cards.sort(() => Math.random() - 0.5);
 };
 
-const MemoriCard = ({ visible }) => {
+const MemoriCard = ({ visible, onGameEnd }) => {
   const [cards, setCards] = useState(shuffleCards(initialCards));
   const [firstCard, setFirstCard] = useState(null);
   const [secondCard, setSecondCard] = useState(null);
@@ -92,6 +92,7 @@ const MemoriCard = ({ visible }) => {
         if (cards.length > 0 && cards.every(card => card.matched)) {
             setHasWon(true);
             setTimeout(() => {
+              if (onGameEnd) onGameEnd(0);
               visible(false);
             }, 3000);
         }

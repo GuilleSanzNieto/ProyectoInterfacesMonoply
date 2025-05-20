@@ -3,7 +3,7 @@ import { FaHandRock, FaHandPaper, FaHandScissors } from 'react-icons/fa';
 import './styles/PiedraPapelTijera.css';
 import './styles/commonStyles.css'; // Importa los estilos comunes para el overlay
 
-const PiedraPapelTijera = ({ visible }) => {
+const PiedraPapelTijera = ({ visible, onGameEnd }) => {
   const opciones = ['Piedra', 'Papel', 'Tijera'];
   const [eleccionUsuario, setEleccionUsuario] = useState('');
   const [eleccionOrdenador, setEleccionOrdenador] = useState('');
@@ -63,6 +63,19 @@ const PiedraPapelTijera = ({ visible }) => {
       setPuntuacionOrdenador(puntuacionOrdenador + 1);
     }
     setRondas(rondas + 1);
+
+    //si se completan las 3 rondas, determinar el ganador final
+    if (rondas + 1 === 3){
+      setTimeout(() => {
+        if (puntuacionUsuario > puntuacionOrdenador){
+          if (onGameEnd) onGameEnd(0);
+        }
+        else if (puntuacionUsuario < puntuacionOrdenador){
+          if (onGameEnd) onGameEnd(null);
+        }
+        visible(false);
+    }, 3000);
+    }
   };
 
   const reiniciarJuego = () => {
