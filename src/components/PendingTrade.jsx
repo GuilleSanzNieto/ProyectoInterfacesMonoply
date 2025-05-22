@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { PlayersContext } from '../Contexts/PlayersContext.jsx';
 
-const PendingTrade = ({ tradeOffer, onAccept, onReject }) => {
+function PendingTrade({ tradeOffer, onAccept, onReject }) {
+  const { players } = useContext(PlayersContext);
+
   return (
     <div 
       style={{
@@ -17,7 +20,7 @@ const PendingTrade = ({ tradeOffer, onAccept, onReject }) => {
     >
       <h3>Trato Pendiente</h3>
       <p>
-        El jugador {tradeOffer.from + 1} te ha ofrecido un trato:
+        {players[tradeOffer.from].name} te ha ofrecido un trato:
       </p>
       <ul>
         {tradeOffer.proposerProperty && (
@@ -43,6 +46,6 @@ const PendingTrade = ({ tradeOffer, onAccept, onReject }) => {
       </div>
     </div>
   );
-};
+}
 
 export default PendingTrade;
