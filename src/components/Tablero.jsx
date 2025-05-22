@@ -12,6 +12,10 @@ import Trivial from '../juegos/Trivial.jsx';
 import Suerte from './Suerte.jsx';
 import TradeDeal from './TradeDeal.jsx';
 import PendingTrade from './PendingTrade.jsx';
+import prision from '../images/prisoner.png';
+import start from '../images/start.png';
+import google from '../images/search.png';
+import suerte from '../images/clover.png'
 
 const MoneyPanel = () => {
   const { players } = useContext(PlayersContext);
@@ -116,9 +120,11 @@ const Tablero = () => {
 
 
   const casillaNames = ["INICIO", "Enfermería (Ronda)", "Juego por dinero", "Magisterio (Antequera)",
-    "Suerte", "Metro 1", "Biblioteca", "Juego por dinero", "Pabellón de deportes", "Jardin botanico", "Prision", "Comunicacion", "Suerte", "Filosofia", "Derecho",
-    "Metro 2", "Educacion", "Juego por dinero", "Ciencias", "Medicina", "Google", "Turismo", "Juego por dinero", "Estudios sociales", "Comercio", "Metro 3", "Ciencias de la salud",
-    "Psicologia", "Suerte", "Industriales", "Go to prision", "Bellas artes", "Económicas", "Juego por dinero", "Arquitectura", "Metro 4", "Suerte", "Telecomunicaciones", "Juego por dinero", "ETSII"];
+    <img src={suerte} style={{width: "85%"}}/>, "Metro 1", "Biblioteca", "Juego por dinero", "Pabellón de deportes", "Jardin botanico", 
+    <img src={prision} style={{width: "75%"}}/>
+    , "Comunicacion", <img src={suerte} style={{width: "65%", transform: 'rotate(90deg)'}}/>, "Filosofia", "Derecho",
+    "Metro 2", "Educacion", "Juego por dinero", "Ciencias", "Medicina", <img src={google} style={{width: "75%"}}/>, "Turismo", "Juego por dinero", "Estudios sociales", "Comercio", "Metro 3", "Ciencias de la salud",
+    "Psicologia", <img src={suerte} style={{width: "85%"}}/>, "Industriales", "Go to prision", "Bellas artes", "Económicas", "Juego por dinero", "Arquitectura", "Metro 4",<img src={suerte} style={{width: "65%", transform: 'rotate(270deg)'}} />, "Telecomunicaciones", "Juego por dinero", "ETSII", <img src={start} style={{width: "75%"}}/>];
 
 
   const pendingTradeOffer = players[currentTurn]?.pendingTradeOffer;
