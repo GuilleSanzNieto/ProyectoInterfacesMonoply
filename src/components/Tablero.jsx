@@ -96,7 +96,7 @@ const getCasillaOverlayColor = (i) => {
 // Función para obtener el fondo de la casilla según el índice
 const getCasillaBackground = (i) => {
   return "#ccffcc";
-  
+
 };
 
 const Tablero = () => {
@@ -120,11 +120,11 @@ const Tablero = () => {
 
 
   const casillaNames = ["INICIO", "Enfermería (Ronda)", "Juego por dinero", "Magisterio (Antequera)",
-    <img src={suerte} style={{width: "85%"}}/>, "Metro 1", "Biblioteca", "Juego por dinero", "Pabellón de deportes", "Jardin botanico", 
-    <img src={prision} style={{width: "75%"}}/>
-    , "Comunicacion", <img src={suerte} style={{width: "65%", transform: 'rotate(90deg)'}}/>, "Filosofia", "Derecho",
-    "Metro 2", "Educacion", "Juego por dinero", "Ciencias", "Medicina", <img src={google} style={{width: "75%"}}/>, "Turismo", "Juego por dinero", "Estudios sociales", "Comercio", "Metro 3", "Ciencias de la salud",
-    "Psicologia", <img src={suerte} style={{width: "85%"}}/>, "Industriales", "Go to prision", "Bellas artes", "Económicas", "Juego por dinero", "Arquitectura", "Metro 4",<img src={suerte} style={{width: "65%", transform: 'rotate(270deg)'}} />, "Telecomunicaciones", "Juego por dinero", "ETSII", <img src={start} style={{width: "75%"}}/>];
+    <img src={suerte} style={{ width: "85%" }} />, "Metro 1", "Biblioteca", "Juego por dinero", "Pabellón de deportes", "Jardin botanico",
+    <img src={prision} style={{ width: "75%" }} />
+    , "Comunicacion", <img src={suerte} style={{ width: "65%", transform: 'rotate(90deg)' }} />, "Filosofia", "Derecho",
+    "Metro 2", "Educacion", "Juego por dinero", "Ciencias", "Medicina", <img src={google} style={{ width: "75%" }} />, "Turismo", "Juego por dinero", "Estudios sociales", "Comercio", "Metro 3", "Ciencias de la salud",
+    "Psicologia", <img src={suerte} style={{ width: "85%" }} />, "Industriales", "Go to prision", "Bellas artes", "Económicas", "Juego por dinero", "Arquitectura", "Metro 4", <img src={suerte} style={{ width: "65%", transform: 'rotate(270deg)' }} />, "Telecomunicaciones", "Juego por dinero", "ETSII", <img src={start} style={{ width: "75%" }} />];
 
 
   const pendingTradeOffer = players[currentTurn]?.pendingTradeOffer;
@@ -149,7 +149,7 @@ const Tablero = () => {
 
       const outcome = outcomes[Math.floor(Math.random() * outcomes.length)];
 
-      
+
       addAction(outcome.message);
 
 
@@ -197,24 +197,24 @@ const Tablero = () => {
     console.log('Ejecutando minijuego:', miniGamesArray[randomIndex].name);
 
     const onGameEnd = (winnerIndex) => {
-    const reward = 100; // Cantidad de dinero que se suma al ganador
+      const reward = 100; // Cantidad de dinero que se suma al ganador
 
-    if (winnerIndex !== null && winnerIndex >= 0) {
-      // Si hay un ganador, se le suma el dinero
-      const winnerName = players[winnerIndex].name;
-      setPlayers(prevPlayers =>
-        prevPlayers.map((player, idx) =>
-          idx === winnerIndex ? { ...player, money: player.money + reward } : player
-        )
-      );
-      addAction(`${winnerName} ha ganado el minijuego y ha recibido ${reward}€`);
-    }
-    else{
-      addAction(`El minijuego ha terminado sin un ganador`);
-    }
-    setShowMiniGame(false);
-    nextTurn();
-  };
+      if (winnerIndex !== null && winnerIndex >= 0) {
+        // Si hay un ganador, se le suma el dinero
+        const winnerName = players[winnerIndex].name;
+        setPlayers(prevPlayers =>
+          prevPlayers.map((player, idx) =>
+            idx === winnerIndex ? { ...player, money: player.money + reward } : player
+          )
+        );
+        addAction(`${winnerName} ha ganado el minijuego y ha recibido ${reward}€`);
+      }
+      else {
+        addAction(`El minijuego ha terminado sin un ganador`);
+      }
+      setShowMiniGame(false);
+      nextTurn();
+    };
 
     setMiniGameComponent(() => miniGamesArray[randomIndex]);
     setShowMiniGame(true);
@@ -333,9 +333,20 @@ const Tablero = () => {
         }
         setValorDados([]);
         return;
+      } else {
+        animation(currentPos, sumaDados);
+
+        if(currentPos + sumaDados == 10){
+          //Si cae en prision
+          setPlayers(prevPlayers =>
+            prevPlayers.map((player, idx) =>
+              idx === currentTurn ? { ...player, position: 10, inJail: true } : player
+            )
+          );
+        }
+        
       }
 
-      animation(currentPos, sumaDados);
     }
   }, [valorDados, showMiniGame]);
 
@@ -363,7 +374,7 @@ const Tablero = () => {
   for (let i = 0; i < 41; i++) {
     const isCorner = [0, 10, 20, 30, 40].includes(i);
     const isActive = activeIndexes.includes(i);
-    
+
     casillas.push(
       <div
         key={i}
@@ -376,8 +387,8 @@ const Tablero = () => {
             {casillaNames[i]}
           </span>
         </div>
-        <div 
-          className="color" 
+        <div
+          className="color"
           style={{ backgroundColor: getCasillaOverlayColor(i) }}
         ></div>
         <div className="tokens">
@@ -455,11 +466,11 @@ const Tablero = () => {
           <Dados spinning={spinning} index={0} setValor={setValorDados} />
           <Dados spinning={spinning} index={1} setValor={setValorDados} />
         </div>
-        {valorDados[0] && valorDados[1] && (
+        {/* {valorDados[0] && valorDados[1] && (
           <p className="dice-sum">
             {valorDados[0]} + {valorDados[1]} = {valorDados[0] + valorDados[1]}
           </p>
-        )}
+        )} */}
         {players.length > 0 && (
           <p
             className="turno-jugador"
@@ -545,7 +556,7 @@ const Tablero = () => {
                           Comprar
                         </button>
                         <button className="pasar-btn"
-                        onClick={() => { setShowPropertyModal(false); addAction(`${players[propertyBuyerIndex].name} ha pasado el turno`); }}>
+                          onClick={() => { setShowPropertyModal(false); addAction(`${players[propertyBuyerIndex].name} ha pasado el turno`); }}>
                           Pasar
                         </button>
                       </>
