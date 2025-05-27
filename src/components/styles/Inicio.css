@@ -3,9 +3,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
     text-align: center;
     margin-top: 50px;
+}
+
+.titulo-principal {
+  background-color: rgb(20, 98, 143); /* Fondo del color deseado */
+  color: white; /* Texto en blanco para contraste */
+  padding: 10px 20px; /* Espaciado interno */
+  border-radius: 8px; /* Bordes redondeados (opcional) */
+  text-align: center; /* Centrar el texto */
+  margin: 0; /* Elimina márgenes adicionales */
 }
 
 .player-selection {
@@ -14,6 +23,14 @@
     justify-content: center;
     align-items: center;
     gap: 0;
+    margin-top: -10px; 
+}
+
+.numero-jugadores {
+    margin-top: -10px; /* Mueve el h2 hacia arriba */
+    font-size: 1.8rem; /* Ajusta el tamaño del texto si es necesario */
+    font-weight: bold;
+    text-align: center;
 }
 
 .input-error {
@@ -32,15 +49,33 @@
     border: none;
     border-radius: 0;
     margin: 0;
-    background-color: rgb(88, 136, 183);
+    background-color: rgb(3, 39, 75);
     font-size: 18px;
     padding: 10px 20px;
     cursor: pointer;
     color: white;
 }
 
+input[type="text"] {
+    padding: 15px; 
+    width: 400px; 
+    height: 40px; 
+    text-align: center; 
+    font-size: 1rem; 
+    border-radius: 8px; 
+    border: 1px solid #ccc; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease; 
+}
+
+input[type="text"]:focus {
+    border-color: rgb(3, 39, 75); /* Cambia el color del borde al enfocar */
+    box-shadow: 0 0 8px rgba(3, 39, 75, 0.5); /* Sombra más intensa al enfocar */
+    outline: none; /* Elimina el borde azul predeterminado */
+}
+
 .player-selection button.selected {
-    background-color: rgb(210, 220, 226);
+    background-color: rgb(20, 98, 143);
     font-weight: bold;
 }
 
@@ -72,6 +107,7 @@ input[type="text"] {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    margin-top: -10px;
 }
 
 .start-button {
@@ -79,7 +115,7 @@ input[type="text"] {
     margin-bottom: 30px;
     padding: 15px 30px;
     font-size: 18px;
-    background-color: rgb(78, 162, 219);
+    background-color: rgb(3, 39, 75);
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -175,6 +211,8 @@ input[type="color"] {
 .logo {
   max-height: 250px;  /* Ajusta según tus necesidades */
   height: auto;
+  position: relative;
+  margin-top: -20px;
 }
 
 
@@ -378,4 +416,3 @@ en caso de movil  */
 .dark-mode { background: #121212; color: #000000; }
 .daltonic-mode img, .daltonic-mode .game-board { filter: grayscale(100%); }
 
-  

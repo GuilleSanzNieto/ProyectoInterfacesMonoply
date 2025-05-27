@@ -11,6 +11,7 @@ export const texts = {
     numeroJugadores:     'Número de Jugadores',
     jugar:               'JUGAR',
     instruccionesTitulo: '📜 Instrucciones del Monopoly UMA',
+    nombreJugador:       'Nombre del Jugador',
     // …añade aquí todas las claves que necesites…
   },
   en: {
@@ -22,6 +23,7 @@ export const texts = {
     numeroJugadores:     'Number of Players',
     jugar:               'PLAY',
     instruccionesTitulo: '📜 Monopoly UMA Instructions',
+    nombreJugador:       'Player Name',
     // …
   }
 };

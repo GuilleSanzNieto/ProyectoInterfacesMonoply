@@ -23,15 +23,11 @@ function Inicio({ onStart }) {
 
   console.log('showSettings:', showSettings);
   const allColors = [
-    { class: "color-rojo", hex: "#f44336" },
-    { class: "color-rosa", hex: "#e91e63" },
-    { class: "color-morado", hex: "#9c27b0" },
-    { class: "color-azul", hex: "#3f51b5" },
-    { class: "color-celeste", hex: "#03a9f4" },
-    { class: "color-verdeagua", hex: "#009688" },
-    { class: "color-verde", hex: "#4caf50" },
-    { class: "color-naranja", hex: "#ff9800" },
-    { class: "color-marron", hex: "#795548" },
+    { class: "color-gris", hex: "#333333" },
+    { class: "color-morado", hex: "#5e005e" },
+    { class: "color-azul", hex: "#003366" },
+    { class: "color-verde", hex: "#006400" },
+    { class: "color-rojo", hex: "#990000" },
   ];
   
   const usedColors = players.map(player => player.color);
@@ -88,9 +84,10 @@ function Inicio({ onStart }) {
 
  return (
     <div className="inicio-container">
+      <h1 className="titulo-principal">Monopoly UMA</h1>
       <div className="header-container">
         <div className="logo">
-          <img src={logoUma} alt="Logo" className="logo" />
+          <img src={logoUma} alt="Logo UMA" className="logo" />
         </div>
 
         <button
@@ -110,7 +107,7 @@ function Inicio({ onStart }) {
         </button>
       </div>
 
-      <h3>{t.numeroJugadores}</h3>
+      <h2 className="numero-jugadores">{t.numeroJugadores}</h2>
 
       <div className="player-selection">
         {[2, 3, 4].map(n => (
@@ -133,7 +130,8 @@ function Inicio({ onStart }) {
         <div key={index} className="player-input">
           <input
             type="text"
-            placeholder={`${t.nombreJugador} ${index + 1}`}  // new key: nombreJugador: 'Player name'
+            placeholder={`${t.nombreJugador || 'Nombre del jugador'} ${index + 1}`} 
+            aria-label={`Nombre del jugador ${index + 1}`}
             value={player.name}
             onChange={e => {
               const updated = [...players];
