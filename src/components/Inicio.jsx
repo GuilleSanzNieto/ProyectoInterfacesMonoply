@@ -23,7 +23,6 @@ function Inicio({ onStart }) {
 
   console.log('showSettings:', showSettings);
   const allColors = [
-    { class: "color-gris", hex: "#333333" },
     { class: "color-morado", hex: "#5e005e" },
     { class: "color-azul", hex: "#003366" },
     { class: "color-verde", hex: "#006400" },
