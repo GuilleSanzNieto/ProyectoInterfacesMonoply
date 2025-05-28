@@ -15,7 +15,9 @@ import PendingTrade from './PendingTrade.jsx';
 import prision from '../images/prisoner.png';
 import start from '../images/start.png';
 import google from '../images/search.png';
-import suerte from '../images/clover.png'
+import suerte from '../images/clover.png';
+import metro from '../images/metro.png';
+import juego from '../images/juego.png';
 
 const MoneyPanel = () => {
   const { players } = useContext(PlayersContext);
@@ -119,12 +121,12 @@ const Tablero = () => {
   const suerteCells = [4, 12, 28, 36];
 
 
-  const casillaNames = ["INICIO", "Enfermería (Ronda)", "Juego por dinero", "Magisterio (Antequera)",
-    <img src={suerte} style={{ width: "85%" }} />, "Metro 1", "Biblioteca", "Juego por dinero", "Pabellón de deportes", "Jardin botanico",
+  const casillaNames = ["INICIO", "Enfermería (Ronda)",<img src={juego} style={{ width: "75%" }} />, "Magisterio (Antequera)",
+    <img src={suerte} style={{ width: "85%" }} />, <img src={metro} style={{ width: "75%" }} />, "Biblioteca", <img src={juego} style={{ width: "75%" }} />, "Pabellón de deportes", "Jardin botanico",
     <img src={prision} style={{ width: "75%" }} />
     , "Comunicacion", <img src={suerte} style={{ width: "65%", transform: 'rotate(90deg)' }} />, "Filosofia", "Derecho",
-    "Metro 2", "Educacion", "Juego por dinero", "Ciencias", "Medicina", <img src={google} style={{ width: "75%" }} />, "Turismo", "Juego por dinero", "Estudios sociales", "Comercio", "Metro 3", "Ciencias de la salud",
-    "Psicologia", <img src={suerte} style={{ width: "85%" }} />, "Industriales", "Go to prision", "Bellas artes", "Económicas", "Juego por dinero", "Arquitectura", "Metro 4", <img src={suerte} style={{ width: "65%", transform: 'rotate(270deg)' }} />, "Telecomunicaciones", "Juego por dinero", "ETSII", <img src={start} style={{ width: "75%" }} />];
+    <img src={metro} style={{ width: "75%" }} />, "Educacion",<img src={juego} style={{ width: "75%" }} />, "Ciencias", "Medicina", <img src={google} style={{ width: "75%" }} />, "Turismo",<img src={juego} style={{ width: "75%" }} />, "Estudios sociales", "Comercio", <img src={metro} style={{ width: "75%" }} />, "Ciencias de la salud",
+    "Psicologia", <img src={suerte} style={{ width: "85%" }} />, "Industriales", "Go to prision", "Bellas artes", "Económicas", <img src={juego} style={{ width: "75%" }} />, "Arquitectura",<img src={metro} style={{ width: "75%" }} />, <img src={suerte} style={{ width: "65%", transform: 'rotate(270deg)' }} />, "Telecomunicaciones", <img src={juego} style={{ width: "75%" }} />, "ETSII", <img src={start} style={{ width: "75%" }} />];
 
 
   const pendingTradeOffer = players[currentTurn]?.pendingTradeOffer;
