@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { FaPlay, FaCircle, FaSquare, FaStar } from "react-icons/fa";
 import './styles/Tablero.css';
 import Dados from './Dados';
 import { PlayersContext } from '../Contexts/PlayersContext.jsx';
@@ -59,6 +60,13 @@ const propiedades = [
   { index: 34, name: "Arquitectura", price: 500 },
   { index: 37, name: "Telecomunicaciones", price: 520 },
   { index: 39, name: "ETSII", price: 540 },
+];
+
+const playerIcons = [
+  FaPlay,    // Triángulo
+  FaCircle,  // Círculo
+  FaSquare,  // Cuadrado
+  FaStar     // Estrella
 ];
 
 function PropertiesPanel() {
@@ -398,13 +406,30 @@ const Tablero = () => {
   const mostarTokens = (casillaIndex) => {
     return players.map((player, index) =>
       player.position === casillaIndex ? (
-        <div
-          key={index}
-          className="token"
-          style={{
-            backgroundColor: player.color
-          }}
-        ></div>
+        <span key={index} className="token" style={{ position: "relative", width: 28, height: 28, display: "inline-block" }}>
+        {/* Icono negro de fondo (borde) */}
+        {React.createElement(playerIcons[index], {
+          size: 26,
+          color: "#000",
+          style: {
+            position: "absolute",
+            top: 1,
+            left: 1,
+            zIndex: 1,
+          }
+        })}
+        {/* Icono de color del jugador, más pequeño */}
+        {React.createElement(playerIcons[index], {
+          size: 20,
+          color: player.color,
+          style: {
+            position: "absolute",
+            top: 4,
+            left: 4,
+            zIndex: 2,
+          }
+        })}
+      </span>
       ) : null
     );
   };
