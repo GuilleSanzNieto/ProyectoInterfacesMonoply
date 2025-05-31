@@ -41,8 +41,9 @@ function PendingTrade({ tradeOffer, onAccept, onReject }) {
         )}
       </ul>
       <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '1rem' }}>
-        <button onClick={onAccept}>Aceptar</button>
         <button onClick={onReject}>Rechazar</button>
+        <button onClick={onAccept}>Aceptar</button>
+        
       </div>
     </div>
   );

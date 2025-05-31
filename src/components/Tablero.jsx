@@ -121,12 +121,49 @@ const Tablero = () => {
   const suerteCells = [4, 12, 28, 36];
 
 
-  const casillaNames = ["INICIO", "Enfermería (Ronda)",<img src={juego} style={{ width: "75%" }} />, "Magisterio (Antequera)",
-    <img src={suerte} style={{ width: "85%" }} />, <img src={metro} style={{ width: "75%" }} />, "Biblioteca", <img src={juego} style={{ width: "75%" }} />, "Pabellón de deportes", "Jardin botanico",
-    <img src={prision} style={{ width: "75%" }} />
-    , "Comunicacion", <img src={suerte} style={{ width: "65%", transform: 'rotate(90deg)' }} />, "Filosofia", "Derecho",
-    <img src={metro} style={{ width: "75%" }} />, "Educacion",<img src={juego} style={{ width: "75%" }} />, "Ciencias", "Medicina", <img src={google} style={{ width: "75%" }} />, "Turismo",<img src={juego} style={{ width: "75%" }} />, "Estudios sociales", "Comercio", <img src={metro} style={{ width: "75%" }} />, "Ciencias de la salud",
-    "Psicologia", <img src={suerte} style={{ width: "85%" }} />, "Industriales", "Go to prision", "Bellas artes", "Económicas", <img src={juego} style={{ width: "75%" }} />, "Arquitectura",<img src={metro} style={{ width: "75%" }} />, <img src={suerte} style={{ width: "65%", transform: 'rotate(270deg)' }} />, "Telecomunicaciones", <img src={juego} style={{ width: "75%" }} />, "ETSII", <img src={start} style={{ width: "75%" }} />];
+  const casillaNames = [
+    "INICIO",
+    "Enfermería (Ronda)",
+    <img src={juego} alt="Juego" style={{ width: "75%" }} />,
+    "Magisterio (Antequera)",
+    <img src={suerte} alt="Suerte" style={{ width: "85%" }} />,
+    <img src={metro} alt="Metro" style={{ width: "75%" }} />,
+    "Biblioteca",
+    <img src={juego} alt="Juego" style={{ width: "75%" }} />,
+    "Pabellón de deportes",
+    "Jardin botanico",
+    <img src={prision} alt="Prisión" style={{ width: "75%" }} />,
+    "Comunicacion",
+    <img src={suerte} alt="Suerte" style={{ width: "65%", transform: 'rotate(90deg)' }} />,
+    "Filosofia",
+    "Derecho",
+    <img src={metro} alt="Metro" style={{ width: "75%" }} />,
+    "Educacion",
+    <img src={juego} alt="Juego" style={{ width: "75%" }} />,
+    "Ciencias",
+    "Medicina",
+    <img src={google} alt="Google" style={{ width: "75%" }} />,
+    "Turismo",
+    <img src={juego} alt="Juego" style={{ width: "75%" }} />,
+    "Estudios sociales",
+    "Comercio",
+    <img src={metro} alt="Metro" style={{ width: "75%" }} />,
+    "Ciencias de la salud",
+    "Psicologia",
+    <img src={suerte} alt="Suerte" style={{ width: "85%" }} />,
+    "Industriales",
+    "Go to prision",
+    "Bellas artes",
+    "Económicas",
+    <img src={juego} alt="Juego" style={{ width: "75%" }} />,
+    "Arquitectura",
+    <img src={metro} alt="Metro" style={{ width: "75%" }} />,
+    <img src={suerte} alt="Suerte" style={{ width: "65%", transform: 'rotate(270deg)' }} />,
+    "Telecomunicaciones",
+    <img src={juego} alt="Juego" style={{ width: "75%" }} />,
+    "ETSII",
+    <img src={start} alt="Inicio" style={{ width: "75%" }} />
+  ];
 
 
   const pendingTradeOffer = players[currentTurn]?.pendingTradeOffer;
@@ -557,8 +594,8 @@ const Tablero = () => {
                         >
                           Comprar
                         </button>
-                        <button className="pasar-btn"
-                          onClick={() => { setShowPropertyModal(false); addAction(`${players[propertyBuyerIndex].name} ha pasado el turno`); }}>
+                        <button className="pasar-btn">
+                          onClick={() => { setShowPropertyModal(false); addAction(`${players[propertyBuyerIndex].name} ha pasado el turno`); }}
                           Pasar
                         </button>
                       </>
@@ -726,19 +763,24 @@ const Tablero = () => {
 
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
-        <MoneyPanel />
-        <PropertiesPanel />
-        <button
-          onClick={() => setShowTradeDeal(true)}
-          style={{ padding: '10px 20px', fontSize: '1rem', marginTop: '1rem' }}>
-          Realizar Trato
-        </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
         <button
           style={{ marginTop: '1rem', background: '#d32f2f', color: 'white' }}
           onClick={() => setShowBankruptConfirm(true)}
         >
           Bancarrota
         </button>
+        <button
+          onClick={() => setShowTradeDeal(true)}
+          style={{ padding: '10px 20px', fontSize: '1rem', marginTop: '1rem' }}>
+          Realizar Trato
+        </button>
+        
+        </div>
+        <MoneyPanel />
+        <PropertiesPanel />
+        
+        
       </div>
       {showTradeDeal && <TradeDeal onClose={() => setShowTradeDeal(false)} />}
       {showBankruptConfirm && (

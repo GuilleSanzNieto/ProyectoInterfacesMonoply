@@ -119,8 +119,10 @@ function TradeDeal({ onClose }) {
               </select>
             </div>
             <div className="trade-buttons">
+              <button onClick={onClose}
+              style={{ backgroundColor: '#d32f2f', color: 'white' }}>Cancelar</button>
               <button onClick={handleNext}>Siguiente</button>
-              <button onClick={onClose}>Cancelar</button>
+              
             </div>
           </>
         )}
@@ -182,8 +184,10 @@ function TradeDeal({ onClose }) {
             </div>
             
             <div className="trade-buttons">
+              <button onClick={onClose} 
+              style={{ backgroundColor: '#d32f2f', color: 'white' }}>Cancelar</button>
               <button onClick={handleOfferTrade}>Ofrecer Trato</button>
-              <button onClick={onClose}>Cancelar</button>
+              
             </div>
           </>
         )}
