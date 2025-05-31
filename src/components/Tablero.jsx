@@ -619,8 +619,9 @@ const Tablero = () => {
                         >
                           Comprar
                         </button>
-                        <button className="pasar-btn">
-                          onClick={() => { setShowPropertyModal(false); addAction(`${players[propertyBuyerIndex].name} ha pasado el turno`); }}
+                      
+                        <button className="pasar-btn"
+                        onClick={() => { setShowPropertyModal(false); addAction(`${players[propertyBuyerIndex].name} ha pasado el turno`); }}>
                           Pasar
                         </button>
                       </>
