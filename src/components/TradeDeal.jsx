@@ -131,15 +131,16 @@ function TradeDeal({ onClose }) {
             <h2>Ofrecer Trato a {players[responder].name || `Jugador ${responder + 1}`}</h2>
             {error && <p className="error-message">{error}</p>}
             
-            <div className="trade-content" style={{ display: 'flex', gap: '1rem' }}>
+            <div className="trade-content">
               {/* Lado del Proposer */}
-              <div className="trade-column" style={{ flex: 1, textAlign: 'center' }}>
+              <div className="trade-column">
                 <h3>Tus Propiedades</h3>
-                <select 
+                <label htmlFor="proposer-properties">Selecciona tus propiedades:</label>
+                <select
+                  id="proposer-properties"
                   multiple
                   value={selectedProposerProperties}
                   onChange={handleProposerSelectChange}
-                  style={{ width: '200px', height: '120px' }}
                 >
                   {(players[proposer].properties || []).map(p => (
                     <option key={p.index} value={p.index}>
@@ -147,24 +148,24 @@ function TradeDeal({ onClose }) {
                     </option>
                   ))}
                 </select>
-                <div style={{ marginTop: '1rem' }}>
-                  <label>Dinero a Ofrecer:</label>
-                  <input 
-                    type="number" 
-                    value={proposerMoney}
-                    onChange={e => setProposerMoney(parseInt(e.target.value) || 0)} 
-                  />
-                </div>
+                <label htmlFor="proposer-money">Dinero a Ofrecer:</label>
+                <input
+                  id="proposer-money"
+                  type="number"
+                  value={proposerMoney}
+                  onChange={e => setProposerMoney(parseInt(e.target.value) || 0)}
+                />
               </div>
-              
+
               {/* Lado del Responder */}
-              <div className="trade-column" style={{ flex: 1, textAlign: 'center' }}>
+              <div className="trade-column">
                 <h3>Propiedades de {players[responder].name || `Jugador ${responder + 1}`}</h3>
-                <select 
+                <label htmlFor="responder-properties">Selecciona propiedades del receptor:</label>
+                <select
+                  id="responder-properties"
                   multiple
                   value={selectedResponderProperties}
                   onChange={handleResponderSelectChange}
-                  style={{ width: '200px', height: '120px' }}
                 >
                   {(players[responder].properties || []).map(p => (
                     <option key={p.index} value={p.index}>
@@ -172,14 +173,13 @@ function TradeDeal({ onClose }) {
                     </option>
                   ))}
                 </select>
-                <div style={{ marginTop: '1rem' }}>
-                  <label>Dinero a Solicitar:</label>
-                  <input 
-                    type="number" 
-                    value={responderMoney}
-                    onChange={e => setResponderMoney(parseInt(e.target.value) || 0)} 
-                  />
-                </div>
+                <label htmlFor="responder-money">Dinero a Solicitar:</label>
+                <input
+                  id="responder-money"
+                  type="number"
+                  value={responderMoney}
+                  onChange={e => setResponderMoney(parseInt(e.target.value) || 0)}
+                />
               </div>
             </div>
             
