@@ -60,7 +60,7 @@ const MathGame = ({ visible, onGameEnd }) => {
 
           setTimeout(() => {
             visible(false);
-          }, 3000);
+          }, 2000);
         } else {
           generateOperation();
         }
@@ -75,7 +75,7 @@ const MathGame = ({ visible, onGameEnd }) => {
         if (onGameEnd) onGameEnd(null);
         setTimeout(() => {
           visible(false);
-        }, 3000);
+        }, 2000);
       }, 2000);
     }
   };
@@ -103,7 +103,9 @@ const MathGame = ({ visible, onGameEnd }) => {
       <div className="operation">
         {num1} {operator} {num2} =
       </div>
+      <label htmlFor="user-answer">Tu respuesta:</label>
       <input
+        id="user-answer"
         type="number"
         value={userAnswer}
         onChange={handleInputChange}

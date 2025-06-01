@@ -72,15 +72,19 @@ const TicTacToe = ({ visible, onGameEnd }) => {
       if (onGameEnd) {
         onGameEnd(gameWinner === 'X' ? 0 : null);
       }
-      //Vuelve al tablero
+      // Vuelve al tablero después de 3 segundos
       setTimeout(() => {
         visible(false);
       }, 3000);
       return;
     }
-    
-    // Empate: se puede decidir mostrar un mensaje o no
+
+    // Empate: si todas las celdas están llenas y no hay ganador
     if (newBoard.every(cell => cell !== null)) {
+      setWinner('Empate');
+      setTimeout(() => {
+        visible(false);
+      }, 2000);
       return;
     }
 
@@ -101,14 +105,18 @@ const TicTacToe = ({ visible, onGameEnd }) => {
     const gameWinner = checkWinner(newBoard);
     if (gameWinner) {
       setWinner(gameWinner);
-       //Vuelve al tablero
-       setTimeout(() => {
+
+      setTimeout(() => {
         visible(false);
       }, 3000);
       return;
     }
     
     if (newBoard.every(cell => cell !== null)) {
+      setWinner('Empate');
+      setTimeout(() => {
+        visible(false);
+      }, 2000);
       return;
     }
 
@@ -152,7 +160,12 @@ const TicTacToe = ({ visible, onGameEnd }) => {
       {/* En lugar de mostrar <p>Winner: {winner}</p>, se renderiza el overlay si hay ganador */}
       {winner && (
         <div className="overlay">
-          <div className={winner === 'X' ? "win-message" : "losser-message"}></div>
+          <div className={
+            winner === 'X' 
+            ? "win-message" 
+            : winner === 'Empate'
+            ? "draw-message"
+            : "losser-message"}></div>
         </div>
       )}
       {showInstrucciones && (

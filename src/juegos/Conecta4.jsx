@@ -188,21 +188,23 @@ const Conecta4 = ({ visible, onGameEnd }) => {
 
       {winner && (
         <div className="overlay">
-          <div className="win-message">
-            <div className="confetti-container">
-              {[...Array(20)].map((_, i) => (
-                <div
-                  key={i}
-                  className="confetti-piece"
-                  style={{
-                    '--delay': `${Math.random() * 3}s`,
-                    '--left': `${Math.random() * 100}%`,
-                    '--duration': `${Math.random() * 3 + 2}s`,
-                    backgroundColor: colors[Math.floor(Math.random() * colors.length)]
-                  }}
-                />
-              ))}
-            </div>
+          <div className={winner === 'Red' ? "win-message" : "losser-message"}>
+            {winner === 'Red' && (
+              <div className="confetti-container">
+                {[...Array(20)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="confetti-piece"
+                    style={{
+                      '--delay': `${Math.random() * 3}s`,
+                      '--left': `${Math.random() * 100}%`,
+                      '--duration': `${Math.random() * 3 + 2}s`,
+                      backgroundColor: colors[Math.floor(Math.random() * colors.length)]
+                    }}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
