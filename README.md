@@ -1,7 +1,7 @@
 # ProyectoInterfacesMonoply
 Mopoly UMA, un proyecto creado por 5 estudiantes de la facultad de ingeniería informática de la UMA
 
-Grupo 0 "Monopoly UMA"
+Grupo O "Monopoly UMA"
 
 Miembres y roles del equipo: 
 
@@ -26,3 +26,18 @@ Las propiedades también podrán ser mejoradas, pero en lugar de construir casas
 Las casillas del tablero ofrecerán varias sorpresas, como caer en la biblioteca o el campus de deportes, que desencadenarán posibles minijuegos interactivos para los jugadores, brindando una experiencia más dinamica. En estos, los jugadores podrán ganar o perder dinero.
 El proyecto contará con un diseño intuitivo y atractivo para garantizar una experiencia divertida y accesible.
 
+
+## Información para la el setup y despliegue de la aplicación: 
+Antes de comenzar, asegúrate de tener instalado:
+
+- [Node.js](https://nodejs.org/) (v18 o superior recomendado)
+- npm (v9+) o yarn
+
+Instalación local: 
+- Clona el repositorio:
+
+Instala la dependencias: 
+- npm install
+
+Y por último inicia el servidor: 
+- npm run dev
